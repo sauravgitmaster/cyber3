@@ -3,6 +3,7 @@ import { RoomStateClient, MultiplayerQuestionClient, RoundResultSummary, PlayerP
 import { multiplayerApi, PlayerInput } from '../utils/multiplayerApi';
 import { multiplayerQuestionsPool, getEightRandomQuestions } from '../data/multiplayerQuestions';
 import { cloudRelay } from '../utils/cloudRelay';
+import { p2pRelay, P2PHostSession, P2PGuestSession } from '../utils/p2pRelay';
 
 function getSessionPlayerId(baseUserId?: string): string {
   try {
@@ -96,14 +97,16 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
   const heartbeatIntervalRef = useRef<number | null>(null);
   const broadcastChannelRef = useRef<BroadcastChannel | null>(null);
   const storageListenerRef = useRef<((e: StorageEvent) => void) | null>(null);
+  const p2pHostRef = useRef<P2PHostSession | null>(null);
+  const p2pGuestRef = useRef<P2PGuestSession | null>(null);
 
   const playerInput: PlayerInput = {
     id: playerIdRef.current,
     name: currentUser.name || 'Explorer',
-    avatar: currentUser.avatar || '🤖',
+    avatar: currentUser.avatar || '',
   };
 
-  // Helper to publish state to local storage, broadcast channel, and cloud relay
+  // Helper to publish state to local storage, broadcast channel, cloud relay, and P2P
   const broadcastRoomState = useCallback((state: RoomStateClient) => {
     try {
       localStorage.setItem(`cybermentor_room_${state.code}`, JSON.stringify(state));
@@ -117,12 +120,24 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         // ignore
       }
     }
+    // WebRTC P2P direct broadcast to connected peer
+    if (p2pHostRef.current) {
+      p2pHostRef.current.broadcastState(state);
+    }
     // Cloud Relay for cross-network and cross-device sync
     cloudRelay.publishRoomState(state.code, state);
   }, []);
 
   // Stop all active subscriptions
   const cleanupSubscriptions = useCallback(() => {
+    if (p2pHostRef.current) {
+      p2pHostRef.current.close();
+      p2pHostRef.current = null;
+    }
+    if (p2pGuestRef.current) {
+      p2pGuestRef.current.close();
+      p2pGuestRef.current = null;
+    }
     if (cloudRelayUnsubRef.current) {
       cloudRelayUnsubRef.current();
       cloudRelayUnsubRef.current = null;
@@ -444,44 +459,13 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         // SSE not supported, rely on polling
       }
 
-      // 5. Active sync polling every 600ms
+      // 5. Active sync intervals:
+      // LocalStorage for instant cross-tab sync every 400ms
+      let pollCount = 0;
       pollIntervalRef.current = window.setInterval(async () => {
-        // A. Check server state (advance authoritative state)
-        let freshServer: RoomStateClient | null = null;
-        try {
-          freshServer = await multiplayerApi.getRoomState(code, playerIdRef.current);
-          if (freshServer) {
-            setRoom((prev) => {
-              if (shouldAcceptStateUpdate(prev, freshServer!)) {
-                setIsHost(freshServer!.host.id === playerIdRef.current);
-                return freshServer!;
-              }
-              return prev;
-            });
-          }
-        } catch {
-          // ignore
-        }
+        pollCount++;
 
-        // B. Check Cloud Relay if server is not updating or offline
-        if (!freshServer) {
-          try {
-            const cloudState = await cloudRelay.fetchRoomState(code);
-            if (cloudState) {
-              setRoom((prev) => {
-                if (shouldAcceptStateUpdate(prev, cloudState)) {
-                  setIsHost(cloudState.host.id === playerIdRef.current);
-                  return cloudState;
-                }
-                return prev;
-              });
-            }
-          } catch {
-            // ignore
-          }
-        }
-
-        // C. Check localStorage for instant cross-tab sync
+        // A. Check localStorage for instant cross-tab sync
         try {
           const local = localStorage.getItem(`cybermentor_room_${code}`);
           if (local) {
@@ -497,7 +481,41 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         } catch {
           // ignore
         }
-      }, 600);
+
+        // B. Check server state every 2 seconds (every 5 ticks)
+        if (pollCount % 5 === 0) {
+          try {
+            const freshServer = await multiplayerApi.getRoomState(code, playerIdRef.current);
+            if (freshServer) {
+              setRoom((prev) => {
+                if (shouldAcceptStateUpdate(prev, freshServer)) {
+                  setIsHost(freshServer.host.id === playerIdRef.current);
+                  return freshServer;
+                }
+                return prev;
+              });
+            }
+          } catch {
+            // C. If server is unreachable/serverless, check Cloud Relay gently every 6 seconds (every 15 ticks)
+            if (pollCount % 15 === 0) {
+              try {
+                const cloudState = await cloudRelay.fetchRoomState(code);
+                if (cloudState) {
+                  setRoom((prev) => {
+                    if (shouldAcceptStateUpdate(prev, cloudState)) {
+                      setIsHost(cloudState.host.id === playerIdRef.current);
+                      return cloudState;
+                    }
+                    return prev;
+                  });
+                }
+              } catch {
+                // ignore
+              }
+            }
+          }
+        }
+      }, 400);
 
       // 6. Heartbeat every 3s
       heartbeatIntervalRef.current = window.setInterval(() => {
@@ -572,6 +590,34 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     // Publish to cloud relay so friend can discover and join from any device
     cloudRelay.publishRoomState(newRoom.code, newRoom);
 
+    // Start P2P Host Session
+    try {
+      if (p2pHostRef.current) {
+        p2pHostRef.current.close();
+      }
+      const hostSession = p2pRelay.startHost(newRoom.code, {
+        onGuestJoin: (guest) => {
+          setRoom((prev) => {
+            if (!prev) return prev;
+            const updated: RoomStateClient = {
+              ...prev,
+              guest,
+              updatedAt: Date.now(),
+            };
+            hostSession.broadcastState(updated);
+            broadcastRoomState(updated);
+            return updated;
+          });
+        },
+        onGuestAction: (action) => {
+          cloudRelay.publishAction(newRoom.code, action);
+        },
+      });
+      p2pHostRef.current = hostSession;
+    } catch {
+      // ignore
+    }
+
     connectToRoom(newRoom.code);
     setLoading(false);
     return newRoom;
@@ -614,7 +660,44 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
       }
     }
 
-    // 3. Try Cloud Relay (works seamlessly across separate computers, networks, and Vercel)
+    // 3. Try P2P WebRTC connection to Host
+    if (!joinedRoom) {
+      try {
+        const guestSession = await p2pRelay.connectAsGuest(
+          cleanCode,
+          {
+            id: playerIdRef.current,
+            name: playerInput.name,
+            avatar: playerInput.avatar,
+            score: 0,
+            correctCount: 0,
+            fastestResponseMs: null,
+            isConnected: true,
+            lastSeen: Date.now(),
+          },
+          {
+            onRoomState: (incoming) => {
+              setRoom((prev) => {
+                if (shouldAcceptStateUpdate(prev, incoming)) {
+                  setIsHost(incoming.host.id === playerIdRef.current);
+                  return incoming;
+                }
+                return prev;
+              });
+            },
+            onHostAction: (action) => {
+              cloudRelay.publishAction(cleanCode, action);
+            },
+          },
+          3000
+        );
+        p2pGuestRef.current = guestSession;
+      } catch {
+        // P2P not reached or timed out
+      }
+    }
+
+    // 4. Try Cloud Relay (works seamlessly across separate computers, networks, and Vercel)
     if (!joinedRoom) {
       try {
         const relayRoom = await cloudRelay.fetchRoomState(cleanCode);
@@ -740,7 +823,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         : {
             id: 'guest_player',
             name: 'Friend',
-            avatar: '🦊',
+            avatar: '',
             score: 0,
             correctCount: 0,
             fastestResponseMs: null,
@@ -756,6 +839,12 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     broadcastRoomState(startingState);
     cloudRelay.publishRoomState(roomCode, startingState);
     cloudRelay.publishAction(roomCode, {
+      type: 'GAME_STARTED',
+      room: startingState,
+      questions,
+    });
+
+    p2pHostRef.current?.broadcastAction({
       type: 'GAME_STARTED',
       room: startingState,
       questions,
@@ -798,8 +887,23 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     if (!roomCode || isSubmitting) return;
     setIsSubmitting(true);
 
-    // Broadcast player answer action immediately via Cloud Relay & BroadcastChannel
+    // Broadcast player answer action immediately via Cloud Relay & BroadcastChannel & P2P
     cloudRelay.publishAction(roomCode, {
+      type: 'PLAYER_ANSWER',
+      playerId: playerIdRef.current,
+      questionId,
+      optionId,
+      clientTime: Date.now(),
+    });
+
+    p2pHostRef.current?.broadcastAction({
+      type: 'PLAYER_ANSWER',
+      playerId: playerIdRef.current,
+      questionId,
+      optionId,
+      clientTime: Date.now(),
+    });
+    p2pGuestRef.current?.sendAction({
       type: 'PLAYER_ANSWER',
       playerId: playerIdRef.current,
       questionId,

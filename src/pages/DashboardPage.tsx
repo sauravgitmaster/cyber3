@@ -50,48 +50,48 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6 text-[#243047] dark:text-slate-100 font-sans transition-colors duration-200">
+    <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* TODAY'S MISSION CARD */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl border-2 border-blue-200/90 dark:border-blue-900/60 p-6 sm:p-7 shadow-sm space-y-4 transition-colors">
+      <div className="bg-white dark:bg-[#080808] rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-7 shadow-xs space-y-4 transition-colors">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 text-xs font-black uppercase tracking-wider">
-              🎯 TODAY’S MISSION
+            <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 border border-zinc-200/80 dark:border-zinc-800 text-[10px] font-mono uppercase tracking-wider">
+              Today's Mission
             </span>
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-bold">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
               Chosen especially for you
             </span>
           </div>
 
-          <span className="flex items-center gap-1 text-xs text-slate-400 dark:text-slate-500 font-bold">
+          <span className="flex items-center gap-1.5 font-mono text-[11px] text-zinc-400 dark:text-zinc-500">
             <Clock className="w-3.5 h-3.5" />
             <span>~{mission.estimatedMinutes || 3} min</span>
           </span>
         </div>
 
         <div className="space-y-1.5">
-          <h2 className="text-xl sm:text-2xl font-black text-[#243047] dark:text-slate-100">
+          <h2 className="text-xl sm:text-2xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
             {mission.title}
           </h2>
-          <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed">
             {mission.context}
           </p>
         </div>
 
-        <div className="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-100 dark:border-slate-800">
-          <span className="text-xs text-slate-500 dark:text-slate-400 font-bold">
-            Reward: +60 XP & up to +8 ⭐
+        <div className="pt-3 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-zinc-100 dark:border-zinc-850">
+          <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+            Reward: +60 XP & up to +8 pts
           </span>
 
           <button
             onClick={() =>
               onNavigate('interactive-scenario', { scenarioId: mission.id })
             }
-            className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white font-black text-xs sm:text-sm transition-all shadow-md active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-medium text-xs sm:text-sm transition-all shadow-2xs active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Target className="w-4 h-4" />
-            <span>START MISSION</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>Start Mission</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -99,69 +99,69 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       {/* REWARDS & PROGRESS ROW */}
       <div className="grid grid-cols-3 gap-3 sm:gap-4">
         {/* Cyber Smart Score */}
-        <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xs transition-colors">
+        <div className="bg-white dark:bg-[#080808] p-4 sm:p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-2xs transition-colors">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
               Smart Score
             </span>
-            <Shield className="w-4 h-4 text-[#4F7CFF]" />
+            <Shield className="w-4 h-4 text-zinc-400 dark:text-zinc-500" />
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-[#243047] dark:text-slate-100 flex items-baseline gap-1">
+          <div className="text-2xl sm:text-3xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100 flex items-baseline gap-1">
             <span>{user.digitalTrustScore}</span>
-            <span className="text-amber-500 text-lg">⭐</span>
+            <span className="text-xs font-mono text-zinc-400 font-normal">pts</span>
           </div>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 font-bold mt-0.5">
-            {user.digitalTrustScore >= 75 ? 'Sharp instincts!' : 'Building habits!'}
+          <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5">
+            {user.digitalTrustScore >= 75 ? 'Sharp instincts' : 'Building habits'}
           </p>
         </div>
 
         {/* Streak */}
-        <div className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xs transition-colors">
+        <div className="bg-white dark:bg-[#080808] p-4 sm:p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-2xs transition-colors">
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
               Daily Streak
             </span>
             <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
           </div>
-          <div className="text-2xl sm:text-3xl font-black text-[#243047] dark:text-slate-100">
+          <div className="text-2xl sm:text-3xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
             {user.streakDays}{' '}
-            <span className="text-xs text-slate-400 font-medium">days</span>
+            <span className="text-xs font-mono text-zinc-400 font-normal">days</span>
           </div>
-          <p className="text-[10px] text-amber-600 dark:text-amber-400 font-bold mt-0.5">
-            Keep it burning!
+          <p className="text-[11px] text-amber-600 dark:text-amber-400 mt-0.5">
+            Keep it burning
           </p>
         </div>
 
         {/* Badges / Next Trophy */}
         <div
           onClick={() => onNavigate('badges')}
-          className="bg-white dark:bg-slate-900 p-4 sm:p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xs hover:border-purple-300 dark:hover:border-purple-700 transition-all cursor-pointer group"
+          className="bg-white dark:bg-[#080808] p-4 sm:p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-2xs hover:border-zinc-300 dark:hover:border-zinc-700 transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[11px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
               Next Badge
             </span>
-            <Trophy className="w-4 h-4 text-[#8B6CFF]" />
+            <Trophy className="w-4 h-4 text-amber-500" />
           </div>
-          <div className="text-base sm:text-lg font-black text-[#243047] dark:text-slate-100 truncate">
+          <div className="text-sm sm:text-base font-semibold -tracking-[0.02em] text-zinc-900 dark:text-zinc-100 truncate">
             {user.completedModulesCount >= 2 ? 'Master Detective' : 'Rookie Scout'}
           </div>
-          <p className="text-[10px] text-purple-600 dark:text-purple-400 font-bold mt-0.5 group-hover:underline">
+          <p className="text-[11px] text-zinc-500 dark:text-zinc-400 mt-0.5 group-hover:text-zinc-900 dark:group-hover:text-zinc-100 transition-colors">
             View Trophies →
           </p>
         </div>
       </div>
 
       {/* BYTE SAYS (ONE SHORT TIP) */}
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-50/70 dark:from-blue-950/40 dark:to-indigo-950/40 rounded-3xl border border-blue-200 dark:border-blue-900/60 p-5 shadow-2xs flex items-center justify-between gap-4 transition-colors">
+      <div className="bg-zinc-50/80 dark:bg-zinc-950/80 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-5 shadow-2xs flex items-center justify-between gap-4 transition-colors">
         <div className="flex items-center gap-3.5">
           <ByteMascot mood="thinking" size="md" />
           <div className="space-y-0.5">
-            <div className="flex items-center gap-1 text-[11px] font-black text-[#4F7CFF] dark:text-blue-400 uppercase tracking-wider">
+            <div className="flex items-center gap-1.5 text-[10px] font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
-              <span>Byte says...</span>
+              <span>Byte says</span>
             </div>
-            <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium leading-relaxed">
+            <p className="text-xs sm:text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed">
               "{mentorInsight?.observation ||
                 'Scammers often try to make you act in a hurry. When in doubt, take a deep breath and verify with a trusted adult or check the real app directly!'}"
             </p>
@@ -170,7 +170,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         <button
           onClick={onOpenMentor}
-          className="shrink-0 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 border border-blue-200 dark:border-slate-700 text-xs font-bold text-[#4F7CFF] dark:text-blue-400 shadow-2xs transition-all flex items-center gap-1.5 cursor-pointer"
+          className="shrink-0 px-3.5 py-1.5 rounded-full bg-white dark:bg-zinc-900 hover:bg-zinc-100 dark:hover:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 text-xs font-medium text-zinc-900 dark:text-zinc-100 shadow-2xs transition-all flex items-center gap-1.5 cursor-pointer"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-400" />
           <span className="hidden sm:inline">Ask Byte</span>
@@ -178,19 +178,19 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
       </div>
 
       {/* 5. LARGE SECONDARY ACTION: PLAY WITH A FRIEND */}
-      <div className="bg-gradient-to-r from-[#243047] to-[#1a2333] text-white rounded-3xl p-6 sm:p-7 shadow-md flex flex-col sm:flex-row items-center justify-between gap-5">
+      <div className="bg-zinc-900 dark:bg-zinc-950 text-white rounded-3xl border border-zinc-800 p-6 sm:p-7 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-5">
         <div className="flex items-center gap-4 text-center sm:text-left">
-          <div className="w-14 h-14 rounded-2xl bg-blue-500/20 border border-blue-400/30 text-white flex items-center justify-center text-3xl shrink-0">
-            👥
+          <div className="w-12 h-12 rounded-2xl bg-zinc-800 border border-zinc-700 text-zinc-300 flex items-center justify-center shrink-0">
+            <Users className="w-6 h-6" />
           </div>
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1 text-[11px] font-black text-blue-300 uppercase tracking-wider">
-              <span>MULTIPLAYER MODE</span>
+            <div className="inline-flex items-center gap-1 text-[10px] font-mono text-zinc-400 uppercase tracking-wider">
+              <span>Multiplayer Duel</span>
             </div>
-            <h3 className="text-xl font-black text-white">
+            <h3 className="text-lg sm:text-xl font-semibold -tracking-[0.02em] text-white">
               Play With a Friend
             </h3>
-            <p className="text-xs text-slate-300 font-medium max-w-md">
+            <p className="text-xs text-zinc-400 max-w-md">
               Race side-by-side to spot online tricks in 8 quick rounds. Can you find the safe answer fastest?
             </p>
           </div>
@@ -198,11 +198,11 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
 
         <button
           onClick={() => onNavigate('multiplayer')}
-          className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white font-black text-xs sm:text-sm shadow-md transition-all active:scale-98 flex items-center justify-center gap-2 shrink-0"
+          className="w-full sm:w-auto px-5 py-2.5 rounded-full bg-white text-zinc-950 hover:bg-zinc-200 font-medium text-xs sm:text-sm shadow-xs transition-all active:scale-98 flex items-center justify-center gap-2 shrink-0 cursor-pointer"
         >
           <Users className="w-4 h-4" />
-          <span>PLAY WITH A FRIEND</span>
-          <ArrowRight className="w-4 h-4" />
+          <span>Play With a Friend</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>

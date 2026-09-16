@@ -9,6 +9,7 @@ import {
   User,
   ChevronRight,
   ExternalLink,
+  LogOut,
 } from 'lucide-react';
 import { ByteMascot } from '../common/ByteMascot';
 import { ThemeToggle } from '../common/ThemeToggle';
@@ -20,6 +21,7 @@ interface SidebarProps {
   user?: UserProfile;
   onOpenMentor?: () => void;
   unreadNotificationsCount?: number;
+  onLogout?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -28,6 +30,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onNavigate,
   user,
   onOpenMentor,
+  onLogout,
 }) => {
   const current = activePage || currentPage || 'dashboard';
 
@@ -42,21 +45,21 @@ export const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   return (
-    <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-screen shrink-0 sticky top-0 select-none text-[#243047] dark:text-slate-100 z-20 shadow-xs hidden lg:flex transition-colors duration-200">
+    <aside className="w-64 bg-white dark:bg-black border-r border-zinc-200 dark:border-zinc-850 flex flex-col h-screen shrink-0 sticky top-0 select-none text-zinc-900 dark:text-zinc-100 z-20 hidden lg:flex transition-colors duration-200">
       {/* Brand Header */}
-      <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+      <div className="p-5 border-b border-zinc-200/80 dark:border-zinc-850 flex items-center justify-between">
         <button
           onClick={() => onNavigate('dashboard')}
           className="flex items-center gap-3 text-left group cursor-pointer"
         >
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#4F7CFF] to-[#8B6CFF] flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
+          <div className="w-9 h-9 rounded-xl bg-zinc-900 dark:bg-zinc-900 border border-zinc-800 flex items-center justify-center text-white group-hover:scale-105 transition-transform shadow-xs">
             <ByteMascot size="xs" animate={false} />
           </div>
           <div>
-            <span className="font-extrabold text-base tracking-tight text-[#243047] dark:text-slate-100 block">
+            <span className="font-semibold text-sm -tracking-[0.02em] text-zinc-900 dark:text-zinc-100 block leading-tight">
               CyberMentor
             </span>
-            <span className="text-[11px] font-bold text-[#4F7CFF] dark:text-blue-400 block -mt-0.5">
+            <span className="text-xs text-zinc-500 dark:text-zinc-400 block">
               Adventure Academy
             </span>
           </div>
@@ -65,14 +68,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <button
           onClick={() => onNavigate('landing')}
           title="Overview & Info"
-          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+          className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors cursor-pointer"
         >
-          <ExternalLink className="w-4 h-4" />
+          <ExternalLink className="w-3.5 h-3.5" />
         </button>
       </div>
 
       {/* Main Nav Items */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-1.5">
+      <div className="flex-1 overflow-y-auto p-3.5 space-y-1">
         {mainNav.map((item) => {
           const Icon = item.icon;
           const isActive =
@@ -84,59 +87,81 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <button
               key={item.id}
               onClick={() => onNavigate(item.id)}
-              className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl font-bold text-sm transition-all duration-150 cursor-pointer ${
+              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl font-medium text-xs sm:text-sm transition-all duration-150 cursor-pointer ${
                 isActive
-                  ? 'bg-blue-50 dark:bg-blue-950/50 text-[#4F7CFF] dark:text-blue-400 shadow-xs translate-x-1'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                  ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800'
+                  : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 border border-transparent'
               }`}
             >
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2.5">
                 <div
-                  className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                  className={`w-7 h-7 rounded-lg flex items-center justify-center transition-colors ${
                     isActive
-                      ? 'bg-blue-500 text-white shadow-xs'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                      ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-2xs'
+                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3.5 h-3.5" />
                 </div>
                 <span>{item.label}</span>
               </div>
-              {isActive && <ChevronRight className="w-4 h-4 text-[#4F7CFF] dark:text-blue-400" />}
+              {isActive && <ChevronRight className="w-3.5 h-3.5 text-zinc-400 dark:text-zinc-500" />}
             </button>
           );
         })}
       </div>
 
       {/* Footer Area: Theme Switcher & Byte Callout */}
-      <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-gradient-to-b from-white to-blue-50/50 dark:from-slate-900 dark:to-slate-950/80 space-y-3">
+      <div className="p-4 border-t border-zinc-200/80 dark:border-zinc-850 bg-white dark:bg-black space-y-3">
         {/* Theme Toggle Bar */}
         <div className="flex items-center justify-between px-1">
-          <span className="text-xs font-bold text-slate-500 dark:text-slate-400">Appearance</span>
+          <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500">Appearance</span>
           <ThemeToggle variant="pill" id="sidebar-theme-toggle" />
         </div>
 
         {/* Mascot Card */}
-        <div className="p-3.5 rounded-2xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-slate-800/80 dark:to-slate-900 border border-blue-100/80 dark:border-slate-700/60 space-y-2.5">
+        <div className="p-3 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 space-y-2">
           <div className="flex items-center gap-2.5">
             <ByteMascot mood="waving" size="sm" />
             <div>
-              <span className="text-xs font-bold text-[#243047] dark:text-slate-200 block">
-                Meet Byte!
+              <span className="text-xs font-semibold text-zinc-900 dark:text-zinc-200 block">
+                Meet Byte
               </span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 block">
+              <span className="text-[11px] text-zinc-500 dark:text-zinc-400 block">
                 Your cyber safety buddy
               </span>
             </div>
           </div>
           <button
             onClick={onOpenMentor}
-            className="w-full py-2 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-slate-700 border border-blue-200 dark:border-slate-700 text-xs font-bold text-[#4F7CFF] dark:text-blue-400 shadow-2xs hover:shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+            className="w-full py-1.5 px-3 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 text-xs font-medium transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
           >
             <span>Ask Byte a question</span>
-            <ChevronRight className="w-3.5 h-3.5" />
+            <ChevronRight className="w-3 h-3" />
           </button>
         </div>
+
+        {/* Logout Button */}
+        <button
+          id="sidebar-logout-button"
+          onClick={() => {
+            if (onLogout) {
+              onLogout();
+            } else {
+              onNavigate('landing');
+            }
+          }}
+          className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium text-zinc-500 dark:text-zinc-400 hover:text-rose-600 dark:hover:text-rose-400 hover:bg-rose-50/60 dark:hover:bg-rose-950/20 border border-zinc-200/60 dark:border-zinc-850 transition-all duration-150 cursor-pointer group"
+          title="Log out and return to landing page"
+        >
+          <div className="flex items-center gap-2">
+            <LogOut className="w-3.5 h-3.5" />
+            <span>Log Out</span>
+          </div>
+          <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-600 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+            EXIT
+          </span>
+        </button>
       </div>
     </aside>
   );

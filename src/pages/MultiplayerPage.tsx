@@ -8,7 +8,7 @@ import { MultiplayerQuestion } from '../components/multiplayer/MultiplayerQuesti
 import { MultiplayerResults } from '../components/multiplayer/MultiplayerResults';
 import { MultiplayerReview } from '../components/multiplayer/MultiplayerReview';
 import { ByteMascot } from '../components/common/ByteMascot';
-import { Users, PlusCircle, LogIn, ArrowLeft, Sparkles, Shield } from 'lucide-react';
+import { Users, PlusCircle, LogIn, ArrowLeft, Sparkles, Shield, Gamepad2 } from 'lucide-react';
 
 interface MultiplayerPageProps {
   onNavigate: (page: ActivePage) => void;
@@ -109,7 +109,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
   // 1. Review Answers View
   if (isGameOver && isReviewing) {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] py-8 px-4 font-sans text-[#243047]">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#050505] py-8 px-4 font-sans text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
         <MultiplayerReview
           history={room.roundHistory}
           onBack={() => setIsReviewing(false)}
@@ -121,7 +121,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
   // 2. Final Results View
   if (isGameOver) {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] py-8 px-4 font-sans text-[#243047] flex flex-col justify-center items-center">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#050505] py-8 px-4 font-sans text-zinc-900 dark:text-zinc-100 flex flex-col justify-center items-center transition-colors duration-200">
         <MultiplayerResults
           room={room}
           currentUserId={playerId}
@@ -139,18 +139,18 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
   // 3. Active Game View (Question + Score Bar)
   if (isGameActive) {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] py-6 sm:py-8 px-4 font-sans text-[#243047] flex flex-col justify-between items-center">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#050505] py-6 sm:py-8 px-4 font-sans text-zinc-900 dark:text-zinc-100 flex flex-col justify-between items-center transition-colors duration-200">
         {/* Top Score Bar */}
         <MultiplayerScoreBar room={room} currentUserId={playerId} />
 
         {/* Starting Countdown Overlay */}
         {room.status === 'starting' ? (
           <div className="my-auto text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
-            <ByteMascot mood="happy" size="lg" />
-            <div className="text-3xl sm:text-4xl font-black text-[#243047]">
-              Get ready! 🚀
+            <ByteMascot mood="happy" size="lg" animate={false} />
+            <div className="text-3xl sm:text-4xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
+              Get ready!
             </div>
-            <p className="text-sm font-semibold text-[#4F7CFF]">
+            <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
               Race your friend to spot the safe choice!
             </p>
           </div>
@@ -169,7 +169,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
         <div className="pt-4 text-center">
           <button
             onClick={handleBackToMenu}
-            className="text-xs text-slate-400 hover:text-slate-600 font-bold transition-colors"
+            className="text-xs text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 font-mono transition-colors cursor-pointer"
           >
             Leave Game
           </button>
@@ -181,7 +181,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
   // 4. Create Room Waiting Lobby View
   if (lobbyView === 'create') {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] py-8 px-4 font-sans text-[#243047] flex flex-col justify-center items-center">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#050505] py-8 px-4 font-sans text-zinc-900 dark:text-zinc-100 flex flex-col justify-center items-center transition-colors duration-200">
         <CreateGame
           room={room}
           roomCode={roomCode || room?.code || undefined}
@@ -196,7 +196,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
   // 5. Join Room Form View
   if (lobbyView === 'join') {
     return (
-      <div className="min-h-screen bg-[#F7F9FC] py-8 px-4 font-sans text-[#243047] flex flex-col justify-center items-center">
+      <div className="min-h-screen bg-zinc-50 dark:bg-[#050505] py-8 px-4 font-sans text-zinc-900 dark:text-zinc-100 flex flex-col justify-center items-center transition-colors duration-200">
         <JoinGame
           room={room}
           loading={loading}
@@ -211,46 +211,46 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
 
   // 6. Main Play Lobby Menu
   return (
-    <div className="p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center font-sans text-[#243047]">
+    <div className="p-4 sm:p-6 lg:p-8 flex flex-col items-center justify-center font-sans text-zinc-900 dark:text-zinc-100 transition-colors duration-200">
       <div className="w-full max-w-xl space-y-6">
         {/* Back navigation */}
         <button
           onClick={() => onNavigate('dashboard')}
-          className="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-[#4F7CFF] transition-colors"
+          className="flex items-center gap-1.5 text-xs font-mono text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Home</span>
         </button>
 
         {/* Hero Header */}
         <div className="text-center space-y-3">
           <div className="inline-flex justify-center mb-1">
-            <ByteMascot mood="happy" size="lg" />
+            <ByteMascot mood="happy" size="lg" animate={false} />
           </div>
 
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black text-[#4F7CFF]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[10px] font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
             <Users className="w-3.5 h-3.5" />
-            <span>PLAY WITH A FRIEND</span>
+            <span>Multiplayer Lobby</span>
           </div>
 
-          <h1 className="text-3xl sm:text-4xl font-black text-[#243047]">
-            Race your friend to spot the trick!
+          <h1 className="text-3xl sm:text-4xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
+            Race your friend to spot the trick
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 font-medium max-w-md mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 max-w-md mx-auto leading-relaxed">
             Answer 8 fast cyber challenges side-by-side in real-time. Who can identify the safe action first?
           </p>
         </div>
 
         {/* Auto-detected room code banner if present */}
         {prefilledCode && (
-          <div className="p-4 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border-2 border-[#4F7CFF]/30 flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2">
+          <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-between gap-3 animate-in fade-in slide-in-from-top-2">
             <div className="flex items-center gap-3">
-              <span className="text-2xl">🎮</span>
+              <Gamepad2 className="w-6 h-6 text-zinc-600 dark:text-zinc-400" />
               <div className="text-left">
-                <div className="text-[10px] font-black uppercase text-[#4F7CFF] tracking-wider">
+                <div className="text-[10px] font-mono uppercase text-zinc-500 tracking-wider">
                   Detected Game Code
                 </div>
-                <div className="text-base font-black font-mono text-[#243047]">
+                <div className="text-base font-semibold font-mono text-zinc-900 dark:text-zinc-100">
                   {prefilledCode}
                 </div>
               </div>
@@ -260,7 +260,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
                 setLobbyView('join');
                 handleJoinGame(prefilledCode);
               }}
-              className="px-4 py-2 rounded-xl bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white font-black text-xs shadow-sm transition-all"
+              className="px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-mono text-xs shadow-2xs transition-all cursor-pointer"
             >
               Join Now
             </button>
@@ -272,19 +272,19 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
           {/* Create a Game */}
           <div
             onClick={handleCreateGame}
-            className="p-6 rounded-3xl bg-white border-2 border-slate-200 hover:border-[#4F7CFF] shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between space-y-4"
+            className="p-6 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 shadow-xs transition-all cursor-pointer group flex flex-col justify-between space-y-4"
           >
             <div className="space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#4F7CFF] flex items-center justify-center group-hover:scale-110 transition-transform">
-                <PlusCircle className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-850 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+                <PlusCircle className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-black text-[#243047]">Create a Game</h3>
-              <p className="text-xs text-slate-500 font-medium leading-relaxed">
+              <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Create a Game</h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                 Get a 6-letter room code and invite your friend to challenge you.
               </p>
             </div>
 
-            <button className="w-full py-2.5 rounded-xl bg-[#4F7CFF] text-white font-black text-xs shadow-2xs group-hover:bg-[#3D6CE6] transition-colors">
+            <button className="w-full py-2.5 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 font-mono text-xs shadow-2xs transition-colors cursor-pointer">
               Create Game
             </button>
           </div>
@@ -292,29 +292,29 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
           {/* Join a Game */}
           <div
             onClick={() => setLobbyView('join')}
-            className="p-6 rounded-3xl bg-white border-2 border-slate-200 hover:border-emerald-400 shadow-sm hover:shadow-md transition-all cursor-pointer group flex flex-col justify-between space-y-4"
+            className="p-6 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 shadow-xs transition-all cursor-pointer group flex flex-col justify-between space-y-4"
           >
             <div className="space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-110 transition-transform">
-                <LogIn className="w-6 h-6" />
+              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-850 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+                <LogIn className="w-5 h-5" />
               </div>
-              <h3 className="text-lg font-black text-[#243047]">Join a Game</h3>
-              <p className="text-xs text-slate-500 font-medium leading-relaxed">
+              <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Join a Game</h3>
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                 Have a code from a friend? Enter it here and jump straight into the match.
               </p>
             </div>
 
-            <button className="w-full py-2.5 rounded-xl bg-white border-2 border-emerald-400 text-emerald-700 font-black text-xs hover:bg-emerald-50 transition-colors">
+            <button className="w-full py-2.5 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-850 font-mono text-xs shadow-2xs transition-colors cursor-pointer">
               Enter Code
             </button>
           </div>
         </div>
 
         {/* Byte Tip */}
-        <div className="p-4 rounded-2xl bg-slate-100 border border-slate-200 text-xs text-slate-600 font-medium flex items-center gap-3">
-          <span className="text-2xl">🤖</span>
+        <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-600 dark:text-zinc-400 flex items-center gap-3">
+          <ByteMascot mood="thinking" size="xs" animate={false} />
           <span>
-            <strong className="text-[#243047]">Byte says:</strong> Remember, correct and fastest wins the most XP, but wrong answers never take points away! Have fun!
+            <strong className="text-zinc-900 dark:text-zinc-100 font-mono text-[11px]">Byte says:</strong> Remember, correct and fastest wins the most XP, but wrong answers never take points away! Have fun!
           </span>
         </div>
       </div>

@@ -53,7 +53,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Legitimate game developers never send direct messages giving away thousands of coins for free.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -75,7 +75,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Legitimate game developers never send direct messages giving away thousands of coins for free.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -149,7 +149,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Files ending in .exe are executable computer programs that can install malware, not reading documents.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -171,7 +171,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Files ending in .exe are executable computer programs that can install malware, not reading documents.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -243,7 +243,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Imposters can copy profile pictures and paste checkmark emojis, but cannot fake real subscriber counts.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -265,7 +265,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Imposters can copy profile pictures and paste checkmark emojis, but cannot fake real subscriber counts.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -339,7 +339,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Attackers create artificial urgency to make students act before checking the URL domain.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -361,7 +361,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Attackers create artificial urgency to make students act before checking the URL domain.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -435,7 +435,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Attackers harvest real student names from public school websites. Always verify unexpected permission links in person.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -457,7 +457,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Attackers harvest real student names from public school websites. Always verify unexpected permission links in person.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -531,7 +531,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "If a game site ever gets hacked, attackers will try your password on all your other accounts.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -553,7 +553,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "If a game site ever gets hacked, attackers will try your password on all your other accounts.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -624,7 +624,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Verification codes protect YOUR account. When someone asks for a code sent to your phone, they are trying to break in.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -646,7 +646,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Verification codes protect YOUR account. When someone asks for a code sent to your phone, they are trying to break in.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -717,7 +717,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Leaving accounts open on shared devices allows anyone to view your emails, change homework, or impersonate you.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -739,7 +739,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Leaving accounts open on shared devices allows anyone to view your emails, change homework, or impersonate you.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -810,7 +810,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "An unexpected prompt means someone has your password and is trying to enter. Denying it stops them from getting in.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -832,7 +832,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "An unexpected prompt means someone has your password and is trying to enter. Denying it stops them from getting in.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -903,7 +903,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Malicious webpages can show fake dialog boxes that copy real extension icons to steal master passwords.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -925,7 +925,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Malicious webpages can show fake dialog boxes that copy real extension icons to steal master passwords.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -999,7 +999,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Scammers create fun viral memes specifically to trick people into revealing answers to their security questions.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1021,7 +1021,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Scammers create fun viral memes specifically to trick people into revealing answers to their security questions.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1092,7 +1092,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Street signs, house numbers, and school badges give strangers your exact daily location and identity.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1114,7 +1114,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Street signs, house numbers, and school badges give strangers your exact daily location and identity.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1185,7 +1185,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Casual games often bundle tracking software to collect and sell your location and contacts to advertising companies.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1207,7 +1207,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Casual games often bundle tracking software to collect and sell your location and contacts to advertising companies.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1278,7 +1278,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Strangers asking for schedules, locations, and friend names online can be adults pretending to be kids.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1300,7 +1300,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Strangers asking for schedules, locations, and friend names online can be adults pretending to be kids.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1371,7 +1371,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Leaving voice history enabled stores private conversations on remote servers where human reviewers can listen.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1393,7 +1393,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Leaving voice history enabled stores private conversations on remote servers where human reviewers can listen.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1468,7 +1468,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "When accounts get hacked, bots automatically send fake 'Is this you in this video?' messages to all contacts.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1490,7 +1490,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "When accounts get hacked, bots automatically send fake 'Is this you in this video?' messages to all contacts.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1562,7 +1562,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Asking for a small 'shipping fee' for an expensive free prize is a classic trick to steal bank and credit card numbers.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1584,7 +1584,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Asking for a small 'shipping fee' for an expensive free prize is a classic trick to steal bank and credit card numbers.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1655,7 +1655,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Once you hand over your password, the scammer immediately changes your recovery email and steals your account forever.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1677,7 +1677,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Once you hand over your password, the scammer immediately changes your recovery email and steals your account forever.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1749,7 +1749,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Shortened links hide malicious destinations. Scammers use test leaks as bait to install adware or steal accounts.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1771,7 +1771,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Shortened links hide malicious destinations. Scammers use test leaks as bait to install adware or steal accounts.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1842,7 +1842,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "AI tools can clone someone's voice using just 10 seconds of audio from videos. Never bypass security based on audio alone.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1864,7 +1864,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "AI tools can clone someone's voice using just 10 seconds of audio from videos. Never bypass security based on audio alone.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -1938,7 +1938,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Websites cannot scan your computer for viruses. These scare popups want you to call scammers who charge hundreds of dollars.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -1960,7 +1960,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Websites cannot scan your computer for viruses. These scare popups want you to call scammers who charge hundreds of dollars.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2031,7 +2031,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Installing a certificate or profile from an untrusted public Wi-Fi lets attackers decrypt and see everything you do.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2053,7 +2053,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Installing a certificate or profile from an untrusted public Wi-Fi lets attackers decrypt and see everything you do.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2124,7 +2124,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Attackers drop malicious USB drives in hallways hoping someone will plug them in. They can inject keystrokes and take over in seconds.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2146,7 +2146,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Attackers drop malicious USB drives in hallways hoping someone will plug them in. They can inject keystrokes and take over in seconds.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2217,7 +2217,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "'Read and change all data on all websites' is the most dangerous permission possible. It gives total control over your browsing.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2239,7 +2239,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "'Read and change all data on all websites' is the most dangerous permission possible. It gives total control over your browsing.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2310,7 +2310,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Leaving AirDrop on 'Everyone' allows strangers nearby to send inappropriate photos or dangerous files to your device.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2332,7 +2332,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Leaving AirDrop on 'Everyone' allows strangers nearby to send inappropriate photos or dangerous files to your device.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2408,7 +2408,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Scammers love gift cards because once you send the code on the back, the money is gone forever and cannot be refunded.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2430,7 +2430,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Scammers love gift cards because once you send the code on the back, the money is gone forever and cannot be refunded.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2501,7 +2501,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Uninspected flash drives from other people's homes can carry viruses that infect personal computers.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2523,7 +2523,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Uninspected flash drives from other people's homes can carry viruses that infect personal computers.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2594,7 +2594,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Scammers call pretending to be tech support to pressure people into giving up authentication codes over the phone.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2616,7 +2616,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Scammers call pretending to be tech support to pressure people into giving up authentication codes over the phone.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2688,7 +2688,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Scammers use fear of missing sports games or getting cut from teams to stop students from thinking critically.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2710,7 +2710,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Scammers use fear of missing sports games or getting cut from teams to stop students from thinking critically.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',
@@ -2781,7 +2781,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Low',
         feedback: {
           decisionQuality: 'Good',
-          summary: '🎉 Great catch! You spotted the trick and took the safe action.',
+          summary: 'Great catch! You spotted the trick and took the safe action.',
           whyItMatters: "Session tokens act like a duplicate key to your house. Anyone who has your token can access your account even if you have 2FA turned on.",
           whatYouDidWell: 'You paused, recognized the danger, and chose a safe verified method.',
           watchOutFor: 'Scammers constantly find new ways to disguise their tricks.',
@@ -2803,7 +2803,7 @@ export const allMissions: ScenarioItem[] = [
         riskLevel: 'Moderate',
         feedback: {
           decisionQuality: 'Fair',
-          summary: '👍 Nice thinking, but that still leaves your information or friends at risk.',
+          summary: 'Nice thinking, but that still leaves your information or friends at risk.',
           whyItMatters: "Session tokens act like a duplicate key to your house. Anyone who has your token can access your account even if you have 2FA turned on.",
           whatYouDidWell: 'You were cautious enough not to immediately click, but need a safer approach.',
           watchOutFor: 'Never share suspicious links or information with other friends.',

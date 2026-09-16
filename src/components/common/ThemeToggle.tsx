@@ -61,8 +61,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         onClick={toggleTheme}
         className={`flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all duration-150 cursor-pointer text-xs font-bold ${
           isDark
-            ? 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-amber-300'
-            : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700 shadow-2xs'
+            ? 'bg-zinc-900 hover:bg-zinc-800 border-white/15 text-amber-300'
+            : 'bg-white hover:bg-zinc-100 border-zinc-200 text-zinc-700 shadow-2xs'
         } ${className}`}
         title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
         aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
@@ -70,12 +70,12 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
         {isDark ? (
           <>
             <Sun className="w-4 h-4 text-amber-300 fill-amber-300/30 transition-transform duration-200 rotate-0 hover:rotate-45" />
-            <span className="hidden sm:inline text-slate-200">Light Mode</span>
+            <span className="hidden sm:inline text-zinc-200">Light Mode</span>
           </>
         ) : (
           <>
-            <Moon className="w-4 h-4 text-slate-600 fill-slate-200 transition-transform duration-200 hover:-rotate-12" />
-            <span className="hidden sm:inline text-slate-700">Dark Mode</span>
+            <Moon className="w-4 h-4 text-zinc-700 fill-zinc-200 transition-transform duration-200 hover:-rotate-12" />
+            <span className="hidden sm:inline text-zinc-700">Dark Mode</span>
           </>
         )}
       </button>
@@ -90,8 +90,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       onClick={toggleTheme}
       className={`p-2 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center ${
         isDark
-          ? 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-amber-300 shadow-2xs'
-          : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-600 shadow-2xs hover:text-slate-900'
+          ? 'bg-zinc-900 hover:bg-zinc-800 border-white/15 text-amber-300 shadow-2xs'
+          : 'bg-white hover:bg-zinc-100 border-zinc-200 text-zinc-700 shadow-2xs hover:text-zinc-950'
       } ${className}`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
@@ -99,7 +99,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({
       {isDark ? (
         <Sun className="w-4 h-4 text-amber-300 fill-amber-300/30 transition-transform duration-300 hover:rotate-90" />
       ) : (
-        <Moon className="w-4 h-4 text-slate-600 fill-slate-200 transition-transform duration-300 hover:-rotate-12" />
+        <Moon className="w-4 h-4 text-zinc-700 fill-zinc-200 transition-transform duration-300 hover:-rotate-12" />
       )}
     </button>
   );

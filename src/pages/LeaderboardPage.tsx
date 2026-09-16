@@ -41,28 +41,28 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
   });
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto text-[#243047] font-sans">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* Top Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
-          <div className="flex items-center gap-2 mb-1 text-xs font-black text-[#FFC857] uppercase tracking-wider">
-            <Trophy className="w-4 h-4 text-amber-500" />
-            <span className="text-amber-800">CLASS & FRIENDS STANDINGS</span>
+          <div className="flex items-center gap-2 mb-1.5 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+            <Trophy className="w-3.5 h-3.5 text-zinc-400" />
+            <span>Class & Friends Standings</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#243047]">
+          <h1 className="text-2xl sm:text-3xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
             Cyber Champions
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
             See how your cyber smarts stack up with friends and classmates!
           </p>
         </div>
 
         {/* User Standing Quick Pill */}
-        <div className="px-4 py-2.5 rounded-2xl bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 flex items-center gap-3">
-          <ByteMascot mood="happy" size="xs" />
-          <div className="text-xs font-bold">
-            <span className="text-slate-500">Your Rank:</span>{' '}
-            <span className="text-[#4F7CFF] font-black">#4 in Cyber Club</span>
+        <div className="px-4 py-2 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-3">
+          <ByteMascot mood="happy" size="xs" animate={false} />
+          <div className="text-xs font-mono">
+            <span className="text-zinc-400">Your Rank:</span>{' '}
+            <span className="text-zinc-900 dark:text-zinc-100 font-semibold">#4 in Cyber Club</span>
           </div>
         </div>
       </div>
@@ -70,33 +70,33 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
       {/* Filter and Scope Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4">
         {/* Scope Tabs */}
-        <div className="flex items-center gap-1.5 p-1 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+        <div className="flex items-center gap-1.5 p-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
           <button
             onClick={() => setFilterScope('campus')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
               filterScope === 'campus'
-                ? 'bg-[#4F7CFF] text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-2xs'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
             }`}
           >
             All Students
           </button>
           <button
             onClick={() => setFilterScope('department')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
               filterScope === 'department'
-                ? 'bg-[#4F7CFF] text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-2xs'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
             }`}
           >
             Grade 7-8
           </button>
           <button
             onClick={() => setFilterScope('class')}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all cursor-pointer ${
               filterScope === 'class'
-                ? 'bg-[#4F7CFF] text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900'
+                ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-2xs'
+                : 'text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
             }`}
           >
             My Cyber Club
@@ -104,47 +104,47 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
         </div>
 
         {/* Sort selector */}
-        <div className="flex items-center gap-2 text-xs font-bold text-slate-500">
+        <div className="flex items-center gap-2 text-xs font-mono text-zinc-500">
           <span>Sort by:</span>
           <button
             onClick={() => setSortBy('trustScore')}
-            className={`px-3 py-1 rounded-xl border transition-colors ${
+            className={`px-3 py-1 rounded-full border transition-colors cursor-pointer ${
               sortBy === 'trustScore'
-                ? 'bg-blue-50 border-[#4F7CFF] text-[#4F7CFF]'
-                : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
+                ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 border-zinc-900 dark:border-zinc-100 font-semibold'
+                : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
             }`}
           >
-            Smart Score ⭐
+            Smart Score
           </button>
           <button
             onClick={() => setSortBy('xp')}
-            className={`px-3 py-1 rounded-xl border transition-colors ${
+            className={`px-3 py-1 rounded-full border transition-colors cursor-pointer ${
               sortBy === 'xp'
-                ? 'bg-purple-50 border-purple-400 text-purple-700'
-                : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900'
+                ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 border-zinc-900 dark:border-zinc-100 font-semibold'
+                : 'bg-white dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100'
             }`}
           >
-            Total XP ⚡
+            Total XP
           </button>
         </div>
       </div>
 
       {/* Leaderboard Table Card */}
-      <div className="rounded-3xl bg-white border border-slate-200 shadow-sm overflow-hidden">
+      <div className="rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 shadow-xs overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-black text-slate-500 uppercase tracking-wider">
+            <thead className="bg-zinc-50 dark:bg-zinc-900/60 border-b border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">
               <tr>
-                <th className="py-4 px-5">Rank</th>
-                <th className="py-4 px-5">Student</th>
-                <th className="py-4 px-5">Club / Class</th>
-                <th className="py-4 px-5 text-right">Cyber Smart Score</th>
-                <th className="py-4 px-5 text-right">XP</th>
-                <th className="py-4 px-5 text-right">Level</th>
-                <th className="py-4 px-5 text-center">Badges</th>
+                <th className="py-3.5 px-5">Rank</th>
+                <th className="py-3.5 px-5">Student</th>
+                <th className="py-3.5 px-5">Club / Class</th>
+                <th className="py-3.5 px-5 text-right">Smart Score</th>
+                <th className="py-3.5 px-5 text-right">XP</th>
+                <th className="py-3.5 px-5 text-right">Level</th>
+                <th className="py-3.5 px-5 text-center">Badges</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850">
               {sortedEntries.map((student, idx) => {
                 const rank = idx + 1;
                 const isUser = student.isCurrentUser;
@@ -154,51 +154,51 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
                     key={student.studentIdMasked || idx}
                     className={`transition-colors ${
                       isUser
-                        ? 'bg-blue-50/70 font-bold'
-                        : 'hover:bg-slate-50/60'
+                        ? 'bg-zinc-100/80 dark:bg-zinc-900/80 font-medium'
+                        : 'hover:bg-zinc-50/60 dark:hover:bg-zinc-900/40'
                     }`}
                   >
                     {/* Rank */}
-                    <td className="py-4 px-5 font-black">
+                    <td className="py-3.5 px-5 font-mono">
                       {rank === 1 ? (
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-amber-100 text-amber-800 border border-amber-300 shadow-2xs">
-                          🥇 1
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 font-mono text-[11px] shadow-2xs">
+                          1
                         </span>
                       ) : rank === 2 ? (
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-slate-100 text-slate-700 border border-slate-300">
-                          🥈 2
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200 font-mono text-[11px]">
+                          2
                         </span>
                       ) : rank === 3 ? (
-                        <span className="inline-flex items-center justify-center w-7 h-7 rounded-full bg-orange-100 text-orange-800 border border-orange-300">
-                          🥉 3
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300 font-mono text-[11px]">
+                          3
                         </span>
                       ) : (
-                        <span className="text-slate-500 pl-2">#{rank}</span>
+                        <span className="text-zinc-400 pl-2">#{rank}</span>
                       )}
                     </td>
 
                     {/* Student Name */}
-                    <td className="py-4 px-5">
+                    <td className="py-3.5 px-5">
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-black ${
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-mono font-semibold ${
                             isUser
-                              ? 'bg-[#4F7CFF] text-white shadow-2xs'
-                              : 'bg-slate-100 text-slate-700'
+                              ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950'
+                              : 'bg-zinc-100 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300'
                           }`}
                         >
                           {student.name.charAt(0)}
                         </div>
                         <div>
                           <span
-                            className={`font-black ${
-                              isUser ? 'text-[#4F7CFF]' : 'text-[#243047]'
+                            className={`font-medium ${
+                              isUser ? 'text-zinc-900 dark:text-zinc-100 font-semibold' : 'text-zinc-800 dark:text-zinc-200'
                             }`}
                           >
                             {student.name}
                           </span>
                           {isUser && (
-                            <span className="ml-2 text-[10px] font-black px-2 py-0.5 rounded-full bg-blue-100 text-[#4F7CFF]">
+                            <span className="ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-200">
                               You
                             </span>
                           )}
@@ -207,32 +207,32 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
                     </td>
 
                     {/* Cohort */}
-                    <td className="py-4 px-5 text-slate-500 font-medium">
+                    <td className="py-3.5 px-5 text-zinc-500 dark:text-zinc-400 font-normal">
                       {student.cohort}
                     </td>
 
                     {/* Digital Trust Score */}
-                    <td className="py-4 px-5 text-right">
-                      <span className="font-black text-sm text-[#4F7CFF]">
+                    <td className="py-3.5 px-5 text-right font-mono">
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                         {student.trustScore}
                       </span>
-                      <span className="text-xs text-slate-400">/100</span>
+                      <span className="text-zinc-400">/100</span>
                     </td>
 
                     {/* Total XP */}
-                    <td className="py-4 px-5 text-right font-black text-purple-700">
+                    <td className="py-3.5 px-5 text-right font-mono text-zinc-700 dark:text-zinc-300">
                       {student.xp.toLocaleString()} XP
                     </td>
 
                     {/* Level */}
-                    <td className="py-4 px-5 text-right font-bold text-slate-600">
+                    <td className="py-3.5 px-5 text-right font-mono text-zinc-500 dark:text-zinc-400">
                       Lv. {student.level}
                     </td>
 
                     {/* Badges count */}
-                    <td className="py-4 px-5 text-center">
-                      <span className="px-2.5 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-800 font-black text-xs">
-                        🏅 {student.badgeCount}
+                    <td className="py-3.5 px-5 text-center">
+                      <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-xs">
+                        {student.badgeCount} badges
                       </span>
                     </td>
                   </tr>

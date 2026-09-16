@@ -28,7 +28,7 @@ export function createApp() {
     id: 'user_saurav_01',
     name: 'Saurav',
     email: 'saurav@cybermentor.app',
-    avatar: '🦊',
+    avatar: '',
     level: 2,
     levelTitle: 'Digital Defender',
     currentXP: 450,
@@ -78,7 +78,7 @@ export function createApp() {
         id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
         name: (name || '').trim() || lowerEmail.split('@')[0] || 'Cyber Explorer',
         email: lowerEmail,
-        avatar: avatar || '🤖',
+        avatar: avatar || '',
         level: 1,
         levelTitle: 'Rookie',
         currentXP: 100,
@@ -119,7 +119,7 @@ export function createApp() {
         id: `user_${Date.now()}`,
         name: email ? email.split('@')[0] : 'Cyber Explorer',
         email: lowerEmail || 'explorer@cybermentor.app',
-        avatar: '🤖',
+        avatar: '',
         level: 1,
         levelTitle: 'Rookie',
         currentXP: 100,
@@ -263,11 +263,11 @@ export function createApp() {
   // ==========================================
   app.get('/api/leaderboard', (req, res) => {
     const mockLeaderboard = [
-      { id: '1', name: 'Maya S.', avatar: '⚡', score: 94, level: 'Cyber Guardian', xp: 1420 },
-      { id: '2', name: 'Liam K.', avatar: '🛡️', score: 91, level: 'Digital Defender', xp: 1280 },
-      { id: '3', name: 'Zoe P.', avatar: '🔍', score: 88, level: 'Cyber Sleuth', xp: 1150 },
-      { id: '4', name: 'Ethan R.', avatar: '🦊', score: 84, level: 'Cyber Sleuth', xp: 980 },
-      { id: '5', name: 'Sofia T.', avatar: '🚀', score: 82, level: 'Digital Defender', xp: 890 },
+      { id: '1', name: 'Maya S.', avatar: '', score: 94, level: 'Cyber Guardian', xp: 1420 },
+      { id: '2', name: 'Liam K.', avatar: '', score: 91, level: 'Digital Defender', xp: 1280 },
+      { id: '3', name: 'Zoe P.', avatar: '', score: 88, level: 'Cyber Sleuth', xp: 1150 },
+      { id: '4', name: 'Ethan R.', avatar: '', score: 84, level: 'Cyber Sleuth', xp: 980 },
+      { id: '5', name: 'Sofia T.', avatar: '', score: 82, level: 'Digital Defender', xp: 890 },
     ];
     res.json({ leaderboard: mockLeaderboard });
   });
@@ -276,8 +276,8 @@ export function createApp() {
   // Multiplayer Game Engine Backends
   // ==========================================
 
-  // Multiplayer Room: Create
-  app.post('/api/rooms/create', (req, res) => {
+  // Multiplayer Room: Create (supports both /api/rooms/create and /api/room/create)
+  app.post(['/api/rooms/create', '/api/room/create'], (req, res) => {
     try {
       const { host } = req.body;
       if (!host || !host.id) {
@@ -290,10 +290,11 @@ export function createApp() {
     }
   });
 
-  // Multiplayer Room: Join
-  app.post('/api/rooms/join', (req, res) => {
+  // Multiplayer Room: Join (supports both /api/rooms/join and /api/room/join)
+  app.post(['/api/rooms/join', '/api/room/join'], (req, res) => {
     try {
-      const { code, guest } = req.body;
+      const code = req.body.code || req.body.roomCode;
+      const guest = req.body.guest || req.body.player;
       if (!code || !guest || !guest.id) {
         return res.status(400).json({ error: 'Game code and player info required' });
       }
@@ -305,7 +306,7 @@ export function createApp() {
   });
 
   // Multiplayer Room: Get state (sync polling fallback)
-  app.get('/api/rooms/:code', (req, res) => {
+  app.get(['/api/rooms/:code', '/api/room/:code'], (req, res) => {
     try {
       const { code } = req.params;
       const playerId = req.query.playerId as string | undefined;
@@ -317,7 +318,7 @@ export function createApp() {
   });
 
   // Multiplayer Room: Start game
-  app.post('/api/rooms/:code/start', (req, res) => {
+  app.post(['/api/rooms/:code/start', '/api/room/:code/start'], (req, res) => {
     try {
       const { code } = req.params;
       const { playerId } = req.body;
@@ -329,7 +330,7 @@ export function createApp() {
   });
 
   // Multiplayer Room: Submit answer
-  app.post('/api/rooms/:code/answer', (req, res) => {
+  app.post(['/api/rooms/:code/answer', '/api/room/:code/answer'], (req, res) => {
     try {
       const { code } = req.params;
       const { playerId, questionId, optionId } = req.body;
@@ -341,7 +342,7 @@ export function createApp() {
   });
 
   // Multiplayer Room: Restart game (Play Again)
-  app.post('/api/rooms/:code/restart', (req, res) => {
+  app.post(['/api/rooms/:code/restart', '/api/room/:code/restart'], (req, res) => {
     try {
       const { code } = req.params;
       const { playerId } = req.body;
@@ -353,14 +354,14 @@ export function createApp() {
   });
 
   // Multiplayer Room: SSE Real-time Events Stream
-  app.get('/api/rooms/:code/events', (req, res) => {
+  app.get(['/api/rooms/:code/events', '/api/room/:code/events'], (req, res) => {
     const { code } = req.params;
     const playerId = (req.query.playerId as string) || '';
     roomService.subscribe(code, playerId, res);
   });
 
   // Multiplayer Room: Heartbeat
-  app.post('/api/rooms/:code/heartbeat', (req, res) => {
+  app.post(['/api/rooms/:code/heartbeat', '/api/room/:code/heartbeat'], (req, res) => {
     const { code } = req.params;
     const { playerId } = req.body;
     const ok = roomService.heartbeat(code, playerId);
@@ -368,7 +369,7 @@ export function createApp() {
   });
 
   // Multiplayer Room: Leave
-  app.post('/api/rooms/:code/leave', (req, res) => {
+  app.post(['/api/rooms/:code/leave', '/api/room/:code/leave'], (req, res) => {
     const { code } = req.params;
     const { playerId } = req.body;
     roomService.leaveRoom(code, playerId);

@@ -138,25 +138,25 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
               <>
                 <Sparkles className="w-5 h-5 text-amber-500" />
                 <span className="text-sm sm:text-base font-black text-emerald-700">
-                  🎉 You picked correctly first! +100 ⭐
+                  You picked correctly first! +100 pts
                 </span>
               </>
             ) : isFriendWin ? (
               <>
                 <Sparkles className="w-5 h-5 text-amber-500" />
                 <span className="text-sm sm:text-base font-black text-[#243047]">
-                  🎉 {friendName} answered correctly first!
+                  {friendName} answered correctly first!
                 </span>
               </>
             ) : (
               <span className="text-sm sm:text-base font-black text-slate-700">
-                ⏰ Round complete!
+                Round complete!
               </span>
             )}
           </div>
 
           <p className="text-xs sm:text-sm text-slate-700 font-medium max-w-md mx-auto leading-relaxed">
-            💡 <strong className="text-[#243047]">Byte’s Trick Note:</strong> {result.whySafe}
+            <strong className="text-[#243047]">Byte’s Trick Note:</strong> {result.whySafe}
           </p>
 
           <div className="pt-1 flex items-center justify-center gap-1 text-[11px] font-bold text-slate-400">

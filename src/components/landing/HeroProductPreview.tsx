@@ -22,7 +22,7 @@ export const HeroProductPreview: React.FC<HeroProductPreviewProps> = ({
           <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
           <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
           <span className="text-xs font-bold text-slate-700 ml-2">
-            🎯 MINI-MISSION PREVIEW: The Sneaky School Email
+            MINI-MISSION PREVIEW: The Sneaky School Email
           </span>
         </div>
         <span className="text-[11px] font-black text-[#4F7CFF] bg-blue-50 border border-blue-200 px-3 py-1 rounded-full">
@@ -41,7 +41,7 @@ export const HeroProductPreview: React.FC<HeroProductPreviewProps> = ({
                 <span>Inbox Preview</span>
               </div>
               <span className="text-[11px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full">
-                ⚠️ Needs Review
+                Needs Review
               </span>
             </div>
 
@@ -77,7 +77,7 @@ export const HeroProductPreview: React.FC<HeroProductPreviewProps> = ({
                       : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                   }`}
                 >
-                  <div className="font-bold text-xs">⚠️ Click the link</div>
+                  <div className="font-bold text-xs">Click the link</div>
                   <div className="text-[11px] text-slate-600 mt-0.5">Quickly sign in</div>
                 </button>
 
@@ -89,7 +89,7 @@ export const HeroProductPreview: React.FC<HeroProductPreviewProps> = ({
                       : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                   }`}
                 >
-                  <div className="font-bold text-xs">🔍 Inspect address</div>
+                  <div className="font-bold text-xs">Inspect address</div>
                   <div className="text-[11px] text-slate-600 mt-0.5">Look at the domain</div>
                 </button>
 
@@ -101,7 +101,7 @@ export const HeroProductPreview: React.FC<HeroProductPreviewProps> = ({
                       : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300'
                   }`}
                 >
-                  <div className="font-bold text-xs">🚩 Report & use bookmark</div>
+                  <div className="font-bold text-xs">Report & use bookmark</div>
                   <div className="text-[11px] text-slate-600 mt-0.5">Safe direct login</div>
                 </button>
               </div>

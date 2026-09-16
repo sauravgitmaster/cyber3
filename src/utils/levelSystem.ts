@@ -17,8 +17,8 @@ export function getLearnerLevel(score: number): LevelInfo {
   if (safeScore >= 80) {
     return {
       levelTitle: 'Cyber Hero',
-      levelBadge: '🌟 Cyber Hero',
-      emoji: '🌟',
+      levelBadge: 'Cyber Hero',
+      emoji: '',
       minScore: 80,
       maxScore: 100,
     };
@@ -27,8 +27,8 @@ export function getLearnerLevel(score: number): LevelInfo {
   if (safeScore >= 60) {
     return {
       levelTitle: 'Cyber Scout',
-      levelBadge: '⚡ Cyber Scout',
-      emoji: '⚡',
+      levelBadge: 'Cyber Scout',
+      emoji: '',
       minScore: 60,
       maxScore: 79,
       nextLevelTitle: 'Cyber Hero',
@@ -39,8 +39,8 @@ export function getLearnerLevel(score: number): LevelInfo {
   if (safeScore >= 40) {
     return {
       levelTitle: 'Defender',
-      levelBadge: '🛡️ Defender',
-      emoji: '🛡️',
+      levelBadge: 'Defender',
+      emoji: '',
       minScore: 40,
       maxScore: 59,
       nextLevelTitle: 'Cyber Scout',
@@ -51,8 +51,8 @@ export function getLearnerLevel(score: number): LevelInfo {
   if (safeScore >= 20) {
     return {
       levelTitle: 'Explorer',
-      levelBadge: '🔎 Explorer',
-      emoji: '🔎',
+      levelBadge: 'Explorer',
+      emoji: '',
       minScore: 20,
       maxScore: 39,
       nextLevelTitle: 'Defender',
@@ -62,8 +62,8 @@ export function getLearnerLevel(score: number): LevelInfo {
 
   return {
     levelTitle: 'Rookie',
-    levelBadge: '🌱 Rookie',
-    emoji: '🌱',
+    levelBadge: 'Rookie',
+    emoji: '',
     minScore: 0,
     maxScore: 19,
     nextLevelTitle: 'Explorer',

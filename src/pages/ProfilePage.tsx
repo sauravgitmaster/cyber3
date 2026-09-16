@@ -50,31 +50,34 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-4xl mx-auto text-[#243047] font-sans">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-4xl mx-auto text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* Top Header */}
-      <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
-          <div className="flex items-center gap-1.5 mb-1 text-[11px] font-black text-[#4F7CFF] uppercase tracking-wider">
-            <User className="w-3.5 h-3.5" />
-            <span>MY CYBER PASSPORT</span>
+          <div className="flex items-center gap-1.5 mb-1 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+            <User className="w-3.5 h-3.5 text-zinc-400" />
+            <span>My Cyber Passport</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-[#243047]">
+          <h1 className="text-2xl sm:text-3xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
             My Profile
           </h1>
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+            View your rank, stats, avatar, and completed achievements.
+          </p>
         </div>
 
-        <span className="px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-xs font-black text-[#4F7CFF]">
+        <span className="px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-900 dark:text-zinc-100 self-start sm:self-center">
           {levelInfo.levelBadge}
         </span>
       </div>
 
       {/* Main Profile Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-6">
+      <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-6">
           {/* Avatar Uploader */}
           <div className="shrink-0 flex justify-center sm:justify-start">
             <AvatarUploader
-              currentAvatar={user.avatar || '🤖'}
+              currentAvatar={user.avatar || ''}
               onAvatarChange={handleAvatarChange}
               size="lg"
             />
@@ -89,22 +92,22 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
                     type="text"
                     value={nameInput}
                     onChange={(e) => setNameInput(e.target.value)}
-                    className="px-3 py-1.5 rounded-xl border border-[#4F7CFF] font-black text-xl text-[#243047] bg-white focus:outline-none"
+                    className="px-3 py-1.5 rounded-xl border border-zinc-400 dark:border-zinc-600 font-semibold text-xl text-zinc-900 dark:text-zinc-100 bg-zinc-50 dark:bg-zinc-900 focus:outline-none"
                     autoFocus
                   />
                   <button
                     onClick={handleSaveName}
-                    className="p-2 rounded-xl bg-[#4F7CFF] text-white hover:bg-[#3D6CE6]"
+                    className="p-2 rounded-xl bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 cursor-pointer shadow-2xs"
                   >
                     <Save className="w-4 h-4" />
                   </button>
                 </div>
               ) : (
                 <div className="flex items-center gap-2 justify-center sm:justify-start">
-                  <h2 className="text-2xl font-black text-[#243047]">{user.name}</h2>
+                  <h2 className="text-2xl font-semibold -tracking-[0.02em] text-zinc-900 dark:text-zinc-100">{user.name}</h2>
                   <button
                     onClick={() => setIsEditingName(true)}
-                    className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                    className="p-1.5 rounded-lg text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-900 cursor-pointer"
                     title="Edit Name"
                   >
                     <Edit2 className="w-3.5 h-3.5" />
@@ -112,48 +115,48 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
                 </div>
               )}
 
-              <p className="text-xs font-semibold text-slate-500">
+              <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
                 {user.email || 'cyberlearner@cybermentor.app'}
               </p>
             </div>
 
             {/* Badges in level */}
             <div className="flex items-center gap-2 flex-wrap justify-center sm:justify-start">
-              <span className="px-3 py-1 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 text-white text-xs font-black">
-                {levelInfo.emoji} {levelInfo.levelTitle}
+              <span className="px-3 py-1 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 text-xs font-mono">
+                {levelInfo.levelTitle}
               </span>
-              <span className="px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-bold">
-                {user.streakDays} Day Streak 🔥
+              <span className="px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono">
+                {user.streakDays} Day Streak
               </span>
             </div>
           </div>
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-slate-100">
-          <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-100 text-center space-y-1">
-            <span className="text-[11px] font-black text-slate-500 uppercase block">
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-850">
+          <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center space-y-1">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">
               Smart Score
             </span>
-            <div className="text-2xl font-black text-[#4F7CFF]">
-              {user.digitalTrustScore} ⭐
+            <div className="text-2xl font-semibold font-mono text-zinc-900 dark:text-zinc-100">
+              {user.digitalTrustScore} <span className="text-xs font-normal text-zinc-400">pts</span>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-100 text-center space-y-1">
-            <span className="text-[11px] font-black text-slate-500 uppercase block">
+          <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center space-y-1">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">
               Total XP
             </span>
-            <div className="text-2xl font-black text-[#8B6CFF]">
+            <div className="text-2xl font-semibold font-mono text-zinc-900 dark:text-zinc-100">
               {user.currentXP}
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-amber-50/70 border border-amber-100 text-center space-y-1">
-            <span className="text-[11px] font-black text-slate-500 uppercase block">
+          <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center space-y-1">
+            <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">
               Badges
             </span>
-            <div className="text-2xl font-black text-amber-600">
+            <div className="text-2xl font-semibold font-mono text-zinc-900 dark:text-zinc-100">
               {unlockedBadges.length}
             </div>
           </div>
@@ -161,12 +164,12 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
       </div>
 
       {/* Badges Earned */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-slate-200 shadow-sm space-y-4">
+      <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
         <div className="flex items-center justify-between">
-          <h3 className="text-base font-black text-[#243047]">My Trophies</h3>
+          <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">My Trophies</h3>
           <button
             onClick={() => onNavigate('badges')}
-            className="text-xs font-black text-[#4F7CFF] hover:underline"
+            className="text-xs font-mono text-zinc-900 dark:text-zinc-100 hover:underline cursor-pointer"
           >
             See All Badges →
           </button>
@@ -176,14 +179,14 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
           {unlockedBadges.slice(0, 4).map((b) => (
             <div
               key={b.id}
-              className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 flex items-center gap-3"
+              className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center shrink-0 shadow-2xs">
-                <Award className="w-5 h-5" />
+              <div className="w-9 h-9 rounded-xl bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 flex items-center justify-center shrink-0 shadow-2xs">
+                <Award className="w-4 h-4" />
               </div>
               <div className="truncate">
-                <div className="text-xs font-black text-[#243047] truncate">{b.title}</div>
-                <div className="text-[10px] font-bold text-slate-500">Unlocked</div>
+                <div className="text-xs font-semibold text-zinc-900 dark:text-zinc-100 truncate">{b.title}</div>
+                <div className="text-[10px] font-mono text-zinc-400">Unlocked</div>
               </div>
             </div>
           ))}

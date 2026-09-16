@@ -61,7 +61,7 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
           <Trophy className="w-3.5 h-3.5" />
           <span>GAME COMPLETE!</span>
         </div>
-        <h2 className="text-3xl font-black text-[#243047]">Great Game! 🎉</h2>
+        <h2 className="text-3xl font-black text-[#243047]">Great Game!</h2>
         <p className="text-xs text-slate-500 font-medium">
           You both exercised your digital reflexes together.
         </p>
@@ -71,11 +71,11 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
       <div className="grid grid-cols-2 gap-3">
         {/* You */}
         <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 text-center space-y-1">
-          <span className="text-3xl block">{me?.avatar || '🤖'}</span>
+          <span className="text-3xl block">{me?.avatar || ''}</span>
           <span className="text-xs font-black text-[#243047] block truncate">
             {me?.name || 'You'} (You)
           </span>
-          <div className="text-2xl font-black text-[#4F7CFF]">{myScore} ⭐</div>
+          <div className="text-2xl font-black text-[#4F7CFF]">{myScore} pts</div>
           <span className="text-[10px] font-bold text-slate-500">
             {me?.correctCount || 0} of {room.totalRounds} correct
           </span>
@@ -83,11 +83,11 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
 
         {/* Friend */}
         <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 text-center space-y-1">
-          <span className="text-3xl block">{friend?.avatar || '🦊'}</span>
+          <span className="text-3xl block">{friend?.avatar || ''}</span>
           <span className="text-xs font-black text-[#243047] block truncate">
             {friend?.name || 'Friend'}
           </span>
-          <div className="text-2xl font-black text-amber-600">{friendScore} ⭐</div>
+          <div className="text-2xl font-black text-amber-600">{friendScore} pts</div>
           <span className="text-[10px] font-bold text-slate-500">
             {friend?.correctCount || 0} of {room.totalRounds} correct
           </span>
@@ -118,7 +118,7 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
 
       {/* Byte's Encouraging Takeaway */}
       <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 text-left flex items-start gap-3">
-        <span className="text-2xl shrink-0">🤖</span>
+        <ByteMascot mood="happy" size="xs" animate={false} />
         <div className="space-y-0.5">
           <span className="text-xs font-black text-[#243047] block">Byte’s Takeaway</span>
           <p className="text-xs text-slate-600 font-medium leading-relaxed">

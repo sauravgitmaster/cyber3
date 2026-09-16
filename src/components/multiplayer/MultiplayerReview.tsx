@@ -30,7 +30,7 @@ export const MultiplayerReview: React.FC<MultiplayerReviewProps> = ({
       </div>
 
       <div className="text-center space-y-1">
-        <h2 className="text-2xl font-black text-[#243047]">Review Your Answers 🔍</h2>
+        <h2 className="text-2xl font-black text-[#243047]">Review Your Answers</h2>
         <p className="text-xs text-slate-500 font-medium">
           Here is why each safe choice kept you and your friend secure!
         </p>
@@ -63,7 +63,7 @@ export const MultiplayerReview: React.FC<MultiplayerReviewProps> = ({
             </div>
 
             <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200 text-xs flex items-start gap-2.5">
-              <span className="text-lg shrink-0">💡</span>
+              <HelpCircle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
               <div>
                 <span className="font-black text-[#243047] block">Byte’s Lesson:</span>
                 <span className="text-slate-600 font-medium leading-relaxed">

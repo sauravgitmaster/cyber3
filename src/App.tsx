@@ -74,7 +74,7 @@ export default function App() {
   const isStandalonePage = activePage === 'landing' || activePage === 'auth';
 
   return (
-    <div className="min-h-screen bg-[#F7F9FC] dark:bg-slate-950 text-[#243047] dark:text-slate-100 flex flex-col font-sans selection:bg-blue-200 dark:selection:bg-blue-900 transition-colors duration-200">
+    <div className="min-h-screen bg-[#FDFDFD] dark:bg-black text-zinc-900 dark:text-zinc-100 flex flex-col font-sans selection:bg-zinc-200 dark:selection:bg-zinc-800 transition-colors duration-200">
       {isStandalonePage ? (
         // Standalone Layout (Landing or Auth)
         <main className="flex-1 w-full">
@@ -100,6 +100,7 @@ export default function App() {
             onNavigate={handleNavigate}
             onOpenMentor={() => setIsMentorDrawerOpen(true)}
             unreadNotificationsCount={2}
+            onLogout={() => handleNavigate('landing')}
           />
 
           {/* Right Main Stage */}
@@ -234,6 +235,10 @@ export default function App() {
             onOpenMentor={() => {
               setIsMobileNavOpen(false);
               setIsMentorDrawerOpen(true);
+            }}
+            onLogout={() => {
+              setIsMobileNavOpen(false);
+              handleNavigate('landing');
             }}
           />
         </div>

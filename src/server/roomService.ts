@@ -233,7 +233,7 @@ export const roomService = {
       host: {
         id: hostData.id,
         name: hostData.name || 'Player 1',
-        avatar: hostData.avatar || '🤖',
+        avatar: hostData.avatar || '',
         score: 0,
         correctCount: 0,
         fastestResponseMs: null,
@@ -288,7 +288,7 @@ export const roomService = {
     room.guest = {
       id: effectiveGuestId,
       name: guestData.name || 'Friend',
-      avatar: guestData.avatar || '🦊',
+      avatar: guestData.avatar || '',
       score: room.guest ? room.guest.score : 0,
       correctCount: room.guest ? room.guest.correctCount : 0,
       fastestResponseMs: room.guest ? room.guest.fastestResponseMs : null,
@@ -337,7 +337,7 @@ export const roomService = {
       room.guest = {
         id: `guest_${Date.now().toString(36)}`,
         name: 'Friend',
-        avatar: '🦊',
+        avatar: '',
         score: 0,
         correctCount: 0,
         fastestResponseMs: null,

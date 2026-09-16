@@ -134,7 +134,7 @@ export const JoinGame: React.FC<JoinGameProps> = ({
 
             {code && (
               <div className="text-[11px] font-bold text-emerald-600">
-                ✨ Ready to join with code: {code}
+                Ready to join with code: {code}
               </div>
             )}
           </div>
@@ -172,12 +172,12 @@ export const JoinGame: React.FC<JoinGameProps> = ({
         /* Joined and Waiting for Host to Start */
         <div className="space-y-5">
           <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-bold">
-            🎉 Connected to {room?.host.name}’s game!
+            Connected to {room?.host.name}’s game!
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div className="p-3 rounded-xl bg-white border border-slate-200 flex items-center gap-2.5">
-              <span className="text-2xl">{room?.host.avatar || '🤖'}</span>
+              <span className="text-2xl">{room?.host.avatar || ''}</span>
               <div className="text-left overflow-hidden">
                 <span className="text-xs font-black text-[#243047] truncate block">
                   {room?.host.name}
@@ -187,7 +187,7 @@ export const JoinGame: React.FC<JoinGameProps> = ({
             </div>
 
             <div className="p-3 rounded-xl bg-white border border-emerald-300 shadow-2xs flex items-center gap-2.5">
-              <span className="text-2xl">{room?.guest?.avatar || '🦊'}</span>
+              <span className="text-2xl">{room?.guest?.avatar || ''}</span>
               <div className="text-left overflow-hidden">
                 <span className="text-xs font-black text-[#243047] truncate block">
                   {room?.guest?.name || 'You'}

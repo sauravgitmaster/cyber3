@@ -17,11 +17,11 @@ export const TrustScoreGauge: React.FC<TrustScoreGaugeProps> = ({
   showLabel = true,
   showWhyDetail = false,
   categoryBreakdown = [
-    { name: 'Passwords', score: 86, icon: '🔐' },
-    { name: 'Scam Spotting', score: 74, icon: '🎣' },
-    { name: 'Privacy', score: 68, icon: '👀' },
-    { name: 'Smart Sharing', score: 78, icon: '📱' },
-    { name: 'Safe Browsing', score: 82, icon: '🌐' },
+    { name: 'Passwords', score: 86 },
+    { name: 'Scam Spotting', score: 74 },
+    { name: 'Privacy', score: 68 },
+    { name: 'Smart Sharing', score: 78 },
+    { name: 'Safe Browsing', score: 82 },
   ],
 }) => {
   const [isWhyOpen, setIsWhyOpen] = useState(false);
@@ -36,19 +36,19 @@ export const TrustScoreGauge: React.FC<TrustScoreGaugeProps> = ({
     encouragement = 'Take a starter mission to earn your first Cyber Smart stars!';
     barColor = 'bg-slate-300';
   } else if (score >= 85) {
-    statusBadge = { label: 'Cyber Hero 🌟', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
+    statusBadge = { label: 'Cyber Hero', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' };
     encouragement = 'Incredible job! You have champion cyber instincts.';
     barColor = 'bg-[#40C98A]';
   } else if (score >= 70) {
-    statusBadge = { label: 'Doing Great ⭐', color: 'bg-blue-100 text-blue-700 border-blue-200' };
+    statusBadge = { label: 'Doing Great', color: 'bg-blue-100 text-blue-700 border-blue-200' };
     encouragement = 'You’re getting really good at spotting online tricks!';
     barColor = 'bg-[#4F7CFF]';
   } else if (score >= 50) {
-    statusBadge = { label: 'Getting Better 🌱', color: 'bg-purple-100 text-purple-700 border-purple-200' };
+    statusBadge = { label: 'Getting Better', color: 'bg-purple-100 text-purple-700 border-purple-200' };
     encouragement = 'Keep exploring missions to build your cyber superpower!';
     barColor = 'bg-[#8B6CFF]';
   } else {
-    statusBadge = { label: 'Just Starting 🚀', color: 'bg-amber-100 text-amber-700 border-amber-200' };
+    statusBadge = { label: 'Just Starting', color: 'bg-amber-100 text-amber-700 border-amber-200' };
     encouragement = 'Every mission you try helps you become safer online!';
     barColor = 'bg-[#FFC857]';
   }
@@ -60,7 +60,7 @@ export const TrustScoreGauge: React.FC<TrustScoreGaugeProps> = ({
         <div className="flex items-center gap-1">
           <Shield className="w-3.5 h-3.5 text-[#4F7CFF]" />
           <span className="text-xs font-bold text-[#243047]">{score}</span>
-          <span className="text-[11px] text-amber-500">⭐</span>
+          <Star className="w-3 h-3 text-amber-500" />
         </div>
         <div className="w-16 h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200/80">
           <div
@@ -106,7 +106,7 @@ export const TrustScoreGauge: React.FC<TrustScoreGaugeProps> = ({
           <span className="text-3xl sm:text-4xl font-black tracking-tight text-[#243047]">
             {score}
           </span>
-          <span className="text-lg font-bold text-amber-500">⭐</span>
+          <Star className="w-4 h-4 text-amber-500 self-center" />
           <span className="text-xs font-medium text-slate-600">/ 100</span>
 
           {delta !== undefined && delta !== 0 && (
@@ -153,7 +153,7 @@ export const TrustScoreGauge: React.FC<TrustScoreGaugeProps> = ({
             {categoryBreakdown.map((cat, idx) => (
               <div key={idx} className="flex items-center justify-between text-xs">
                 <span className="text-slate-600 flex items-center gap-1.5 font-medium">
-                  <span>{cat.icon || '🛡️'}</span>
+                  <Shield className="w-3.5 h-3.5 text-zinc-400" />
                   <span>{cat.name}</span>
                 </span>
                 <div className="flex items-center gap-2">

@@ -34,7 +34,7 @@ export const MultiplayerScoreBar: React.FC<MultiplayerScoreBarProps> = ({
       <div className="p-3.5 sm:p-4 bg-white rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between gap-3">
         {/* You */}
         <div className="flex items-center gap-2 min-w-0">
-          <span className="text-2xl shrink-0">{me?.avatar || '🤖'}</span>
+          <span className="text-2xl shrink-0">{me?.avatar || ''}</span>
           <div className="truncate">
             <div className="flex items-center gap-1.5">
               <span className="text-xs font-black text-[#243047] block truncate">
@@ -43,7 +43,7 @@ export const MultiplayerScoreBar: React.FC<MultiplayerScoreBarProps> = ({
               {room.status === 'in_round' && (
                 me && room.answeredPlayerIds?.includes(me.id) ? (
                   <span className="text-[10px] font-black px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-700">
-                    Picked ✓
+                    Picked
                   </span>
                 ) : (
                   <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-500">
@@ -52,7 +52,7 @@ export const MultiplayerScoreBar: React.FC<MultiplayerScoreBarProps> = ({
                 )
               )}
             </div>
-            <span className="text-xs font-black text-[#4F7CFF]">{me?.score || 0} ⭐</span>
+            <span className="text-xs font-black text-[#4F7CFF]">{me?.score || 0} pts</span>
           </div>
         </div>
 
@@ -95,7 +95,7 @@ export const MultiplayerScoreBar: React.FC<MultiplayerScoreBarProps> = ({
               {room.status === 'in_round' && (
                 friend && room.answeredPlayerIds?.includes(friend.id) ? (
                   <span className="text-[10px] font-black px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-700">
-                    Picked ✓
+                    Picked
                   </span>
                 ) : (
                   <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-slate-100 text-slate-500">
@@ -107,9 +107,9 @@ export const MultiplayerScoreBar: React.FC<MultiplayerScoreBarProps> = ({
                 {friend?.name || 'Friend'}
               </span>
             </div>
-            <span className="text-xs font-black text-amber-500">{friend?.score || 0} ⭐</span>
+            <span className="text-xs font-black text-amber-500">{friend?.score || 0} pts</span>
           </div>
-          <span className="text-2xl shrink-0">{friend?.avatar || '🦊'}</span>
+          <span className="text-2xl shrink-0">{friend?.avatar || ''}</span>
         </div>
       </div>
     </div>

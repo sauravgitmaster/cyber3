@@ -94,26 +94,26 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
   const scaffold = getScaffoldBadge(currentScenario.scaffoldLevel);
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto text-[#243047] font-sans">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* Top Header - No countdown timer, clean and welcoming */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-4">
         <div>
           <div className="flex items-center gap-2 flex-wrap">
-            <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-[#4F7CFF] text-[11px] font-black uppercase tracking-wider">
-              🎯 YOUR MISSION
+            <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-mono uppercase tracking-wider">
+              Your Mission
             </span>
-            <span className={`px-2.5 py-0.5 rounded-full border text-[11px] font-extrabold ${scaffold.color}`}>
+            <span className="px-2.5 py-0.5 rounded-full border border-zinc-200 dark:border-zinc-800 text-[10px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
               {scaffold.label}
             </span>
-            <span className="text-xs font-bold text-slate-500">
-              ⏱️ ~{currentScenario.estimatedMinutes || 3} min • Self-paced
+            <span className="font-mono text-xs text-zinc-400 dark:text-zinc-500">
+              ~{currentScenario.estimatedMinutes || 3} min • Self-paced
             </span>
           </div>
 
-          <h1 className="text-xl sm:text-2xl font-black text-[#243047] mt-1.5">
+          <h1 className="text-xl sm:text-2xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100 mt-2">
             {currentScenario.title}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
             {currentScenario.context}
           </p>
         </div>
@@ -122,10 +122,10 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
         {onRequestNextMission && (
           <button
             onClick={onRequestNextMission}
-            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition-colors shrink-0 flex items-center gap-1.5 self-start sm:self-center"
+            className="px-3.5 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300 text-xs font-mono transition-colors shrink-0 flex items-center gap-1.5 self-start sm:self-center cursor-pointer"
             title="Pick another challenge adapted to your level"
           >
-            <Shuffle className="w-3.5 h-3.5 text-slate-600" />
+            <Shuffle className="w-3.5 h-3.5 text-zinc-500" />
             <span>Try Another Mission</span>
           </button>
         )}
@@ -135,23 +135,23 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT COLUMN: Simulated Artifact Window (7 cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="bg-white rounded-3xl border-2 border-slate-200/90 shadow-sm overflow-hidden">
+          <div className="bg-white dark:bg-[#080808] rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xs overflow-hidden">
             {/* Artifact Window Header */}
-            <div className="px-5 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+            <div className="px-5 py-3 bg-zinc-50 dark:bg-zinc-900/60 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="w-3 h-3 rounded-full bg-rose-400 inline-block" />
-                <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
-                <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
-                <span className="text-xs font-bold text-slate-700 ml-2">
-                  {currentScenario.environmentType === 'email' && '📬 Webmail Inbox'}
-                  {currentScenario.environmentType === 'sms' && '💬 Text Message (SMS)'}
-                  {currentScenario.environmentType === 'social_media' && '💬 Direct Chat Message'}
-                  {currentScenario.environmentType === 'browser' && '🌐 Webpage Prompt'}
-                  {currentScenario.environmentType === 'system_alert' && '⚙️ Device Security Alert'}
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700 inline-block" />
+                <span className="w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700 inline-block" />
+                <span className="text-xs font-mono font-medium text-zinc-700 dark:text-zinc-300 ml-2">
+                  {currentScenario.environmentType === 'email' && 'Webmail Inbox'}
+                  {currentScenario.environmentType === 'sms' && 'Text Message (SMS)'}
+                  {currentScenario.environmentType === 'social_media' && 'Direct Chat Message'}
+                  {currentScenario.environmentType === 'browser' && 'Webpage Prompt'}
+                  {currentScenario.environmentType === 'system_alert' && 'Device Security Alert'}
                 </span>
               </div>
 
-              <span className="text-[11px] font-bold text-slate-500">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
                 {currentScenario.category}
               </span>
             </div>
@@ -160,29 +160,29 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
             <div className="p-6 space-y-4">
               {/* Sender info card if present */}
               {(currentScenario.simulatedArtifact.sender || currentScenario.simulatedArtifact.senderAddress) && (
-                <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-1.5">
+                <div className="p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs space-y-1.5">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="text-slate-500 font-bold">From:</span>
-                      <span className="font-extrabold text-[#243047]">
+                      <span className="text-zinc-400 dark:text-zinc-500 font-mono text-[11px]">From:</span>
+                      <span className="font-semibold text-zinc-900 dark:text-zinc-100">
                         {currentScenario.simulatedArtifact.sender || 'Unknown Sender'}
                       </span>
                     </div>
-                    <span className="text-slate-500 text-[11px]">
+                    <span className="text-zinc-400 dark:text-zinc-500 text-[11px] font-mono">
                       {currentScenario.simulatedArtifact.timestamp || 'Just now'}
                     </span>
                   </div>
 
                   {currentScenario.simulatedArtifact.senderAddress && (
-                    <div className="text-[11px] text-slate-500 font-mono">
+                    <div className="text-[11px] text-zinc-500 dark:text-zinc-400 font-mono">
                       &lt;{currentScenario.simulatedArtifact.senderAddress}&gt;
                     </div>
                   )}
 
                   {currentScenario.simulatedArtifact.subject && (
-                    <div className="pt-2 border-t border-slate-200/60">
-                      <span className="text-slate-500 font-bold mr-2">Subject:</span>
-                      <span className="font-bold text-slate-800">
+                    <div className="pt-2 border-t border-zinc-200 dark:border-zinc-800">
+                      <span className="text-zinc-400 dark:text-zinc-500 font-mono text-[11px] mr-2">Subject:</span>
+                      <span className="font-medium text-zinc-800 dark:text-zinc-200">
                         {currentScenario.simulatedArtifact.subject}
                       </span>
                     </div>
@@ -191,25 +191,25 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
               )}
 
               {/* Message / Alert Content */}
-              <div className="p-4 rounded-2xl bg-slate-50/50 border border-slate-200 text-sm leading-relaxed text-slate-800 whitespace-pre-line font-medium">
+              <div className="p-4 rounded-2xl bg-zinc-50/60 dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800 text-sm leading-relaxed text-zinc-800 dark:text-zinc-200 whitespace-pre-line font-normal">
                 {currentScenario.simulatedArtifact.body}
               </div>
 
               {/* Attached file warning if present */}
               {currentScenario.simulatedArtifact.attachedFile && (
-                <div className="p-3.5 rounded-2xl bg-rose-50 border border-rose-200 flex items-center justify-between gap-3">
+                <div className="p-3.5 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-2.5">
-                    <FileCode className="w-5 h-5 text-rose-600" />
+                    <FileCode className="w-5 h-5 text-zinc-600 dark:text-zinc-400" />
                     <div>
-                      <span className="text-[10px] font-black uppercase text-rose-700 tracking-wide block">
-                        ATTACHED DOWNLOAD FILE
+                      <span className="text-[10px] font-mono uppercase text-zinc-500 tracking-wide block">
+                        Attached Download File
                       </span>
-                      <code className="text-xs font-mono font-bold text-rose-900">
+                      <code className="text-xs font-mono font-medium text-zinc-900 dark:text-zinc-100">
                         {currentScenario.simulatedArtifact.attachedFile}
                       </code>
                     </div>
                   </div>
-                  <span className="text-[10px] font-bold px-2 py-1 bg-rose-200/70 text-rose-800 rounded-lg shrink-0">
+                  <span className="text-[10px] font-mono px-2 py-1 bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-lg shrink-0">
                     Inspect extension
                   </span>
                 </div>
@@ -217,12 +217,12 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
 
               {/* Embedded Link in message if present */}
               {currentScenario.simulatedArtifact.targetUrl && (
-                <div className="p-3.5 rounded-2xl bg-amber-50/70 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+                <div className="p-3.5 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
                   <div className="min-w-0">
-                    <span className="text-[10px] font-black uppercase text-amber-800 tracking-wide block">
-                      LINK IN MESSAGE
+                    <span className="text-[10px] font-mono uppercase text-zinc-500 tracking-wide block">
+                      Link in Message
                     </span>
-                    <code className="text-xs font-mono font-bold text-amber-900 break-all">
+                    <code className="text-xs font-mono font-medium text-zinc-900 dark:text-zinc-100 break-all">
                       {currentScenario.simulatedArtifact.targetUrl}
                     </code>
                   </div>
@@ -232,40 +232,40 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
           </div>
 
           {/* Progressive Clues Inspector Tool (Hidden by default, opened on demand) */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-4 shadow-2xs space-y-3">
+          <div className="bg-white dark:bg-[#080808] rounded-3xl border border-zinc-200 dark:border-zinc-800 p-4 shadow-2xs space-y-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="text-lg">🕵️</span>
-                <span className="text-xs font-black text-slate-700 uppercase tracking-wider">
-                  INVESTIGATIVE CLUES
+                <Search className="w-4 h-4 text-zinc-500" />
+                <span className="text-xs font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+                  Investigative Clues
                 </span>
               </div>
               <button
                 onClick={() => setShowClues(!showClues)}
-                className="text-xs font-bold text-[#4F7CFF] hover:text-[#3D6CE6] flex items-center gap-1"
+                className="text-xs font-mono text-zinc-900 dark:text-zinc-100 hover:underline flex items-center gap-1 cursor-pointer"
               >
-                <span>{showClues ? 'Hide Clues' : '🔍 Inspect Details'}</span>
+                <span>{showClues ? 'Hide Clues' : 'Inspect Details'}</span>
               </button>
             </div>
 
             {showClues && (
-              <div className="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 text-xs text-slate-700 space-y-2 animate-in fade-in duration-200">
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-xs text-zinc-700 dark:text-zinc-300 space-y-2 animate-in fade-in duration-200">
                 {currentScenario.toolReveals?.checkSender && (
                   <div>
-                    <strong className="text-blue-900 font-bold block mb-0.5">Sender Analysis:</strong>
-                    <p className="text-slate-700 leading-relaxed">{currentScenario.toolReveals.checkSender}</p>
+                    <strong className="text-zinc-900 dark:text-zinc-100 font-mono text-[11px] block mb-0.5">Sender Analysis:</strong>
+                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed font-sans">{currentScenario.toolReveals.checkSender}</p>
                   </div>
                 )}
                 {currentScenario.toolReveals?.checkLink && (
-                  <div className="pt-1.5 border-t border-blue-200/60">
-                    <strong className="text-blue-900 font-bold block mb-0.5">Link / Code Analysis:</strong>
-                    <p className="text-slate-700 leading-relaxed">{currentScenario.toolReveals.checkLink}</p>
+                  <div className="pt-1.5 border-t border-zinc-200 dark:border-zinc-800">
+                    <strong className="text-zinc-900 dark:text-zinc-100 font-mono text-[11px] block mb-0.5">Link / Code Analysis:</strong>
+                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed font-sans">{currentScenario.toolReveals.checkLink}</p>
                   </div>
                 )}
                 {currentScenario.toolReveals?.clue && (
-                  <div className="pt-1.5 border-t border-blue-200/60">
-                    <strong className="text-blue-900 font-bold block mb-0.5">Cyber Detective Hint:</strong>
-                    <p className="text-slate-700 leading-relaxed">{currentScenario.toolReveals.clue}</p>
+                  <div className="pt-1.5 border-t border-zinc-200 dark:border-zinc-800">
+                    <strong className="text-zinc-900 dark:text-zinc-100 font-mono text-[11px] block mb-0.5">Cyber Detective Hint:</strong>
+                    <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed font-sans">{currentScenario.toolReveals.clue}</p>
                   </div>
                 )}
               </div>
@@ -275,20 +275,20 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
 
         {/* RIGHT COLUMN: "What would you do?" Decision Cards (5 cols) */}
         <div className="lg:col-span-5 space-y-4">
-          <div className="bg-white rounded-3xl border-2 border-blue-200/80 p-6 shadow-sm space-y-5">
+          <div className="bg-white dark:bg-[#080808] rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-xs space-y-5">
             <div>
               <div className="flex items-center justify-between">
-                <span className="px-2.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[11px] font-black uppercase tracking-wider">
-                  YOUR DECISION
+                <span className="px-2.5 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-700 dark:text-zinc-300 text-[10px] font-mono uppercase tracking-wider border border-zinc-200 dark:border-zinc-800">
+                  Your Decision
                 </span>
-                <span className="text-xs font-bold text-slate-500">
+                <span className="font-mono text-xs text-zinc-400">
                   Select 1 action
                 </span>
               </div>
-              <h2 className="text-lg sm:text-xl font-black text-[#243047] mt-1.5">
+              <h2 className="text-lg sm:text-xl font-semibold -tracking-[0.02em] text-zinc-900 dark:text-zinc-100 mt-2">
                 What would you do?
               </h2>
-              <p className="text-xs text-slate-600 mt-1">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">
                 {currentScenario.prompt}
               </p>
             </div>
@@ -297,40 +297,42 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
             <div className="space-y-2.5">
               {currentScenario.options.map((opt) => {
                 const isSelected = selectedOptionId === opt.id;
-                const { icon: Icon, color } = getOptionIcon(opt);
+                const { icon: Icon } = getOptionIcon(opt);
 
                 return (
                   <button
                     key={opt.id}
                     onClick={() => setSelectedOptionId(opt.id)}
-                    className={`w-full text-left p-4 rounded-2xl border-2 transition-all flex items-start gap-3.5 group ${
+                    className={`w-full text-left p-4 rounded-2xl border transition-all flex items-start gap-3.5 group cursor-pointer ${
                       isSelected
-                        ? 'bg-blue-50/80 border-[#4F7CFF] shadow-xs scale-[1.01]'
-                        : 'bg-white border-slate-200 hover:border-blue-300 hover:bg-slate-50/60'
+                        ? 'bg-zinc-100 dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 shadow-2xs'
+                        : 'bg-white dark:bg-zinc-950 border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600'
                     }`}
                   >
                     <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                        isSelected ? 'bg-[#4F7CFF] text-white' : color
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
+                        isSelected
+                          ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950'
+                          : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <span className="text-xs sm:text-sm font-bold text-[#243047] block leading-snug">
+                      <span className="text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 block leading-snug">
                         {opt.text}
                       </span>
                     </div>
 
                     <div
-                      className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mt-1 ${
+                      className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-1 ${
                         isSelected
-                          ? 'border-[#4F7CFF] bg-[#4F7CFF]'
-                          : 'border-slate-300'
+                          ? 'border-zinc-900 dark:border-zinc-100 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-950'
+                          : 'border-zinc-300 dark:border-zinc-700'
                       }`}
                     >
-                      {isSelected && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
+                      {isSelected && <CheckCircle2 className="w-3 h-3 text-white dark:text-zinc-950" />}
                     </div>
                   </button>
                 );
@@ -338,19 +340,19 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
             </div>
 
             {/* Ask Byte For A Hint Toggle Button */}
-            <div className="pt-2 border-t border-slate-100">
+            <div className="pt-2 border-t border-zinc-100 dark:border-zinc-850">
               <button
                 onClick={() => setShowHint(!showHint)}
-                className="w-full py-2.5 px-4 rounded-2xl bg-amber-50 hover:bg-amber-100/80 border border-amber-200 text-xs font-bold text-amber-800 transition-colors flex items-center justify-center gap-2"
+                className="w-full py-2.5 px-4 rounded-full bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
-                <ByteMascot mood="thinking" size="xs" />
-                <span>{showHint ? 'Hide Byte’s Hint' : '💡 Need a hint? Ask Byte'}</span>
+                <ByteMascot mood="thinking" size="xs" animate={false} />
+                <span>{showHint ? "Hide Byte's Hint" : "Need a hint? Ask Byte"}</span>
               </button>
 
               {showHint && (
-                <div className="mt-3 p-3.5 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200 text-xs text-amber-900 space-y-1 animate-in fade-in duration-150">
-                  <span className="font-black block">💡 Byte Whispers:</span>
-                  <p className="leading-relaxed text-[11px]">
+                <div className="mt-3 p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-xs space-y-1 animate-in fade-in duration-150">
+                  <span className="font-mono text-[10px] uppercase text-zinc-500 block">Byte Whispers</span>
+                  <p className="leading-relaxed text-zinc-700 dark:text-zinc-300 text-xs">
                     {currentScenario.hint ||
                       'Take a close look at who sent the message and what they want you to click or give away. The safest choice is always to check the official school portal directly!'}
                   </p>
@@ -362,10 +364,10 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
             <button
               onClick={handleSubmit}
               disabled={!selectedOptionId}
-              className="w-full py-3.5 px-6 rounded-2xl bg-[#4F7CFF] hover:bg-[#3D6CE6] disabled:opacity-40 text-white font-black text-sm transition-all shadow-md hover:shadow-lg active:scale-98 flex items-center justify-center gap-2"
+              className="w-full py-3 px-6 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 disabled:opacity-40 text-white dark:text-zinc-950 font-medium text-xs sm:text-sm transition-all shadow-2xs active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>Submit My Decision</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>

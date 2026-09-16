@@ -10,6 +10,14 @@ import {
   Trophy,
   ChevronRight,
   Compass,
+  Shield,
+  Key,
+  AlertTriangle,
+  Eye,
+  Smartphone,
+  Globe,
+  Scale,
+  BookOpen,
 } from 'lucide-react';
 import { ByteMascot } from '../components/common/ByteMascot';
 
@@ -33,39 +41,37 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
 
   const getModuleIcon = (title: string, index: number) => {
     const t = title.toLowerCase();
-    if (t.includes('password') || t.includes('auth')) return '🔐';
-    if (t.includes('phish') || t.includes('social')) return '🎣';
-    if (t.includes('privacy') || t.includes('leak')) return '👀';
-    if (t.includes('share') || t.includes('device')) return '📱';
-    if (t.includes('browse') || t.includes('network') || t.includes('wifi')) return '🌐';
-    if (t.includes('ethics') || t.includes('responsible')) return '⚖️';
-    const fallbacks = ['🌱', '🔍', '🛡️', '⚡', '🏆'];
+    if (t.includes('password') || t.includes('auth')) return Key;
+    if (t.includes('phish') || t.includes('social')) return AlertTriangle;
+    if (t.includes('privacy') || t.includes('leak')) return Eye;
+    if (t.includes('share') || t.includes('device')) return Smartphone;
+    if (t.includes('browse') || t.includes('network') || t.includes('wifi')) return Globe;
+    if (t.includes('ethics') || t.includes('responsible')) return Scale;
+    const fallbacks = [BookOpen, Shield, Sparkles, Trophy];
     return fallbacks[index % fallbacks.length];
   };
 
   return (
-    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto text-[#243047] font-sans">
+    <div className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-zinc-200 dark:border-zinc-800 pb-5">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <Map className="w-5 h-5 text-[#40C98A]" />
-            <span className="text-xs font-black text-[#40C98A] uppercase tracking-wider">
-              YOUR ADVENTURE MAP
-            </span>
+          <div className="flex items-center gap-2 mb-1.5 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
+            <Map className="w-3.5 h-3.5 text-zinc-400" />
+            <span>Adventure Map</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#243047]">
+          <h1 className="text-2xl sm:text-3xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
             Learning Adventures
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
+          <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400 mt-1 max-w-xl">
             Follow the journey path, earn stars, and unlock new cyber powers one mission at a time!
           </p>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="px-3.5 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-bold flex items-center gap-1.5">
-            <Sparkles className="w-4 h-4 text-emerald-500" />
-            <span>Map Progress: {currentPath?.progress || 0}%</span>
+          <div className="px-3.5 py-1.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono flex items-center gap-1.5">
+            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <span>Progress: {currentPath?.progress || 0}%</span>
           </div>
         </div>
       </div>
@@ -78,41 +84,41 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
             <button
               key={path.id}
               onClick={() => setActivePathId(path.id)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all shrink-0 flex items-center gap-2 ${
+              className={`px-4 py-2 rounded-full text-xs font-mono transition-all shrink-0 flex items-center gap-2 cursor-pointer ${
                 isSelected
-                  ? 'bg-[#4F7CFF] text-white shadow-sm'
-                  : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                  ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-2xs'
+                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-850 border border-zinc-200 dark:border-zinc-800'
               }`}
             >
-              <span>{path.id === 'cyber-safety-fundamentals' ? '🌱' : '🛡️'}</span>
-              <span>{path.title}</span>
-              <span className="opacity-80 text-[10px]">({path.progress}%)</span>
+              <span className="flex items-center">{path.id === 'cyber-safety-fundamentals' ? <Shield className="w-3.5 h-3.5" /> : <Compass className="w-3.5 h-3.5" />}</span>
+              <span className="font-sans font-medium">{path.title}</span>
+              <span className="text-[10px] opacity-70">({path.progress}%)</span>
             </button>
           );
         })}
       </div>
 
       {/* Main Adventure Board */}
-      <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-8 shadow-xs space-y-6">
+      <div className="bg-white dark:bg-[#080808] rounded-3xl border border-zinc-200 dark:border-zinc-800 p-6 sm:p-8 shadow-xs space-y-6">
         {/* Adventure Summary Banner */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-blue-50 via-emerald-50 to-indigo-50 border border-blue-100">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800">
           <div className="flex items-center gap-4">
-            <ByteMascot mood="excited" size="md" />
+            <ByteMascot mood="excited" size="md" animate={false} />
             <div>
-              <span className="text-xs font-black text-[#4F7CFF] uppercase tracking-wider block">
-                CURRENT EXPEDITION
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
+                Current Expedition
               </span>
-              <h2 className="text-lg sm:text-xl font-black text-[#243047]">
+              <h2 className="text-lg sm:text-xl font-semibold -tracking-[0.02em] text-zinc-900 dark:text-zinc-100">
                 {currentPath.title}
               </h2>
-              <p className="text-xs text-slate-600 mt-0.5 max-w-lg">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-0.5 max-w-lg">
                 {currentPath.description}
               </p>
             </div>
           </div>
 
-          <div className="shrink-0 flex items-center gap-2 text-xs font-bold text-slate-700 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-2xs">
-            <Clock className="w-3.5 h-3.5 text-slate-600" />
+          <div className="shrink-0 flex items-center gap-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-950 px-3 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-800 shadow-2xs">
+            <Clock className="w-3.5 h-3.5 text-zinc-400" />
             <span>{currentPath.estimatedTime} journey</span>
           </div>
         </div>
@@ -120,13 +126,13 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
         {/* Visual Map Journey Tree (Nodes with connectors) */}
         <div className="relative py-4 space-y-4">
           {/* Subtle center path spine */}
-          <div className="absolute top-8 bottom-8 left-8 sm:left-10 w-1 bg-gradient-to-b from-emerald-400 via-blue-400 to-slate-200 rounded-full -z-0" />
+          <div className="absolute top-8 bottom-8 left-8 sm:left-10 w-px bg-zinc-200 dark:bg-zinc-800 -z-0" />
 
           {currentPath.modules.map((module, index) => {
             const isCompleted = module.isCompleted;
             const isCurrent = !isCompleted && (index === 0 || currentPath.modules[index - 1]?.isCompleted);
             const isLocked = !isCompleted && !isCurrent;
-            const icon = getModuleIcon(module.title, index);
+            const IconComponent = getModuleIcon(module.title, index);
 
             return (
               <div
@@ -138,56 +144,56 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
                 }}
                 className={`relative z-10 flex items-start gap-4 sm:gap-6 p-4 sm:p-5 rounded-2xl border transition-all duration-200 ${
                   isCurrent
-                    ? 'bg-gradient-to-r from-white to-blue-50/70 border-2 border-[#4F7CFF] shadow-md ring-4 ring-blue-100 cursor-pointer scale-[1.01]'
+                    ? 'bg-zinc-50 dark:bg-zinc-900 border-zinc-900 dark:border-zinc-100 shadow-xs cursor-pointer'
                     : isCompleted
-                    ? 'bg-white border-slate-200/90 hover:border-emerald-300 hover:shadow-xs cursor-pointer'
-                    : 'bg-slate-50/70 border-slate-200/60 opacity-60 cursor-not-allowed'
+                    ? 'bg-white dark:bg-[#080808] border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 cursor-pointer'
+                    : 'bg-zinc-50/40 dark:bg-zinc-950 border-zinc-200 dark:border-zinc-850 opacity-50 cursor-not-allowed'
                 }`}
               >
                 {/* Visual Step Node Badge */}
                 <div
-                  className={`w-12 h-12 sm:w-14 sm:h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-xs transition-transform ${
+                  className={`w-11 h-11 sm:w-12 sm:h-12 rounded-2xl flex items-center justify-center text-xl shrink-0 shadow-2xs transition-transform ${
                     isCompleted
-                      ? 'bg-emerald-100 text-emerald-700 border-2 border-emerald-400'
+                      ? 'bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-700'
                       : isCurrent
-                      ? 'bg-[#4F7CFF] text-white animate-bounce'
-                      : 'bg-slate-200 text-slate-600'
+                      ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950'
+                      : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-400'
                   }`}
                 >
                   {isCompleted ? (
-                    <CheckCircle2 className="w-7 h-7 text-emerald-600" />
+                    <CheckCircle2 className="w-5 h-5 text-zinc-900 dark:text-zinc-100" />
                   ) : isLocked ? (
-                    <Lock className="w-5 h-5 text-slate-600" />
+                    <Lock className="w-4 h-4 text-zinc-400" />
                   ) : (
-                    <span>{icon}</span>
+                    <IconComponent className="w-5 h-5" />
                   )}
                 </div>
 
                 {/* Module Details Content */}
                 <div className="flex-1 min-w-0 space-y-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-[11px] font-black text-slate-600 uppercase tracking-wider">
-                      STEP {index + 1}
+                    <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider">
+                      Step {index + 1}
                     </span>
                     {isCurrent && (
-                      <span className="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-black uppercase tracking-wider">
-                        ★ UP NEXT
+                      <span className="px-2 py-0.5 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 text-[10px] font-mono uppercase tracking-wider">
+                        Up Next
                       </span>
                     )}
                     {isCompleted && (
-                      <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 text-[10px] font-black uppercase tracking-wider">
-                        COMPLETED
+                      <span className="px-2 py-0.5 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 text-[10px] font-mono uppercase tracking-wider">
+                        Completed
                       </span>
                     )}
-                    <span className="text-[11px] text-slate-600 font-medium">
+                    <span className="text-[11px] text-zinc-400 font-mono">
                       • {module.estimatedMinutes} min
                     </span>
                   </div>
 
-                  <h3 className="text-base sm:text-lg font-bold text-[#243047]">
+                  <h3 className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-zinc-100">
                     {module.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-xl">
+                  <p className="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400 leading-relaxed max-w-xl">
                     {module.summary}
                   </p>
 
@@ -197,9 +203,10 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
                       {module.objectives.slice(0, 2).map((obj, oIdx) => (
                         <span
                           key={oIdx}
-                          className="px-2.5 py-1 rounded-lg bg-slate-100 text-[11px] font-medium text-slate-600"
+                          className="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[11px] font-mono text-zinc-600 dark:text-zinc-400"
                         >
-                          ✓ {obj}
+                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                          <span>{obj}</span>
                         </span>
                       ))}
                     </div>
@@ -209,17 +216,17 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
                 {/* Right Action Button */}
                 <div className="shrink-0 self-center hidden sm:block">
                   {isCurrent ? (
-                    <button className="px-4 py-2 rounded-xl bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white text-xs font-bold shadow-xs flex items-center gap-1.5">
+                    <button className="px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-950 text-xs font-mono shadow-2xs flex items-center gap-1.5 cursor-pointer">
                       <span>Start</span>
                       <ArrowRight className="w-3.5 h-3.5" />
                     </button>
                   ) : isCompleted ? (
-                    <button className="px-3.5 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600 text-xs font-bold flex items-center gap-1">
+                    <button className="px-3.5 py-1.5 rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-850 text-zinc-600 dark:text-zinc-400 text-xs font-mono flex items-center gap-1 cursor-pointer">
                       <span>Review</span>
                       <ChevronRight className="w-3.5 h-3.5" />
                     </button>
                   ) : (
-                    <span className="text-xs font-medium text-slate-600 flex items-center gap-1">
+                    <span className="text-xs font-mono text-zinc-400 flex items-center gap-1">
                       <Lock className="w-3.5 h-3.5" />
                       <span>Locked</span>
                     </span>
@@ -230,18 +237,18 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
           })}
 
           {/* Final Cyber Hero Trophy Node */}
-          <div className="relative z-10 flex items-center gap-4 sm:gap-6 p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-yellow-50 border-2 border-amber-300 shadow-sm">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center text-3xl text-white shadow-xs shrink-0">
-              🏆
+          <div className="relative z-10 flex items-center gap-4 sm:gap-6 p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 shadow-2xs">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-zinc-900 dark:bg-white flex items-center justify-center text-white dark:text-zinc-950 shadow-2xs shrink-0">
+              <Trophy className="w-5 h-5 text-amber-400 dark:text-amber-600" />
             </div>
             <div className="flex-1">
-              <span className="text-[11px] font-black text-amber-700 uppercase tracking-wider block">
-                FINISH LINE REWARD
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block">
+                Finish Line Reward
               </span>
-              <h3 className="text-base sm:text-lg font-black text-[#243047]">
+              <h3 className="text-base sm:text-lg font-semibold text-zinc-900 dark:text-zinc-100">
                 Cyber Hero Badge & Certificate
               </h3>
-              <p className="text-xs text-slate-600">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400">
                 Complete all steps in this path to earn the official verifiable Cyber Hero certificate and +500 XP!
               </p>
             </div>

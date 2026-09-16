@@ -120,7 +120,7 @@ export const CreateGame: React.FC<CreateGameProps> = ({
         <div className="grid grid-cols-2 gap-3">
           {/* Host */}
           <div className="p-3 rounded-xl bg-white border border-slate-200 flex items-center gap-2.5">
-            <span className="text-2xl">{room?.host.avatar || '🤖'}</span>
+            <span className="text-2xl">{room?.host.avatar || ''}</span>
             <div className="text-left overflow-hidden">
               <span className="text-xs font-black text-[#243047] truncate block">
                 {room?.host.name || 'You'}
@@ -139,12 +139,12 @@ export const CreateGame: React.FC<CreateGameProps> = ({
           >
             {isGuestConnected ? (
               <>
-                <span className="text-2xl">{room?.guest?.avatar || '🦊'}</span>
+                <span className="text-2xl">{room?.guest?.avatar || ''}</span>
                 <div className="text-left overflow-hidden">
                   <span className="text-xs font-black text-[#243047] truncate block">
                     {room?.guest?.name || 'Friend'}
                   </span>
-                  <span className="text-[10px] font-bold text-emerald-600">Joined! 🎉</span>
+                  <span className="text-[10px] font-bold text-emerald-600">Joined!</span>
                 </div>
               </>
             ) : (
@@ -164,11 +164,11 @@ export const CreateGame: React.FC<CreateGameProps> = ({
 
       {/* Byte Status Guidance */}
       <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-semibold flex items-center gap-3 text-left">
-        <span className="text-2xl">🤖</span>
+        <ByteMascot mood="happy" size="xs" animate={false} />
         <span>
           {isGuestConnected
             ? `Your friend ${room?.guest?.name} is in! Hit Start Game when ready!`
-            : "Your friend hasn't joined yet. Send them the code! 😄"}
+            : "Your friend hasn't joined yet. Send them the code!"}
         </span>
       </div>
 

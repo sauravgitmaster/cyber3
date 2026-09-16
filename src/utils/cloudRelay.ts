@@ -3,6 +3,8 @@ import { RoomStateClient } from '../types/multiplayer';
 const RELAY_BASE = 'https://ntfy.sh';
 const PREFIX = 'cybermentor_game_';
 
+let rateLimitedUntil = 0;
+
 function fetchWithTimeout(url: string, options: RequestInit = {}, timeoutMs = 4000): Promise<Response> {
   const controller = new AbortController();
   const id = setTimeout(() => controller.abort(), timeoutMs);
@@ -17,6 +19,7 @@ export const cloudRelay = {
    * Publish updated room state to cloud relay
    */
   async publishRoomState(code: string, room: RoomStateClient): Promise<boolean> {
+    if (Date.now() < rateLimitedUntil) return false;
     try {
       const clean = code.trim().toUpperCase();
       const topic = `${PREFIX}room_${clean}`;
@@ -29,6 +32,10 @@ export const cloudRelay = {
         },
         body: JSON.stringify(room),
       });
+      if (res.status === 429) {
+        rateLimitedUntil = Date.now() + 60000;
+        return false;
+      }
       return res.ok;
     } catch {
       return false;
@@ -39,10 +46,15 @@ export const cloudRelay = {
    * Fetch the latest room state from cloud relay
    */
   async fetchRoomState(code: string): Promise<RoomStateClient | null> {
+    if (Date.now() < rateLimitedUntil) return null;
     try {
       const clean = code.trim().toUpperCase();
       const topic = `${PREFIX}room_${clean}`;
       const res = await fetchWithTimeout(`${RELAY_BASE}/${topic}/json?poll=1`, {}, 3500);
+      if (res.status === 429) {
+        rateLimitedUntil = Date.now() + 60000;
+        return null;
+      }
       if (!res.ok) return null;
 
       const text = await res.text();

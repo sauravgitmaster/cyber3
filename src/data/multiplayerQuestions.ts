@@ -25,7 +25,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Scam & Phishing',
     difficulty: 'Beginner',
     situation: 'A DM says: "You won 10,000 free Robux! Click right now before the prize expires!"',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Click the link fast so you don’t miss it' },
       { id: 'opt-b', text: 'Report the message as a scam and delete it' },
@@ -42,7 +42,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Scam & Phishing',
     difficulty: 'Beginner',
     situation: 'You get an email with an attachment named "Science_Worksheet_Ch5.docx.exe".',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Open it to check tomorrow’s homework' },
       { id: 'opt-b', text: 'Do not open it; .exe files can install viruses' },
@@ -59,7 +59,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Password Security',
     difficulty: 'Beginner',
     situation: 'Your best friend at school asks for your game password to help you beat a boss level.',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Give them the password, they are your best friend' },
       { id: 'opt-b', text: 'Text it to them and tell them to delete the text' },
@@ -76,7 +76,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Password Security',
     difficulty: 'Beginner',
     situation: 'You are making a new password. Which of these is the safest password to use?',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Fluffy2014 (Your pet dog + birth year)' },
       { id: 'opt-b', text: 'Password123!' },
@@ -93,7 +93,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Password Security',
     difficulty: 'Intermediate',
     situation: 'A friend on Discord says: "I got locked out! Steam just sent a 6-digit code to your phone, send it to me!"',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Send the code right away to help your friend' },
       { id: 'opt-b', text: 'Post the code in the public group chat' },
@@ -110,7 +110,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Privacy & Identity',
     difficulty: 'Beginner',
     situation: 'A free quiz app called "Which Superhero Are You?" asks for permission to read all your phone contacts.',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Allow it so you can see your superhero result' },
       { id: 'opt-b', text: 'Deny the permission; a quiz has no need for your contacts' },
@@ -127,7 +127,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Safe Browsing',
     difficulty: 'Intermediate',
     situation: 'You connect to "Free_Mall_WiFi_NoPassword". What should you avoid doing?',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Checking the weather or sports scores' },
       { id: 'opt-b', text: 'Entering personal passwords or making purchases' },
@@ -144,7 +144,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Privacy & Identity',
     difficulty: 'Beginner',
     situation: 'You take a cool selfie outside showing your front door with your house number clearly visible.',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Post it publicly so everyone sees your new shoes' },
       { id: 'opt-b', text: 'Tag your exact street location in the caption' },
@@ -161,7 +161,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Social Engineering',
     difficulty: 'Beginner',
     situation: 'You spot a shiny USB flash drive on a library desk labeled "Exam Answers & Secrets".',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Plug it into the school computer to see who lost it' },
       { id: 'opt-b', text: 'Plug it into your home laptop safely' },
@@ -178,7 +178,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Scam & Phishing',
     difficulty: 'Intermediate',
     situation: 'A browser tab screams: "YOUR COMPUTER IS INFECTED! Call 1-800-MICRO-HELP immediately!"',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Call the number immediately for tech support' },
       { id: 'opt-b', text: 'Close the browser tab; real antivirus doesn’t ask you to call numbers' },
@@ -195,7 +195,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Password Security',
     difficulty: 'Intermediate',
     situation: 'At 11:30 PM, your phone buzzes 5 times with: "Approve sign-in to School Portal in Russia?"',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Hit "Approve" so the buzzing stops' },
       { id: 'opt-b', text: 'Hit "Deny", then change your password immediately' },
@@ -212,7 +212,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Social Engineering',
     difficulty: 'Intermediate',
     situation: 'A popular gamer’s DM says: "I want to make you a stream mod! Just download this verification plugin."',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Download and run the plugin right away' },
       { id: 'opt-b', text: 'Check the official stream page; real creators don’t send weird download links' },
@@ -229,7 +229,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Safe Browsing',
     difficulty: 'Beginner',
     situation: 'Your tablet settings say "System Security Update Ready". What is the best practice?',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Never update your device; updates are bad' },
       { id: 'opt-b', text: 'Install official security updates to patch bugs' },
@@ -246,7 +246,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Social Engineering',
     difficulty: 'Advanced',
     situation: 'You receive a voice note that sounds like your cousin saying: "I lost my backpack, please Venmo $20!"',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Send the money immediately since it sounds like them' },
       { id: 'opt-b', text: 'Call your cousin directly on their normal phone number to check' },
@@ -263,7 +263,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Privacy & Identity',
     difficulty: 'Beginner',
     situation: 'You need to step out of the computer lab for 5 minutes. What should you do before walking away?',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Leave your screen on and accounts logged in' },
       { id: 'opt-b', text: 'Lock your computer screen with Win+L or Cmd+Control+Q' },
@@ -280,7 +280,7 @@ export const multiplayerQuestionsPool: MultiplayerQuestionData[] = [
     category: 'Scam & Phishing',
     difficulty: 'Beginner',
     situation: 'You get a text: "USPS: Your package cannot be delivered! Click track-pkg-now.info to pay $1.50 fee."',
-    prompt: "🚨 What's the safe choice?",
+    prompt: "What's the safe choice?",
     options: [
       { id: 'opt-a', text: 'Click the link and enter your parent’s credit card' },
       { id: 'opt-b', text: 'Delete and ignore; official post offices don’t text from random cell numbers' },
