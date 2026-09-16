@@ -41,7 +41,16 @@ interface StoredState {
 }
 
 export function useCyberState() {
-  const [currentPage, setCurrentPage] = useState<ActivePage>('dashboard');
+  const [currentPage, setCurrentPage] = useState<ActivePage>(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const pageParam = params.get('page') as ActivePage;
+      if (pageParam) {
+        return pageParam;
+      }
+    }
+    return 'landing';
+  });
   const [selectedPathId, setSelectedPathId] = useState<string>('cyber-safety-fundamentals');
   const [selectedModuleId, setSelectedModuleId] = useState<string>('mod-phishing-social');
   const [selectedScenarioId, setSelectedScenarioId] = useState<string>(() => {
