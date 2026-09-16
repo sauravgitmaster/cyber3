@@ -1,0 +1,6 @@
+{
+  "name": "CyberMentor AI",
+  "description": "An interactive cybersecurity education framework transforming digital-safety training through scenario-based learning and AI mentoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
