@@ -47,9 +47,12 @@ export const JoinGame: React.FC<JoinGameProps> = ({
       const text = await navigator.clipboard.readText();
       if (text) {
         let extracted = text.trim();
-        if (extracted.includes('join=')) {
-          const match = extracted.match(/join=([A-Za-z0-9]{4,8})/);
-          if (match) extracted = match[1];
+        const match = extracted.match(/(?:join|code|room)=([A-Za-z0-9]{4,8})/i);
+        if (match) {
+          extracted = match[1];
+        } else {
+          // If pure code was copied with extra whitespace
+          extracted = extracted.replace(/[^A-Za-z0-9]/g, '');
         }
         setCode(extracted.toUpperCase().slice(0, 8));
       }
@@ -60,7 +63,7 @@ export const JoinGame: React.FC<JoinGameProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const clean = code.trim().toUpperCase();
+    const clean = code.trim().replace(/[^A-Za-z0-9]/g, '').toUpperCase();
     if (clean.length >= 4) {
       onJoin(clean);
     }
@@ -100,7 +103,7 @@ export const JoinGame: React.FC<JoinGameProps> = ({
               type="text"
               maxLength={8}
               value={code}
-              onChange={(e) => setCode(e.target.value.toUpperCase())}
+              onChange={(e) => setCode(e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase())}
               placeholder="e.g. 7KQ4M2"
               className="w-full text-center text-3xl sm:text-4xl font-mono font-black tracking-widest py-4 px-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-[#243047] placeholder:text-slate-300 focus:outline-none focus:border-[#4F7CFF] focus:bg-white transition-all uppercase"
               autoFocus
@@ -120,7 +123,7 @@ export const JoinGame: React.FC<JoinGameProps> = ({
               {recentSavedCode && recentSavedCode !== code && (
                 <button
                   type="button"
-                  onClick={() => setCode(recentSavedCode.toUpperCase())}
+                  onClick={() => setCode(recentSavedCode.replace(/[^A-Za-z0-9]/g, '').toUpperCase())}
                   className="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-[#4F7CFF] text-xs font-bold flex items-center gap-1 transition-colors"
                 >
                   <Sparkles className="w-3.5 h-3.5" />
@@ -137,8 +140,8 @@ export const JoinGame: React.FC<JoinGameProps> = ({
           </div>
 
           {error && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold flex items-center justify-center gap-1.5">
-              <AlertCircle className="w-4 h-4 shrink-0" />
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-600 text-xs font-bold flex items-center justify-center gap-1.5 text-left">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <span>{error}</span>
             </div>
           )}
@@ -148,12 +151,21 @@ export const JoinGame: React.FC<JoinGameProps> = ({
             disabled={code.trim().length < 4 || loading}
             className={`w-full py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2 transition-all ${
               code.trim().length >= 4 && !loading
-                ? 'bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white shadow-md active:scale-98'
+                ? 'bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white shadow-md active:scale-98 cursor-pointer'
                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
             }`}
           >
-            <span>{loading ? 'Finding Game...' : 'Join Game'}</span>
-            <ArrowRight className="w-4 h-4" />
+            {loading ? (
+              <span className="flex items-center gap-2">
+                <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Finding Room {code.trim().toUpperCase()}...</span>
+              </span>
+            ) : (
+              <span className="flex items-center gap-2">
+                <span>Join Game</span>
+                <ArrowRight className="w-4 h-4" />
+              </span>
+            )}
           </button>
         </form>
       ) : (

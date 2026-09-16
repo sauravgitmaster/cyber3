@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { RoomStateClient, MultiplayerQuestionClient, RoundResultSummary } from '../types/multiplayer';
+import { RoomStateClient, MultiplayerQuestionClient, RoundResultSummary, PlayerProfileState } from '../types/multiplayer';
 import { multiplayerApi, PlayerInput } from '../utils/multiplayerApi';
 import { multiplayerQuestionsPool, getEightRandomQuestions } from '../data/multiplayerQuestions';
+import { cloudRelay } from '../utils/cloudRelay';
 
 function getSessionPlayerId(baseUserId?: string): string {
   try {
@@ -90,6 +91,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
   }, [roomCode]);
 
   const eventSourceRef = useRef<EventSource | null>(null);
+  const cloudRelayUnsubRef = useRef<(() => void) | null>(null);
   const pollIntervalRef = useRef<number | null>(null);
   const heartbeatIntervalRef = useRef<number | null>(null);
   const broadcastChannelRef = useRef<BroadcastChannel | null>(null);
@@ -101,7 +103,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     avatar: currentUser.avatar || '🤖',
   };
 
-  // Helper to publish state to local storage and broadcast channel
+  // Helper to publish state to local storage, broadcast channel, and cloud relay
   const broadcastRoomState = useCallback((state: RoomStateClient) => {
     try {
       localStorage.setItem(`cybermentor_room_${state.code}`, JSON.stringify(state));
@@ -115,10 +117,16 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         // ignore
       }
     }
+    // Cloud Relay for cross-network and cross-device sync
+    cloudRelay.publishRoomState(state.code, state);
   }, []);
 
   // Stop all active subscriptions
   const cleanupSubscriptions = useCallback(() => {
+    if (cloudRelayUnsubRef.current) {
+      cloudRelayUnsubRef.current();
+      cloudRelayUnsubRef.current = null;
+    }
     if (eventSourceRef.current) {
       eventSourceRef.current.close();
       eventSourceRef.current = null;
@@ -153,6 +161,134 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         if (savedQ) {
           storedQuestionsRef.current = JSON.parse(savedQ);
         }
+      } catch {
+        // ignore
+      }
+
+      // 0. Setup Cloud Relay real-time event listener (across devices & Vercel)
+      try {
+        cloudRelayUnsubRef.current = cloudRelay.subscribe(code, {
+          onRoomState: (incoming) => {
+            setRoom((prev) => {
+              if (shouldAcceptStateUpdate(prev, incoming)) {
+                setIsHost(incoming.host.id === playerIdRef.current);
+                return incoming;
+              }
+              return prev;
+            });
+            setError(null);
+          },
+          onAction: (action) => {
+            if (!action || !action.type) return;
+
+            if (action.type === 'GUEST_JOINED' && action.room) {
+              setRoom((prev) => {
+                if (shouldAcceptStateUpdate(prev, action.room)) {
+                  setIsHost(action.room.host.id === playerIdRef.current);
+                  return action.room;
+                }
+                return prev;
+              });
+            } else if (action.type === 'GAME_STARTED' && action.room) {
+              if (action.questions && Array.isArray(action.questions)) {
+                storedQuestionsRef.current = action.questions;
+                try {
+                  localStorage.setItem(`cybermentor_questions_${code}`, JSON.stringify(action.questions));
+                } catch {
+                  // ignore
+                }
+              }
+              setRoom((prev) => {
+                if (shouldAcceptStateUpdate(prev, action.room)) {
+                  setIsHost(action.room.host.id === playerIdRef.current);
+                  return action.room;
+                }
+                return prev;
+              });
+            } else if (action.type === 'PLAYER_ANSWER' && action.playerId !== playerIdRef.current) {
+              // Remote player answered! Update local room state
+              setRoom((prev) => {
+                if (!prev || prev.status !== 'in_round' || !prev.currentQuestion) return prev;
+                const alreadyAnswered = prev.answeredPlayerIds?.includes(action.playerId);
+                if (alreadyAnswered) return prev;
+
+                const q = multiplayerQuestionsPool.find((item) => item.id === action.questionId);
+                const isCorrect = q ? q.correctOptionId === action.optionId : false;
+                const isHostAnswer = prev.host.id === action.playerId;
+                const updatedHost = { ...prev.host };
+                const updatedGuest = prev.guest ? { ...prev.guest } : null;
+                const activePlayer = isHostAnswer ? updatedHost : updatedGuest;
+
+                if (isCorrect && activePlayer) {
+                  const existingAnswers = (prev.lastRoundResult?.playerAnswers || {}) as Record<string, { isCorrect?: boolean }>;
+                  const otherAlreadyCorrect = Object.values(existingAnswers).some((ans) => Boolean(ans?.isCorrect));
+                  const pts = otherAlreadyCorrect ? 60 : 100;
+                  activePlayer.score += pts;
+                  activePlayer.correctCount += 1;
+                }
+
+                const updatedAnswered = Array.from(new Set([...(prev.answeredPlayerIds || []), action.playerId]));
+                const expectedPlayersCount = prev.guest && prev.guest.isConnected ? 2 : 1;
+                const bothPicked = updatedAnswered.length >= expectedPlayersCount;
+
+                const existingAnswers = prev.lastRoundResult?.playerAnswers || {};
+                const newPlayerAnswers = {
+                  ...existingAnswers,
+                  [action.playerId]: {
+                    optionId: action.optionId,
+                    isCorrect,
+                    pointsAwarded: isCorrect ? 100 : 0,
+                    responseTimeMs: action.clientTime && prev.roundStartTime ? Math.max(100, action.clientTime - prev.roundStartTime) : 1200,
+                  },
+                };
+
+                let winnerId = prev.lastRoundResult?.winnerPlayerId || null;
+                let winnerName = prev.lastRoundResult?.winnerPlayerName || null;
+                if (isCorrect && !winnerId) {
+                  winnerId = action.playerId;
+                  winnerName = activePlayer?.name || 'Player';
+                }
+
+                const summary: RoundResultSummary = {
+                  questionId: action.questionId,
+                  roundNumber: prev.currentRound,
+                  title: q?.title || 'Cyber Challenge',
+                  situation: q?.situation || prev.currentQuestion.situation,
+                  correctOptionId: q?.correctOptionId || action.optionId,
+                  correctOptionText: q?.options.find((o) => o.id === (q?.correctOptionId || action.optionId))?.text || '',
+                  winnerPlayerId: winnerId,
+                  winnerPlayerName: winnerName,
+                  secondPlayerId: null,
+                  secondPlayerName: null,
+                  whySafe: q?.whySafe || 'Great choice!',
+                  playerAnswers: newPlayerAnswers,
+                };
+
+                if (bothPicked) {
+                  return {
+                    ...prev,
+                    status: 'round_locked',
+                    host: updatedHost,
+                    guest: updatedGuest,
+                    answeredPlayerIds: updatedAnswered,
+                    lastRoundResult: summary,
+                    roundHistory: [...prev.roundHistory, summary],
+                    updatedAt: Date.now(),
+                  };
+                } else {
+                  return {
+                    ...prev,
+                    host: updatedHost,
+                    guest: updatedGuest,
+                    answeredPlayerIds: updatedAnswered,
+                    lastRoundResult: summary,
+                    updatedAt: Date.now(),
+                  };
+                }
+              });
+            }
+          },
+        });
       } catch {
         // ignore
       }
@@ -228,7 +364,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
       window.addEventListener('storage', handleStorage);
       storageListenerRef.current = handleStorage;
 
-      // 3. Initial immediate state fetch from server or localStorage
+      // 3. Initial immediate state fetch from server, cloud relay, or localStorage
       multiplayerApi
         .getRoomState(code, playerIdRef.current)
         .then((state) => {
@@ -240,8 +376,25 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
             return prev;
           });
         })
-        .catch(() => {
-          // Check localStorage if server is offline or serverless cold start
+        .catch(async () => {
+          // Check Cloud Relay first
+          try {
+            const cloudState = await cloudRelay.fetchRoomState(code);
+            if (cloudState) {
+              setRoom((prev) => {
+                if (shouldAcceptStateUpdate(prev, cloudState)) {
+                  setIsHost(cloudState.host.id === playerIdRef.current);
+                  return cloudState;
+                }
+                return prev;
+              });
+              return;
+            }
+          } catch {
+            // ignore
+          }
+
+          // Check localStorage if server & cloud are unreachable
           try {
             const local = localStorage.getItem(`cybermentor_room_${code}`);
             if (local) {
@@ -291,16 +444,17 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         // SSE not supported, rely on polling
       }
 
-      // 5. Active sync polling every 500ms
+      // 5. Active sync polling every 600ms
       pollIntervalRef.current = window.setInterval(async () => {
         // A. Check server state (advance authoritative state)
+        let freshServer: RoomStateClient | null = null;
         try {
-          const fresh = await multiplayerApi.getRoomState(code, playerIdRef.current);
-          if (fresh) {
+          freshServer = await multiplayerApi.getRoomState(code, playerIdRef.current);
+          if (freshServer) {
             setRoom((prev) => {
-              if (shouldAcceptStateUpdate(prev, fresh)) {
-                setIsHost(fresh.host.id === playerIdRef.current);
-                return fresh;
+              if (shouldAcceptStateUpdate(prev, freshServer!)) {
+                setIsHost(freshServer!.host.id === playerIdRef.current);
+                return freshServer!;
               }
               return prev;
             });
@@ -309,7 +463,25 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
           // ignore
         }
 
-        // B. Check localStorage for instant cross-tab sync
+        // B. Check Cloud Relay if server is not updating or offline
+        if (!freshServer) {
+          try {
+            const cloudState = await cloudRelay.fetchRoomState(code);
+            if (cloudState) {
+              setRoom((prev) => {
+                if (shouldAcceptStateUpdate(prev, cloudState)) {
+                  setIsHost(cloudState.host.id === playerIdRef.current);
+                  return cloudState;
+                }
+                return prev;
+              });
+            }
+          } catch {
+            // ignore
+          }
+        }
+
+        // C. Check localStorage for instant cross-tab sync
         try {
           const local = localStorage.getItem(`cybermentor_room_${code}`);
           if (local) {
@@ -325,7 +497,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
         } catch {
           // ignore
         }
-      }, 500);
+      }, 600);
 
       // 6. Heartbeat every 3s
       heartbeatIntervalRef.current = window.setInterval(() => {
@@ -397,6 +569,9 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
       // ignore
     }
 
+    // Publish to cloud relay so friend can discover and join from any device
+    cloudRelay.publishRoomState(newRoom.code, newRoom);
+
     connectToRoom(newRoom.code);
     setLoading(false);
     return newRoom;
@@ -414,64 +589,63 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
 
     let joinedRoom: RoomStateClient | null = null;
 
-    // Check localStorage first for instant multi-tab sync
+    // 1. Check localStorage first for instant same-browser / multi-tab sync
     try {
       const localData = localStorage.getItem(`cybermentor_room_${cleanCode}`);
       if (localData) {
         const parsed: RoomStateClient = JSON.parse(localData);
-        parsed.guest = {
-          id: playerIdRef.current,
-          name: playerInput.name,
-          avatar: playerInput.avatar,
-          score: 0,
-          correctCount: 0,
-          fastestResponseMs: null,
-          isConnected: true,
-          lastSeen: Date.now(),
-        };
-        parsed.updatedAt = Date.now();
-        joinedRoom = parsed;
-        localStorage.setItem(`cybermentor_room_${cleanCode}`, JSON.stringify(parsed));
+        if (parsed.status === 'waiting' || !parsed.guest || parsed.guest.id === playerIdRef.current) {
+          joinedRoom = parsed;
+        }
       }
     } catch {
       // ignore
     }
 
-    // Also call server API
-    try {
-      const serverRoom = await multiplayerApi.joinRoom(cleanCode, playerInput);
-      if (serverRoom && serverRoom.guest) {
-        joinedRoom = serverRoom;
+    // 2. Try server API
+    if (!joinedRoom) {
+      try {
+        const serverRoom = await multiplayerApi.joinRoom(cleanCode, playerInput);
+        if (serverRoom && serverRoom.guest) {
+          joinedRoom = serverRoom;
+        }
+      } catch {
+        // Server might be serverless, Vercel SPA, or room in another container
       }
-    } catch (apiErr: any) {
-      if (!joinedRoom) {
-        const msg = apiErr?.message || 'Hmm… I can’t find that game.';
-        setError(msg);
-        setLoading(false);
-        throw new Error(msg);
+    }
+
+    // 3. Try Cloud Relay (works seamlessly across separate computers, networks, and Vercel)
+    if (!joinedRoom) {
+      try {
+        const relayRoom = await cloudRelay.fetchRoomState(cleanCode);
+        if (relayRoom && (relayRoom.status === 'waiting' || !relayRoom.guest || relayRoom.guest.id === playerIdRef.current)) {
+          joinedRoom = relayRoom;
+        }
+      } catch {
+        // ignore
       }
     }
 
     if (!joinedRoom) {
-      setError('Game not found');
+      const msg = `Hmm… I can’t find game room "${cleanCode}". Ask your friend to confirm the code or keep their room screen open!`;
+      setError(msg);
       setLoading(false);
-      throw new Error('Game not found');
+      throw new Error(msg);
     }
 
-    // Ensure guest is attached
-    if (!joinedRoom.guest || joinedRoom.guest.id !== playerIdRef.current) {
-      joinedRoom.guest = {
-        id: playerIdRef.current,
-        name: playerInput.name,
-        avatar: playerInput.avatar,
-        score: 0,
-        correctCount: 0,
-        fastestResponseMs: null,
-        isConnected: true,
-        lastSeen: Date.now(),
-      };
-      joinedRoom.updatedAt = Date.now();
-    }
+    // Attach guest profile
+    const guestProfile: PlayerProfileState = {
+      id: playerIdRef.current,
+      name: playerInput.name,
+      avatar: playerInput.avatar,
+      score: 0,
+      correctCount: 0,
+      fastestResponseMs: null,
+      isConnected: true,
+      lastSeen: Date.now(),
+    };
+    joinedRoom.guest = guestProfile;
+    joinedRoom.updatedAt = Date.now();
 
     setRoom(joinedRoom);
     setRoomCode(cleanCode);
@@ -483,9 +657,18 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
       // ignore
     }
 
+    // Broadcast across all tiers so Host detects guest immediately
+    broadcastRoomState(joinedRoom);
+    cloudRelay.publishRoomState(cleanCode, joinedRoom);
+    cloudRelay.publishAction(cleanCode, {
+      type: 'GUEST_JOINED',
+      guest: guestProfile,
+      room: joinedRoom,
+    });
+
     connectToRoom(cleanCode);
 
-    // Broadcast guest joined to other tabs immediately (Host sees it instantly)
+    // Cross-tab BroadcastChannel notification
     if (broadcastChannelRef.current) {
       try {
         broadcastChannelRef.current.postMessage({ type: 'ROOM_UPDATE', room: joinedRoom });
@@ -569,8 +752,15 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     // 2. Set local host state immediately
     setRoom(startingState);
 
-    // 3. Publish to cross-tab channels synchronously so Guest transitions instantly
+    // 3. Publish to cross-tab channels & cloud relay synchronously so Guest transitions instantly
     broadcastRoomState(startingState);
+    cloudRelay.publishRoomState(roomCode, startingState);
+    cloudRelay.publishAction(roomCode, {
+      type: 'GAME_STARTED',
+      room: startingState,
+      questions,
+    });
+
     try {
       localStorage.setItem(`cybermentor_room_${roomCode}`, JSON.stringify(startingState));
       localStorage.setItem(
@@ -608,7 +798,16 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     if (!roomCode || isSubmitting) return;
     setIsSubmitting(true);
 
-    // 1. Send to backend
+    // Broadcast player answer action immediately via Cloud Relay & BroadcastChannel
+    cloudRelay.publishAction(roomCode, {
+      type: 'PLAYER_ANSWER',
+      playerId: playerIdRef.current,
+      questionId,
+      optionId,
+      clientTime: Date.now(),
+    });
+
+    // 1. Send to backend if available
     try {
       const serverState = await multiplayerApi.submitAnswer(roomCode, playerIdRef.current, questionId, optionId);
       if (serverState) {
