@@ -181,9 +181,9 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
       />
 
       {/* Drawer Panel */}
-      <div className="relative w-full max-w-md bg-[#fafaf9] dark:bg-[#000000] flex flex-col h-full z-10 text-zinc-900 dark:text-zinc-100 shadow-2xl animate-in slide-in-from-right duration-200 border-l border-zinc-200 dark:border-zinc-850 transition-colors">
+      <div className="relative w-full max-w-md bg-[#fafaf9] dark:bg-[#000000] flex flex-col h-full z-10 text-zinc-900 dark:text-zinc-100 shadow-2xl animate-in slide-in-from-right duration-200 border-l border-zinc-200 dark:border-zinc-800 transition-colors">
         {/* Header with Byte */}
-        <div className="p-4 sm:p-5 bg-white dark:bg-[#080808] border-b border-zinc-200 dark:border-zinc-850 flex items-center justify-between">
+        <div className="p-4 sm:p-5 bg-white dark:bg-[#080808] border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <ByteMascot mood="waving" size="sm" animate={false} />
             <div>
@@ -210,7 +210,7 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
 
         {/* Byte's Tip Callout if insight available */}
         {insight && (
-          <div className="mx-4 mt-4 p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-xs space-y-1 shadow-2xs">
+          <div className="mx-4 mt-4 p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs space-y-1 shadow-2xs">
             <div className="flex items-center gap-1.5 text-zinc-700 dark:text-zinc-300 font-mono text-[10px] uppercase tracking-wider">
               <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
               <span>Byte's Adventure Tip</span>
@@ -270,7 +270,7 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
                 <div
                   className={`max-w-[85%] rounded-2xl p-3.5 text-xs shadow-2xs space-y-2 leading-relaxed ${
                     isByte
-                      ? 'bg-white dark:bg-[#080808] text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-850 rounded-tl-xs'
+                      ? 'bg-white dark:bg-[#080808] text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800 rounded-tl-xs'
                       : 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 rounded-tr-xs font-normal'
                   }`}
                 >
@@ -278,7 +278,7 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
 
                   {/* Progressive disclosure: Want to know how this works? */}
                   {isByte && msg.technicalDetails && (
-                    <div className="pt-2 border-t border-zinc-100 dark:border-zinc-850">
+                    <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800">
                       <button
                         onClick={() =>
                           setExpandedTechId(expandedTechId === msg.id ? null : msg.id)
@@ -328,7 +328,7 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
         </div>
 
         {/* Chat Input Bar */}
-        <div className="p-3 bg-white dark:bg-[#080808] border-t border-zinc-200 dark:border-zinc-850">
+        <div className="p-3 bg-white dark:bg-[#080808] border-t border-zinc-200 dark:border-zinc-800">
           <form
             onSubmit={(e) => {
               e.preventDefault();

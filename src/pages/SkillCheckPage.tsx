@@ -134,7 +134,7 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
             {/* Situation Card */}
             <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-5">
               <div className="flex items-center justify-between">
-                <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-850 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-700">
+                <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 text-zinc-800 dark:text-zinc-200 border border-zinc-200 dark:border-zinc-800">
                   {currentQ.category}
                 </span>
                 <span className="text-xs text-zinc-400 font-mono">
@@ -161,7 +161,7 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
                       onClick={() => handleSelectOption(opt.id)}
                       className={`w-full text-left p-4 rounded-2xl border text-xs sm:text-sm transition-all flex items-start gap-3.5 cursor-pointer ${
                         isSelected
-                          ? 'bg-zinc-100 dark:bg-zinc-850 border-zinc-900 dark:border-white text-zinc-950 dark:text-white font-medium shadow-2xs'
+                          ? 'bg-zinc-100 dark:bg-zinc-900 border-zinc-900 dark:border-white text-zinc-950 dark:text-white font-medium shadow-2xs'
                           : 'bg-white dark:bg-[#080808] border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 text-zinc-700 dark:text-zinc-300'
                       }`}
                     >
@@ -174,18 +174,20 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
                       >
                         <CheckCircle2 className="w-3 h-3" />
                       </div>
-                      <span className="flex-1 leading-relaxed">{opt.text}</span>
+                      <span className={`flex-1 leading-relaxed ${isSelected ? 'text-zinc-950 dark:text-white font-medium' : 'text-zinc-700 dark:text-zinc-300'}`}>
+                        {opt.text}
+                      </span>
                     </button>
                   );
                 })}
               </div>
 
               {/* Navigation buttons */}
-              <div className="flex items-center justify-between pt-4 border-t border-zinc-100 dark:border-zinc-850">
+              <div className="flex items-center justify-between pt-4 border-t border-zinc-100 dark:border-zinc-800">
                 <button
                   onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
                   disabled={currentIndex === 0}
-                  className="px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-850 disabled:opacity-30 text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer"
+                  className="px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-800 disabled:opacity-30 text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
                   <span>Back</span>
@@ -227,7 +229,7 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
 
             {/* Profile Overview Card */}
             <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-6">
-              <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-850 pb-4">
+              <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-4">
                 <div>
                   <span className="text-[10px] font-mono text-zinc-400 uppercase tracking-wider block">
                     Your Cyber Profile

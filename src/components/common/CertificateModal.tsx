@@ -127,7 +127,7 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
         </div>
 
         {/* Modal Actions */}
-        <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-zinc-50 dark:bg-zinc-900/60 border-t border-zinc-200 dark:border-zinc-850 text-xs gap-3">
+        <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 bg-zinc-50 dark:bg-zinc-900/60 border-t border-zinc-200 dark:border-zinc-800 text-xs gap-3">
           <span className="text-zinc-500 font-mono text-[11px]">
             ID: {certificate.credentialId}
           </span>

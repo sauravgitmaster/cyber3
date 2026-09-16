@@ -44,19 +44,19 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
   return (
     <div className="w-full max-w-xl mx-auto space-y-4">
       {/* Question Situation Card */}
-      <div className="p-5 sm:p-6 bg-white rounded-3xl border border-slate-200 shadow-sm space-y-3">
+      <div className="p-5 sm:p-6 bg-white dark:bg-[#080808] rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
-          <span className="text-[11px] font-black text-[#4F7CFF] uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">
+          <span className="text-[11px] font-black text-[#4F7CFF] dark:text-blue-400 uppercase tracking-wider bg-blue-50 dark:bg-blue-950/60 px-2.5 py-1 rounded-full border border-blue-200 dark:border-blue-800">
             {question.category}
           </span>
-          <span className="text-xs font-bold text-slate-400">{question.difficulty}</span>
+          <span className="text-xs font-bold text-slate-400 dark:text-zinc-500">{question.difficulty}</span>
         </div>
 
-        <p className="text-sm sm:text-base font-semibold text-[#243047] leading-relaxed">
+        <p className="text-sm sm:text-base font-semibold text-[#243047] dark:text-zinc-100 leading-relaxed">
           {question.situation}
         </p>
 
-        <div className="pt-1 flex items-center gap-1.5 text-xs font-black text-slate-700">
+        <div className="pt-1 flex items-center gap-1.5 text-xs font-black text-slate-700 dark:text-zinc-300">
           <span>{question.prompt}</span>
         </div>
       </div>
@@ -69,16 +69,16 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
           const isMyWrongAnswer = isLocked && isSelected && !isCorrectAnswer;
 
           let btnStyles =
-            'bg-white border-2 border-slate-200 hover:border-blue-300 hover:bg-blue-50/40 text-slate-700';
+            'bg-white dark:bg-zinc-950 border-2 border-slate-200 dark:border-zinc-800 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50/40 dark:hover:bg-zinc-900 text-slate-800 dark:text-zinc-200';
 
           if (isSelected && !isLocked) {
-            btnStyles = 'bg-blue-50 border-2 border-[#4F7CFF] text-[#243047] font-bold shadow-sm';
+            btnStyles = 'bg-blue-50 dark:bg-blue-950/60 border-2 border-[#4F7CFF] text-[#243047] dark:text-blue-200 font-bold shadow-sm';
           } else if (isCorrectAnswer) {
-            btnStyles = 'bg-emerald-50 border-2 border-emerald-400 text-emerald-900 font-bold';
+            btnStyles = 'bg-emerald-50 dark:bg-emerald-950/60 border-2 border-emerald-400 text-emerald-900 dark:text-emerald-200 font-bold';
           } else if (isMyWrongAnswer) {
-            btnStyles = 'bg-rose-50 border-2 border-rose-300 text-rose-800 opacity-90';
+            btnStyles = 'bg-rose-50 dark:bg-rose-950/60 border-2 border-rose-300 text-rose-800 dark:text-rose-200 opacity-90';
           } else if (isLocked) {
-            btnStyles = 'bg-white border-2 border-slate-100 text-slate-400 opacity-50';
+            btnStyles = 'bg-white dark:bg-zinc-950 border-2 border-slate-100 dark:border-zinc-800 text-slate-400 dark:text-zinc-600 opacity-50';
           }
 
           return (
@@ -86,7 +86,7 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
               key={opt.id}
               onClick={() => handleOptionClick(opt.id)}
               disabled={Boolean(selectedOptId) || isLocked}
-              className={`w-full p-3.5 sm:p-4 rounded-2xl text-left text-xs sm:text-sm transition-all flex items-center justify-between gap-3 active:scale-99 ${btnStyles}`}
+              className={`w-full p-3.5 sm:p-4 rounded-2xl text-left text-xs sm:text-sm transition-all flex items-center justify-between gap-3 active:scale-99 cursor-pointer ${btnStyles}`}
             >
               <div className="flex items-center gap-3">
                 <span className={`w-6 h-6 rounded-lg font-black text-xs flex items-center justify-center shrink-0 ${
@@ -96,24 +96,24 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
                     ? 'bg-emerald-600 text-white'
                     : isMyWrongAnswer
                     ? 'bg-rose-500 text-white'
-                    : 'bg-slate-100 text-slate-600'
+                    : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300'
                 }`}>
                   {String.fromCharCode(65 + index)}
                 </span>
-                <span className="font-medium text-[#243047]">{opt.text}</span>
+                <span className="font-medium text-inherit">{opt.text}</span>
               </div>
 
               {isSelected && !isLocked && (
-                <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-blue-100 text-[#4F7CFF]">
+                <span className="text-[11px] font-black px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900 text-[#4F7CFF] dark:text-blue-200">
                   Picked!
                 </span>
               )}
 
               {isCorrectAnswer && (
-                <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
               )}
               {isMyWrongAnswer && (
-                <XCircle className="w-5 h-5 text-rose-500 shrink-0" />
+                <XCircle className="w-5 h-5 text-rose-500 dark:text-rose-400 shrink-0" />
               )}
             </button>
           );
@@ -122,9 +122,9 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
 
       {/* Waiting banner if user already picked their option but round is still active */}
       {!isLocked && selectedOptId && (
-        <div className="p-3.5 rounded-2xl bg-blue-50/80 border border-blue-200 text-center flex items-center justify-center gap-2.5 animate-in fade-in duration-200">
-          <Clock className="w-4 h-4 text-[#4F7CFF] animate-spin" />
-          <span className="text-xs font-bold text-[#243047]">
+        <div className="p-3.5 rounded-2xl bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-center flex items-center justify-center gap-2.5 animate-in fade-in duration-200">
+          <Clock className="w-4 h-4 text-[#4F7CFF] dark:text-blue-400 animate-spin" />
+          <span className="text-xs font-bold text-[#243047] dark:text-blue-200">
             Option locked! Waiting for {friendName} to pick or timer to expire…
           </span>
         </div>

@@ -75,7 +75,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
             <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
               Top Strength
             </span>
-            <span className="text-xs font-mono text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-mono text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-full">
               86% Mastered
             </span>
           </div>
@@ -97,7 +97,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
             <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500">
               Focus Area
             </span>
-            <span className="text-xs font-mono text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-full">
+            <span className="text-xs font-mono text-zinc-900 dark:text-zinc-100 bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 px-2 py-0.5 rounded-full">
               54% Progress
             </span>
           </div>
@@ -127,7 +127,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
 
       {/* Skill Categories Breakdown */}
       <div className="p-6 sm:p-7 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-5">
-        <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-850 pb-3">
+        <div className="flex items-center justify-between border-b border-zinc-100 dark:border-zinc-800 pb-3">
           <div>
             <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">
               Skill Radar
@@ -198,7 +198,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({
               key={i}
               className={`p-4 rounded-2xl border text-center flex flex-col justify-between space-y-2 transition-all ${
                 i === timelineData.length - 1
-                  ? 'bg-zinc-100 dark:bg-zinc-850 border-zinc-400 dark:border-zinc-600 shadow-2xs'
+                  ? 'bg-zinc-100 dark:bg-zinc-800 border-zinc-400 dark:border-zinc-600 shadow-2xs'
                   : 'bg-zinc-50 dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800'
               }`}
             >

@@ -275,7 +275,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
             className="p-6 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 shadow-xs transition-all cursor-pointer group flex flex-col justify-between space-y-4"
           >
             <div className="space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-850 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
                 <PlusCircle className="w-5 h-5" />
               </div>
               <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Create a Game</h3>
@@ -295,7 +295,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
             className="p-6 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 hover:border-zinc-400 dark:hover:border-zinc-600 shadow-xs transition-all cursor-pointer group flex flex-col justify-between space-y-4"
           >
             <div className="space-y-2">
-              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-850 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
+              <div className="w-10 h-10 rounded-xl bg-zinc-100 dark:bg-zinc-800 text-zinc-900 dark:text-zinc-100 flex items-center justify-center">
                 <LogIn className="w-5 h-5" />
               </div>
               <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">Join a Game</h3>
@@ -304,7 +304,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
               </p>
             </div>
 
-            <button className="w-full py-2.5 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-850 font-mono text-xs shadow-2xs transition-colors cursor-pointer">
+            <button className="w-full py-2.5 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 font-mono text-xs shadow-2xs transition-colors cursor-pointer">
               Enter Code
             </button>
           </div>

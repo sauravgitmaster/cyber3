@@ -133,7 +133,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({
         </div>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-850">
+        <div className="grid grid-cols-3 gap-3 pt-4 border-t border-zinc-100 dark:border-zinc-800">
           <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-center space-y-1">
             <span className="text-[10px] font-mono text-zinc-400 dark:text-zinc-500 uppercase tracking-wider block">
               Smart Score

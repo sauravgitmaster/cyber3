@@ -282,7 +282,7 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
               onResetData();
             }
           }}
-          className="px-4 py-2 rounded-full bg-white dark:bg-zinc-850 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-zinc-300 dark:border-zinc-700 hover:border-rose-400 dark:hover:border-rose-800 text-rose-600 dark:text-rose-400 text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer"
+          className="px-4 py-2 rounded-full bg-white dark:bg-zinc-900 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-zinc-300 dark:border-zinc-700 hover:border-rose-400 dark:hover:border-rose-800 text-rose-600 dark:text-rose-400 text-xs font-mono transition-colors flex items-center gap-1.5 cursor-pointer"
         >
           <RotateCcw className="w-3.5 h-3.5" />
           <span>Reset My Student Progress</span>

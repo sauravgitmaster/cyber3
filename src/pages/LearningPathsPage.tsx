@@ -87,7 +87,7 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
               className={`px-4 py-2 rounded-full text-xs font-mono transition-all shrink-0 flex items-center gap-2 cursor-pointer ${
                 isSelected
                   ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950 shadow-2xs'
-                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-850 border border-zinc-200 dark:border-zinc-800'
+                  : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800'
               }`}
             >
               <span className="flex items-center">{path.id === 'cyber-safety-fundamentals' ? <Shield className="w-3.5 h-3.5" /> : <Compass className="w-3.5 h-3.5" />}</span>

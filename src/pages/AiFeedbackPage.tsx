@@ -179,7 +179,7 @@ export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
 
         {/* Live AI Coaching Card from Gemini Server */}
         {aiCoaching && (
-          <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 space-y-2 animate-in fade-in">
+          <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 space-y-2 animate-in fade-in">
             <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
               <span>Byte's Live Cyber Coaching</span>
@@ -197,7 +197,7 @@ export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
         )}
 
         {/* Section: Byte's Golden Rule */}
-        <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 space-y-2">
+        <div className="p-5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 space-y-2">
           <div className="flex items-center gap-2 text-[10px] font-mono text-zinc-500 uppercase tracking-wider">
             <Sparkles className="w-3.5 h-3.5 text-amber-500" />
             <span>Byte's Golden Takeaway</span>
@@ -209,7 +209,7 @@ export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
         </div>
 
         {/* Expandable Technical Details for curious students */}
-        <div className="pt-2 border-t border-zinc-100 dark:border-zinc-850">
+        <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800">
           <button
             onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
             className="inline-flex items-center gap-2 text-xs font-mono text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors cursor-pointer"

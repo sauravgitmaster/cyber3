@@ -144,7 +144,7 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
                 <th className="py-3.5 px-5 text-center">Badges</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-850">
+            <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
               {sortedEntries.map((student, idx) => {
                 const rank = idx + 1;
                 const isUser = student.isCurrentUser;
@@ -169,7 +169,7 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
                           2
                         </span>
                       ) : rank === 3 ? (
-                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300 font-mono text-[11px]">
+                        <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-mono text-[11px]">
                           3
                         </span>
                       ) : (
@@ -184,7 +184,7 @@ export const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
                           className={`w-7 h-7 rounded-lg flex items-center justify-center text-xs font-mono font-semibold ${
                             isUser
                               ? 'bg-zinc-900 dark:bg-white text-white dark:text-zinc-950'
-                              : 'bg-zinc-100 dark:bg-zinc-850 text-zinc-700 dark:text-zinc-300'
+                              : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300'
                           }`}
                         >
                           {student.name.charAt(0)}

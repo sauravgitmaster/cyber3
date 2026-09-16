@@ -122,7 +122,7 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
         {onRequestNextMission && (
           <button
             onClick={onRequestNextMission}
-            className="px-3.5 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-850 text-zinc-700 dark:text-zinc-300 text-xs font-mono transition-colors shrink-0 flex items-center gap-1.5 self-start sm:self-center cursor-pointer"
+            className="px-3.5 py-2 rounded-full bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 text-zinc-700 dark:text-zinc-300 text-xs font-mono transition-colors shrink-0 flex items-center gap-1.5 self-start sm:self-center cursor-pointer"
             title="Pick another challenge adapted to your level"
           >
             <Shuffle className="w-3.5 h-3.5 text-zinc-500" />
@@ -249,7 +249,7 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
             </div>
 
             {showClues && (
-              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-xs text-zinc-700 dark:text-zinc-300 space-y-2 animate-in fade-in duration-200">
+              <div className="p-4 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs text-zinc-700 dark:text-zinc-300 space-y-2 animate-in fade-in duration-200">
                 {currentScenario.toolReveals?.checkSender && (
                   <div>
                     <strong className="text-zinc-900 dark:text-zinc-100 font-mono text-[11px] block mb-0.5">Sender Analysis:</strong>
@@ -320,7 +320,9 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <span className="text-xs sm:text-sm font-medium text-zinc-900 dark:text-zinc-100 block leading-snug">
+                      <span className={`text-xs sm:text-sm font-medium block leading-snug ${
+                        isSelected ? 'text-zinc-950 dark:text-white font-semibold' : 'text-zinc-800 dark:text-zinc-200'
+                      }`}>
                         {opt.text}
                       </span>
                     </div>
@@ -340,17 +342,17 @@ export const ScenarioPage: React.FC<ScenarioPageProps> = ({
             </div>
 
             {/* Ask Byte For A Hint Toggle Button */}
-            <div className="pt-2 border-t border-zinc-100 dark:border-zinc-850">
+            <div className="pt-2 border-t border-zinc-100 dark:border-zinc-800">
               <button
                 onClick={() => setShowHint(!showHint)}
-                className="w-full py-2.5 px-4 rounded-full bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-850 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 transition-colors flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full py-2.5 px-4 rounded-full bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 text-xs font-mono text-zinc-700 dark:text-zinc-300 transition-colors flex items-center justify-center gap-2 cursor-pointer"
               >
                 <ByteMascot mood="thinking" size="xs" animate={false} />
                 <span>{showHint ? "Hide Byte's Hint" : "Need a hint? Ask Byte"}</span>
               </button>
 
               {showHint && (
-                <div className="mt-3 p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-850 text-xs space-y-1 animate-in fade-in duration-150">
+                <div className="mt-3 p-3.5 rounded-2xl bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 text-xs space-y-1 animate-in fade-in duration-150">
                   <span className="font-mono text-[10px] uppercase text-zinc-500 block">Byte Whispers</span>
                   <p className="leading-relaxed text-zinc-700 dark:text-zinc-300 text-xs">
                     {currentScenario.hint ||
