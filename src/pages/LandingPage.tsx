@@ -649,6 +649,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             >
               Preferences
             </button>
+            <button
+              onClick={() => onNavigate('admin-analytics')}
+              className="hover:text-zinc-900 dark:hover:text-white transition-colors cursor-pointer text-zinc-400 dark:text-zinc-500"
+            >
+              Analytics (Admin)
+            </button>
           </div>
         </div>
       </footer>

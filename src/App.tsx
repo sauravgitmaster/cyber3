@@ -7,6 +7,8 @@ import { MobileNav } from './components/layout/MobileNav';
 import { AiMentorDrawer } from './components/common/AiMentorDrawer';
 import { CertificateModal } from './components/common/CertificateModal';
 import { AgeSelectionModal } from './components/common/AgeSelectionModal';
+import { AnalyticsPrivacyNotice } from './components/analytics/AnalyticsPrivacyNotice';
+import { useVisitorAnalytics } from './hooks/useVisitorAnalytics';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -22,6 +24,7 @@ import { LeaderboardPage } from './pages/LeaderboardPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { SettingsPage } from './pages/SettingsPage';
 import { MultiplayerPage } from './pages/MultiplayerPage';
+import { AdminAnalyticsPage } from './pages/AdminAnalyticsPage';
 
 export default function App() {
   const {
@@ -60,16 +63,21 @@ export default function App() {
 
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
-  // Auto-detect join code in URL on launch
+  const activePage = currentPage;
+  const handleNavigate = navigateTo;
+
+  // Real-time privacy-conscious session analytics tracking
+  const analytics = useVisitorAnalytics({ activePage, user });
+
+  // Auto-detect join code or admin analytics in URL on launch
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('join')) {
       navigateTo('multiplayer');
+    } else if (params.get('page') === 'admin-analytics' || params.get('admin') === 'true') {
+      navigateTo('admin-analytics');
     }
   }, [navigateTo]);
-
-  const activePage = currentPage;
-  const handleNavigate = navigateTo;
 
   // Standalone pages that don't need the dashboard shell (sidebar/navbar)
   const isStandalonePage = activePage === 'landing' || activePage === 'auth';
@@ -222,6 +230,13 @@ export default function App() {
                   onNavigate={handleNavigate}
                 />
               )}
+
+              {activePage === 'admin-analytics' && (
+                <AdminAnalyticsPage
+                  user={user}
+                  onNavigate={handleNavigate}
+                />
+              )}
             </main>
           </div>
 
@@ -267,6 +282,14 @@ export default function App() {
           }}
         />
       )}
+
+      {/* Analytics & Visitor Privacy Transparency Notice */}
+      <AnalyticsPrivacyNotice
+        hasDismissed={analytics.hasDismissedPrivacyNotice}
+        onDismiss={analytics.dismissPrivacyNotice}
+        isLoggedIn={!!(user?.email && user.email !== 'explorer@cybermentor.app')}
+        userEmail={user?.email}
+      />
 
       {/* Age Selection Step: prompts new users or existing users without a saved age */}
       {!isStandalonePage && (user.age === undefined || user.age === null) && (

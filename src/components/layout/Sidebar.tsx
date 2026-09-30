@@ -10,6 +10,7 @@ import {
   ChevronRight,
   ExternalLink,
   LogOut,
+  BarChart3,
 } from 'lucide-react';
 import { ByteMascot } from '../common/ByteMascot';
 import { ThemeToggle } from '../common/ThemeToggle';
@@ -109,6 +110,34 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           );
         })}
+
+        {/* Admin Visitor Analytics Link */}
+        <div className="pt-2 mt-2 border-t border-zinc-100 dark:border-zinc-850/60">
+          <button
+            onClick={() => onNavigate('admin-analytics')}
+            className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 cursor-pointer ${
+              current === 'admin-analytics'
+                ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800'
+                : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100 hover:bg-zinc-50 dark:hover:bg-zinc-900/40 border border-transparent'
+            }`}
+          >
+            <div className="flex items-center gap-2.5">
+              <div
+                className={`w-6 h-6 rounded-lg flex items-center justify-center transition-colors ${
+                  current === 'admin-analytics'
+                    ? 'bg-emerald-600 text-white'
+                    : 'bg-zinc-100 dark:bg-zinc-900 text-zinc-500 dark:text-zinc-400'
+                }`}
+              >
+                <BarChart3 className="w-3 h-3" />
+              </div>
+              <span className="text-[11px] sm:text-xs">Visitor Analytics</span>
+            </div>
+            <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
+              Admin
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* Footer Area: Theme Switcher & Byte Callout */}

@@ -13,6 +13,8 @@ import {
   Zap,
   Award,
   User,
+  BarChart3,
+  Settings,
 } from 'lucide-react';
 import { ByteMascot } from '../common/ByteMascot';
 import { ThemeToggle } from '../common/ThemeToggle';
@@ -65,6 +67,10 @@ export const Navbar: React.FC<NavbarProps> = ({
         return { label: 'Rewards & Trophies', icon: Award };
       case 'profile':
         return { label: 'Your Profile', icon: User };
+      case 'settings':
+        return { label: 'Account Settings', icon: Settings };
+      case 'admin-analytics':
+        return { label: 'Visitor Analytics Portal', icon: BarChart3 };
       default:
         return { label: 'CyberMentor', icon: Shield };
     }

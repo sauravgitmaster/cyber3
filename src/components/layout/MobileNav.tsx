@@ -10,6 +10,7 @@ import {
   X,
   ChevronRight,
   LogOut,
+  BarChart3,
 } from 'lucide-react';
 import { ByteMascot } from '../common/ByteMascot';
 import { ThemeToggle } from '../common/ThemeToggle';
@@ -130,6 +131,23 @@ export const MobileNav: React.FC<MobileNavProps> = ({
                   </button>
                 );
               })}
+
+              <button
+                onClick={() => handleSelectPage('admin-analytics')}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-medium text-xs transition-colors cursor-pointer ${
+                  current === 'admin-analytics'
+                    ? 'bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 border border-zinc-200 dark:border-zinc-800'
+                    : 'text-zinc-600 dark:text-zinc-400 hover:bg-zinc-50 dark:hover:bg-zinc-900/40'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <BarChart3 className="w-4 h-4 text-emerald-600" />
+                  <span>Visitor Analytics</span>
+                </div>
+                <span className="text-[9px] font-mono px-1.5 py-0.5 rounded-sm bg-zinc-100 dark:bg-zinc-800 text-zinc-500">
+                  Admin
+                </span>
+              </button>
 
               {/* Mobile Theme Toggle Section */}
               <div className="pt-2">

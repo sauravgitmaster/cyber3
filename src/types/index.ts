@@ -218,10 +218,94 @@ export type ActivePage =
   | 'interactive-scenario'
   | 'ai-feedback'
   | 'progress-analytics'
+  | 'admin-analytics'
   | 'badges'
   | 'leaderboard'
   | 'profile'
   | 'multiplayer'
   | 'settings';
+
+export type DeviceType = 'desktop' | 'mobile' | 'tablet';
+
+export interface SessionPageView {
+  page: string;
+  timestamp: number;
+  durationSeconds?: number;
+}
+
+export interface VisitorAnalyticsSession {
+  sessionId: string;
+  visitorId: string;
+  userId?: string;
+  userEmail?: string;
+  isAnonymous: boolean;
+  startedAt: number;
+  lastSeenAt: number;
+  durationSeconds: number;
+  deviceType: DeviceType;
+  audienceType: 'kids' | 'adult' | 'unspecified';
+  pages: SessionPageView[];
+  status: 'active' | 'closed';
+  referrer?: string;
+  ipHash?: string;
+}
+
+export interface PageStatItem {
+  page: string;
+  views: number;
+  uniqueVisitors: number;
+  avgDurationSeconds: number;
+}
+
+export interface DailyVisitorStat {
+  date: string;
+  visits: number;
+  uniqueVisitors: number;
+}
+
+export interface LoggedInUserVisitHistory {
+  userId: string;
+  email: string;
+  name?: string;
+  sessionCount: number;
+  totalDurationSeconds: number;
+  firstSeenAt: number;
+  lastSeenAt: number;
+  pagesVisited: string[];
+  audienceType: 'kids' | 'adult' | 'unspecified';
+  lastDeviceType: DeviceType;
+}
+
+export interface AnalyticsOverviewData {
+  totalVisits: number;
+  uniqueVisitors: number;
+  averageDurationSeconds: number;
+  activeSessionsCount: number;
+  mostVisitedPages: PageStatItem[];
+  dailyVisitors: DailyVisitorStat[];
+  audienceBreakdown: {
+    kids: number;
+    adult: number;
+    unspecified: number;
+  };
+  deviceBreakdown: {
+    desktop: number;
+    mobile: number;
+    tablet: number;
+  };
+  recentSessions: VisitorAnalyticsSession[];
+  userHistory: LoggedInUserVisitHistory[];
+  timeframe: string;
+}
+
+export interface AnalyticsFilterParams {
+  dateRange?: 'today' | '7d' | '30d' | 'all';
+  userType?: 'all' | 'identified' | 'anonymous';
+  deviceType?: 'all' | DeviceType;
+  page?: string;
+  minDurationSeconds?: number;
+  audienceType?: 'all' | 'kids' | 'adult' | 'unspecified';
+  search?: string;
+}
 
 export * from './multiplayer';

@@ -1,6 +1,7 @@
 import express from 'express';
 import { roomService } from './roomService';
 import { askByteMentor, analyzeMissionDecision } from './geminiService';
+import { analyticsService } from './analyticsService';
 
 export function createApp() {
   const app = express();
@@ -385,6 +386,225 @@ export function createApp() {
     const { playerId } = req.body;
     roomService.leaveRoom(code, playerId);
     res.json({ left: true });
+  });
+
+  // ==========================================
+  // Privacy-Conscious Visitor Analytics APIs
+  // ==========================================
+
+  // Helper middleware for analytics rate limiting
+  const analyticsRateLimiter = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const clientKey = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || 'client';
+    if (!analyticsService.checkRateLimit(clientKey, 150, 60000)) {
+      return res.status(429).json({ error: 'Too many analytics requests. Please wait a moment.' });
+    }
+    next();
+  };
+
+  // Helper to extract & test admin authorization
+  const checkAdminAuth = (req: express.Request): boolean => {
+    const adminKey = (req.headers['x-admin-key'] as string) || (req.query.adminKey as string) || '';
+    const userEmail = (req.headers['x-user-email'] as string) || (req.query.userEmail as string) || '';
+    const userRole = (req.headers['x-user-role'] as string) || '';
+
+    // Check bearer token if present
+    const authHeader = req.headers.authorization;
+    let bearerToken = '';
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      bearerToken = authHeader.substring(7).trim();
+    }
+
+    return analyticsService.isAuthorizedAdmin(adminKey || bearerToken, userEmail, userRole);
+  };
+
+  // Analytics: Start Session
+  app.post('/api/analytics/session/start', analyticsRateLimiter, (req, res) => {
+    try {
+      const { sessionId, visitorId, deviceType, page, audienceType, referrer, userId, userEmail } = req.body;
+      const clientIp = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || undefined;
+
+      const session = analyticsService.startSession({
+        sessionId,
+        visitorId,
+        deviceType,
+        page,
+        audienceType,
+        referrer,
+        userId,
+        userEmail,
+        ip: clientIp,
+      });
+
+      res.json({ success: true, session });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Failed to start session' });
+    }
+  });
+
+  // Analytics: Heartbeat (every 30-60s)
+  app.post('/api/analytics/session/heartbeat', analyticsRateLimiter, (req, res) => {
+    try {
+      const { sessionId, visitorId, currentPage, audienceType, userId, userEmail } = req.body;
+      if (!sessionId) {
+        return res.status(400).json({ error: 'sessionId is required for heartbeat' });
+      }
+
+      const result = analyticsService.heartbeat({
+        sessionId,
+        visitorId,
+        currentPage,
+        audienceType,
+        userId,
+        userEmail,
+      });
+
+      res.json(result);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Heartbeat failed' });
+    }
+  });
+
+  // Analytics: Track Page View
+  app.post('/api/analytics/pageview', analyticsRateLimiter, (req, res) => {
+    try {
+      const { sessionId, visitorId, page, audienceType, userId, userEmail } = req.body;
+      if (!sessionId || !page) {
+        return res.status(400).json({ error: 'sessionId and page are required' });
+      }
+
+      const success = analyticsService.trackPageView({
+        sessionId,
+        visitorId,
+        page,
+        audienceType,
+        userId,
+        userEmail,
+      });
+
+      res.json({ success });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Failed to track page view' });
+    }
+  });
+
+  // Analytics: End Session
+  app.post('/api/analytics/session/end', (req, res) => {
+    try {
+      const { sessionId } = req.body;
+      if (sessionId) {
+        analyticsService.endSession(sessionId);
+      }
+      res.json({ success: true });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Failed to end session' });
+    }
+  });
+
+  // Analytics: Admin Auth Verification
+  app.post('/api/analytics/admin/verify', (req, res) => {
+    const { adminKey, email } = req.body;
+    const isAuthorized = analyticsService.isAuthorizedAdmin(adminKey, email);
+    res.json({ authorized: isAuthorized });
+  });
+
+  // Analytics: Clear / Reset Records (Protected: Authorized Admins only)
+  app.post('/api/analytics/admin/clear', (req, res) => {
+    try {
+      if (!checkAdminAuth(req)) {
+        return res.status(403).json({ error: 'Unauthorized. Admin authorization required to reset analytics data.' });
+      }
+      analyticsService.clearAll();
+      res.json({ success: true, message: 'All visitor analytics records have been cleared.' });
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Failed to clear analytics records' });
+    }
+  });
+
+  // Analytics: Admin Overview Report (Protected: Authorized Admins only)
+  app.get('/api/analytics/overview', (req, res) => {
+    try {
+      if (!checkAdminAuth(req)) {
+        return res.status(403).json({
+          error: 'Unauthorized. Admin authorization required to access visitor analytics metrics.',
+        });
+      }
+
+      const {
+        dateRange,
+        userType,
+        deviceType,
+        page,
+        minDurationSeconds,
+        audienceType,
+        search,
+      } = req.query;
+
+      const overview = analyticsService.getOverview({
+        dateRange: dateRange as any,
+        userType: userType as any,
+        deviceType: deviceType as any,
+        page: page as string,
+        minDurationSeconds: minDurationSeconds ? Number(minDurationSeconds) : undefined,
+        audienceType: audienceType as any,
+        search: search as string,
+      });
+
+      res.json(overview);
+    } catch (err: any) {
+      res.status(500).json({ error: err.message || 'Failed to retrieve analytics overview' });
+    }
+  });
+
+  // Analytics: CSV Export (Protected: Authorized Admins only)
+  app.get('/api/analytics/export', (req, res) => {
+    try {
+      if (!checkAdminAuth(req)) {
+        return res.status(403).send('Unauthorized. Admin authorization required to export visitor analytics data.');
+      }
+
+      const { dateRange, userType, deviceType, page, audienceType, mask } = req.query;
+      const maskEmails = mask === 'true' || mask === '1';
+
+      const csvData = analyticsService.exportCSV(
+        {
+          dateRange: dateRange as any,
+          userType: userType as any,
+          deviceType: deviceType as any,
+          page: page as string,
+          audienceType: audienceType as any,
+        },
+        maskEmails
+      );
+
+      const filename = `cybermentor-visitor-analytics-${new Date().toISOString().split('T')[0]}.csv`;
+      res.setHeader('Content-Type', 'text/csv');
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.status(200).send(csvData);
+    } catch (err: any) {
+      res.status(500).send(`Failed to generate CSV export: ${err.message}`);
+    }
+  });
+
+  // Analytics: Printable Executive Report (Protected: Authorized Admins only)
+  app.get('/api/analytics/report', (req, res) => {
+    try {
+      if (!checkAdminAuth(req)) {
+        return res.status(403).send('<!DOCTYPE html><html><body><h2>Unauthorized</h2><p>Admin authorization key is required to view this report.</p></body></html>');
+      }
+
+      const { dateRange, userType, deviceType, audienceType } = req.query;
+      const htmlReport = analyticsService.generatePrintableReport({
+        dateRange: dateRange as any,
+        userType: userType as any,
+        deviceType: deviceType as any,
+        audienceType: audienceType as any,
+      });
+
+      res.setHeader('Content-Type', 'text/html');
+      res.status(200).send(htmlReport);
+    } catch (err: any) {
+      res.status(500).send(`Failed to generate printable report: ${err.message}`);
+    }
   });
 
   return app;

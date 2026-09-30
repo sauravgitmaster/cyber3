@@ -13,6 +13,7 @@ import {
   Moon,
   Compass,
   AlertCircle,
+  BarChart3,
 } from 'lucide-react';
 import { ByteMascot } from '../components/common/ByteMascot';
 import { ThemeToggle } from '../components/common/ThemeToggle';
@@ -356,6 +357,27 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
           </button>
         </div>
       </form>
+
+      {/* Admin & Visitor Analytics Section */}
+      <div className="p-6 rounded-3xl bg-white dark:bg-[#080808] border border-zinc-200 dark:border-zinc-800 space-y-3 transition-colors shadow-xs">
+        <div className="flex items-center justify-between">
+          <div className="space-y-1">
+            <h3 className="text-sm font-semibold text-zinc-900 dark:text-zinc-100 flex items-center gap-2">
+              <BarChart3 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+              <span>Visitor & Learning Platform Analytics</span>
+            </h3>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">
+              Access the administrative dashboard to view visitor metrics, device distribution, Kids vs Adult breakdown, and export CSV reports.
+            </p>
+          </div>
+          <button
+            onClick={() => onNavigate('admin-analytics')}
+            className="px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-800 dark:bg-white dark:hover:bg-zinc-200 text-white dark:text-zinc-900 text-xs font-semibold transition-all shadow-xs cursor-pointer shrink-0"
+          >
+            Open Admin Dashboard
+          </button>
+        </div>
+      </div>
 
       {/* Danger Zone: Reset Data */}
       <div className="p-6 rounded-3xl bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 space-y-3 transition-colors">
