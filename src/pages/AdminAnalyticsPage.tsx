@@ -53,6 +53,7 @@ export const AdminAnalyticsPage: React.FC<AdminAnalyticsPageProps> = ({ user, on
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [authError, setAuthError] = useState<string | null>(null);
   const [inputKey, setInputKey] = useState<string>('');
+  const [showPasskeyInput, setShowPasskeyInput] = useState<boolean>(false);
 
   // Data & Filters State
   const [overview, setOverview] = useState<AnalyticsOverviewData | null>(null);
@@ -277,15 +278,26 @@ export const AdminAnalyticsPage: React.FC<AdminAnalyticsPageProps> = ({ user, on
               <label className="block text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1.5">
                 Administrator Passkey
               </label>
-              <input
-                type="password"
-                value={inputKey}
-                onChange={(e) => setInputKey(e.target.value)}
-                placeholder="Enter admin access key"
-                className="w-full px-3.5 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs focus:outline-none focus:ring-2 focus:ring-zinc-400"
-              />
-              <span className="text-[10px] text-zinc-400 mt-1 block">
-                Default demo passkey: <code className="font-mono text-zinc-700 dark:text-zinc-300">cyberadmin2026</code>
+              <div className="relative">
+                <input
+                  type={showPasskeyInput ? 'text' : 'password'}
+                  value={inputKey}
+                  onChange={(e) => setInputKey(e.target.value)}
+                  placeholder="Enter admin access key"
+                  className="w-full pl-3.5 pr-10 py-2.5 rounded-xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-xs focus:outline-none focus:ring-2 focus:ring-zinc-400"
+                  autoComplete="off"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPasskeyInput(!showPasskeyInput)}
+                  className="absolute right-2.5 top-2.5 p-1 text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200 transition-colors cursor-pointer"
+                  title={showPasskeyInput ? 'Hide passkey' : 'Show passkey'}
+                >
+                  {showPasskeyInput ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+                </button>
+              </div>
+              <span className="text-[10px] text-zinc-400 mt-1.5 block">
+                Provide your assigned administrative key to unlock metrics and session logs.
               </span>
             </div>
 
