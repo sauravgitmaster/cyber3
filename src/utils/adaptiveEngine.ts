@@ -87,7 +87,8 @@ export function getNextMission(
   // Filter candidate pool
   let candidates = allMissions.filter(m => {
     if (recentCompletedIds.has(m.id)) return false;
-    return desiredLevels.includes(m.scaffoldLevel);
+    const level = m.scaffoldLevel || 1;
+    return desiredLevels.includes(level);
   });
 
   // If no candidates in desired levels, widen to any non-recent mission

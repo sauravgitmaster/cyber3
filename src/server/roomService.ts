@@ -220,13 +220,16 @@ export const roomService = {
     return rooms.size;
   },
 
-  createRoom(hostData: { id: string; name: string; avatar: string }): RoomStateClient {
+  createRoom(
+    hostData: { id: string; name: string; avatar: string },
+    audience?: 'kids' | 'adult'
+  ): RoomStateClient {
     let code = generateRoomCode();
     while (rooms.has(code)) {
       code = generateRoomCode();
     }
 
-    const questions = getEightRandomQuestions();
+    const questions = getEightRandomQuestions([], audience);
 
     const newRoom: RoomInternal = {
       code,

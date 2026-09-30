@@ -59,7 +59,7 @@ export function createApp() {
   // Auth: Sign Up
   app.post('/api/auth/signup', (req, res) => {
     try {
-      const { name, email, avatar, password } = req.body;
+      const { name, email, avatar, password, age, audienceType } = req.body;
       if (!email) {
         return res.status(400).json({ error: 'Email is required' });
       }
@@ -74,6 +74,9 @@ export function createApp() {
         });
       }
 
+      const parsedAge = age !== undefined && age !== null && age !== '' ? Number(age) : undefined;
+      const parsedAudience = audienceType || (parsedAge !== undefined ? (parsedAge >= 13 ? 'adult' : 'kids') : undefined);
+
       const newUser = {
         id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 6)}`,
         name: (name || '').trim() || lowerEmail.split('@')[0] || 'Cyber Explorer',
@@ -87,6 +90,8 @@ export function createApp() {
         completedModulesCount: 0,
         scenariosCompletedCount: 0,
         joinedDate: new Date().toLocaleDateString('en-US', { month: 'short', year: 'numeric' }),
+        ...(parsedAge !== undefined ? { age: parsedAge } : {}),
+        ...(parsedAudience ? { audienceType: parsedAudience } : {}),
       };
 
       usersStore.set(lowerEmail, newUser);
@@ -153,13 +158,16 @@ export function createApp() {
   // Auth: Update Profile
   app.post('/api/auth/update', (req, res) => {
     try {
-      const { email, name, avatar, digitalTrustScore, currentXP, level, levelTitle } = req.body;
+      const { email, name, avatar, digitalTrustScore, currentXP, level, levelTitle, age, audienceType } = req.body;
       if (!email) {
         return res.status(400).json({ error: 'User email is required' });
       }
 
       const lowerEmail = email.toLowerCase().trim();
       const existing = usersStore.get(lowerEmail) || { email: lowerEmail };
+
+      const parsedAge = age !== undefined && age !== null && age !== '' ? Number(age) : undefined;
+      const parsedAudience = audienceType || (parsedAge !== undefined ? (parsedAge >= 13 ? 'adult' : 'kids') : undefined);
 
       const updated = {
         ...existing,
@@ -169,6 +177,8 @@ export function createApp() {
         ...(currentXP !== undefined ? { currentXP } : {}),
         ...(level !== undefined ? { level } : {}),
         ...(levelTitle ? { levelTitle } : {}),
+        ...(parsedAge !== undefined ? { age: parsedAge } : {}),
+        ...(parsedAudience ? { audienceType: parsedAudience } : {}),
         updatedAt: Date.now(),
       };
 
@@ -205,7 +215,7 @@ export function createApp() {
   // AI Mentor: Scenario Decision Coaching
   app.post('/api/scenario/feedback', async (req, res) => {
     try {
-      const { missionTitle, userChoice, isOptimal, scenarioContext } = req.body;
+      const { missionTitle, userChoice, isOptimal, scenarioContext, audienceType } = req.body;
       if (!missionTitle || !userChoice) {
         return res.status(400).json({ error: 'Mission title and user choice are required' });
       }
@@ -215,6 +225,7 @@ export function createApp() {
         userChoice,
         isOptimal: !!isOptimal,
         scenarioContext,
+        audienceType,
       });
 
       res.json(analysis);
@@ -279,11 +290,11 @@ export function createApp() {
   // Multiplayer Room: Create (supports both /api/rooms/create and /api/room/create)
   app.post(['/api/rooms/create', '/api/room/create'], (req, res) => {
     try {
-      const { host } = req.body;
+      const { host, audienceType } = req.body;
       if (!host || !host.id) {
         return res.status(400).json({ error: 'Host player information required' });
       }
-      const room = roomService.createRoom(host);
+      const room = roomService.createRoom(host, audienceType || host.audienceType);
       res.json(room);
     } catch (err: any) {
       res.status(400).json({ error: err.message });

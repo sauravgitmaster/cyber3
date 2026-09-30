@@ -51,18 +51,18 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 sm:p-8 bg-white rounded-3xl border border-slate-200 shadow-sm text-center space-y-6">
+    <div className="max-w-lg mx-auto p-6 sm:p-8 bg-white dark:bg-[#080808] rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-sm text-center space-y-6 text-zinc-900 dark:text-zinc-100">
       {/* Trophy & Mascot */}
       <div className="space-y-2">
         <div className="inline-flex justify-center mb-1">
           <ByteMascot mood="proud" size="lg" />
         </div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-xs font-black text-amber-600">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 text-xs font-black text-amber-600 dark:text-amber-400">
           <Trophy className="w-3.5 h-3.5" />
           <span>GAME COMPLETE!</span>
         </div>
-        <h2 className="text-3xl font-black text-[#243047]">Great Game!</h2>
-        <p className="text-xs text-slate-500 font-medium">
+        <h2 className="text-3xl font-black text-[#243047] dark:text-zinc-100">Great Game!</h2>
+        <p className="text-xs text-slate-500 dark:text-zinc-400 font-medium">
           You both exercised your digital reflexes together.
         </p>
       </div>
@@ -70,58 +70,58 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
       {/* Score Comparison Cards */}
       <div className="grid grid-cols-2 gap-3">
         {/* You */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 text-center space-y-1">
+        <div className="p-4 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/40 dark:to-indigo-950/40 border-2 border-blue-200 dark:border-blue-900/60 text-center space-y-1">
           <span className="text-3xl block">{me?.avatar || ''}</span>
-          <span className="text-xs font-black text-[#243047] block truncate">
+          <span className="text-xs font-black text-[#243047] dark:text-zinc-100 block truncate">
             {me?.name || 'You'} (You)
           </span>
-          <div className="text-2xl font-black text-[#4F7CFF]">{myScore} pts</div>
-          <span className="text-[10px] font-bold text-slate-500">
+          <div className="text-2xl font-black text-[#4F7CFF] dark:text-blue-400">{myScore} pts</div>
+          <span className="text-[10px] font-bold text-slate-500 dark:text-zinc-400">
             {me?.correctCount || 0} of {room.totalRounds} correct
           </span>
         </div>
 
         {/* Friend */}
-        <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 border-2 border-amber-200 text-center space-y-1">
+        <div className="p-4 rounded-2xl bg-gradient-to-br from-amber-50 to-orange-50 dark:from-amber-950/40 dark:to-orange-950/40 border-2 border-amber-200 dark:border-amber-900/60 text-center space-y-1">
           <span className="text-3xl block">{friend?.avatar || ''}</span>
-          <span className="text-xs font-black text-[#243047] block truncate">
+          <span className="text-xs font-black text-[#243047] dark:text-zinc-100 block truncate">
             {friend?.name || 'Friend'}
           </span>
-          <div className="text-2xl font-black text-amber-600">{friendScore} pts</div>
-          <span className="text-[10px] font-bold text-slate-500">
+          <div className="text-2xl font-black text-amber-600 dark:text-amber-400">{friendScore} pts</div>
+          <span className="text-[10px] font-bold text-slate-500 dark:text-zinc-400">
             {friend?.correctCount || 0} of {room.totalRounds} correct
           </span>
         </div>
       </div>
 
       {/* Stats Summary */}
-      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 grid grid-cols-2 gap-3 text-left">
+      <div className="p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 grid grid-cols-2 gap-3 text-left">
         <div>
-          <span className="text-[10px] font-bold text-slate-400 uppercase block">
+          <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase block">
             Fastest Catch
           </span>
-          <span className="text-xs font-black text-[#243047] flex items-center gap-1">
+          <span className="text-xs font-black text-[#243047] dark:text-zinc-100 flex items-center gap-1">
             <Zap className="w-3.5 h-3.5 text-amber-500" />
             <span>{myFastest}</span>
           </span>
         </div>
 
         <div>
-          <span className="text-[10px] font-bold text-slate-400 uppercase block">
+          <span className="text-[10px] font-bold text-slate-400 dark:text-zinc-500 uppercase block">
             Topics Faced
           </span>
-          <span className="text-xs font-black text-[#243047] truncate block">
+          <span className="text-xs font-black text-[#243047] dark:text-zinc-100 truncate block">
             Phishing, Passwords, Privacy
           </span>
         </div>
       </div>
 
       {/* Byte's Encouraging Takeaway */}
-      <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 text-left flex items-start gap-3">
+      <div className="p-4 rounded-2xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/60 text-left flex items-start gap-3">
         <ByteMascot mood="happy" size="xs" animate={false} />
         <div className="space-y-0.5">
-          <span className="text-xs font-black text-[#243047] block">Byte’s Takeaway</span>
-          <p className="text-xs text-slate-600 font-medium leading-relaxed">
+          <span className="text-xs font-black text-[#243047] dark:text-zinc-100 block">Byte’s Takeaway</span>
+          <p className="text-xs text-slate-600 dark:text-zinc-300 font-medium leading-relaxed">
             {getByteTakeaway()}
           </p>
         </div>
@@ -131,7 +131,7 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
       <div className="space-y-2.5 pt-1">
         <button
           onClick={onPlayAgain}
-          className="w-full py-3.5 rounded-2xl bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white font-black text-sm flex items-center justify-center gap-2 transition-all active:scale-98 shadow-md"
+          className="w-full py-3.5 rounded-2xl bg-[#4F7CFF] hover:bg-[#3D6CE6] text-white font-black text-sm flex items-center justify-center gap-2 transition-all active:scale-98 shadow-md cursor-pointer"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Play Again</span>
@@ -140,7 +140,7 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
         <div className="grid grid-cols-2 gap-2.5">
           <button
             onClick={onReviewAnswers}
-            className="py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+            className="py-3 px-4 rounded-2xl bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
           >
             <BookOpen className="w-4 h-4 text-[#4F7CFF]" />
             <span>Review Answers</span>
@@ -148,7 +148,7 @@ export const MultiplayerResults: React.FC<MultiplayerResultsProps> = ({
 
           <button
             onClick={onBackHome}
-            className="py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 border-2 border-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors"
+            className="py-3 px-4 rounded-2xl bg-white dark:bg-zinc-900 hover:bg-slate-50 dark:hover:bg-zinc-800 border-2 border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-200 font-bold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
           >
             <Home className="w-4 h-4 text-slate-500" />
             <span>Back Home</span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ActivePage, UserProfile } from '../types';
 import { useMultiplayerRoom } from '../hooks/useMultiplayerRoom';
+import { getAudienceType } from '../utils/audienceConstants';
 import { CreateGame } from '../components/multiplayer/CreateGame';
 import { JoinGame } from '../components/multiplayer/JoinGame';
 import { MultiplayerScoreBar } from '../components/multiplayer/MultiplayerScoreBar';
@@ -51,6 +52,7 @@ export const MultiplayerPage: React.FC<MultiplayerPageProps> = ({
     id: user.studentId || user.email,
     name: user.name,
     avatar: user.avatar,
+    audience: user.audienceType || (user.age ? getAudienceType(user.age) : 'kids'),
   });
 
   // Check URL params for invite link e.g. ?join=7KQ4M2

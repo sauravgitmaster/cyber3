@@ -42,7 +42,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           {/* Left: Brand logo & name */}
           <div className="flex items-center gap-8">
             <button
-              onClick={() => onNavigate('dashboard')}
+              onClick={() => {
+                onNavigate('landing');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
               className="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-hidden"
             >
               {/* OpenAI-style geometric emblem */}
@@ -646,10 +649,6 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             >
               Preferences
             </button>
-          </div>
-
-          <div className="text-zinc-500">
-            © 2026 CyberMentor AI. Built in AI Studio.
           </div>
         </div>
       </footer>

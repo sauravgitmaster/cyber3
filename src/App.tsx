@@ -6,6 +6,7 @@ import { Navbar } from './components/layout/Navbar';
 import { MobileNav } from './components/layout/MobileNav';
 import { AiMentorDrawer } from './components/common/AiMentorDrawer';
 import { CertificateModal } from './components/common/CertificateModal';
+import { AgeSelectionModal } from './components/common/AgeSelectionModal';
 
 // Pages
 import { LandingPage } from './pages/LandingPage';
@@ -122,6 +123,7 @@ export default function App() {
                   onNavigate={handleNavigate}
                   onCompleteSkillCheck={completeSkillCheck}
                   lastResult={lastSkillCheck || undefined}
+                  user={user}
                 />
               )}
 
@@ -181,6 +183,7 @@ export default function App() {
                   onNavigate={handleNavigate}
                   onRequestNextMission={requestNextMission}
                   onOpenMentor={() => setIsMentorDrawerOpen(true)}
+                  user={user}
                 />
               )}
 
@@ -262,6 +265,32 @@ export default function App() {
             setIsCertificateModalOpen(false);
             setActiveCertificate(null);
           }}
+        />
+      )}
+
+      {/* Age Selection Step: prompts new users or existing users without a saved age */}
+      {!isStandalonePage && (user.age === undefined || user.age === null) && (
+        <AgeSelectionModal
+          isOpen={true}
+          user={user}
+          onSaveAge={async (age, audienceType) => {
+            const updatedUser = {
+              ...user,
+              age,
+              audienceType,
+            };
+            setUser(updatedUser);
+            try {
+              await fetch('/api/auth/update', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email, age, audienceType }),
+              });
+            } catch {
+              // fallback state is managed by setUser and local storage
+            }
+          }}
+          isMandatory={true}
         />
       )}
     </div>

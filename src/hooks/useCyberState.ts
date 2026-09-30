@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import {
   ActivePage,
   UserProfile,
@@ -12,6 +12,7 @@ import {
   SkillCheckResult,
   ScenarioOption,
   MissionHistoryItem,
+  AudienceType,
 } from '../types';
 import {
   initialUserProfile,
@@ -22,8 +23,9 @@ import {
   initialLeaderboard,
   defaultMentorInsight,
 } from '../data/mockData';
-import { allMissions } from '../data/missionsData';
+import { allMissions, getMissionsForAudience } from '../data/missionsData';
 import { getNextMission } from '../utils/adaptiveEngine';
+import { getAudienceType } from '../utils/audienceConstants';
 import confetti from 'canvas-confetti';
 
 const STORAGE_KEY = 'cybermentor_state_v2';
@@ -227,12 +229,24 @@ export function useCyberState() {
     }
   }, [user, skills, paths, badges, certificates, mentorInsight, lastSkillCheck, completedScenarioIds, missionHistory]);
 
+  const audience: AudienceType = user.audienceType || (user.age !== undefined && user.age !== null ? getAudienceType(user.age) : 'kids');
+  const audienceScenarios = useMemo(() => getMissionsForAudience(audience), [audience]);
+
+  // Keep selected scenario aligned with audience
+  useEffect(() => {
+    if (!audienceScenarios.some((s) => s.id === selectedScenarioId)) {
+      if (audienceScenarios[0]) {
+        setSelectedScenarioId(audienceScenarios[0].id);
+      }
+    }
+  }, [audienceScenarios, selectedScenarioId]);
+
   // Request next adaptive mission
   const requestNextMission = useCallback(() => {
-    const nextMission = getNextMission(user, allMissions, missionHistory, skills, selectedScenarioId);
+    const nextMission = getNextMission(user, audienceScenarios, missionHistory, skills, selectedScenarioId);
     setSelectedScenarioId(nextMission.id);
     return nextMission;
-  }, [user, missionHistory, skills, selectedScenarioId]);
+  }, [user, audienceScenarios, missionHistory, skills, selectedScenarioId]);
 
   // Execute scenario decision with child-friendly non-punishing score
   const submitScenarioDecision = useCallback((scenario: ScenarioItem, option: ScenarioOption, hintsUsed: number = 0) => {
@@ -449,7 +463,8 @@ export function useCyberState() {
         ? { ...u, trustScore: user.digitalTrustScore, xp: user.currentXP, level: user.level } 
         : u
     ),
-    scenarios: allMissions,
-    allMissions,
+    scenarios: audienceScenarios,
+    allMissions: audienceScenarios,
+    audience,
   };
 }

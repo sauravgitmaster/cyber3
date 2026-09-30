@@ -69,7 +69,7 @@ function shouldAcceptStateUpdate(
   return false;
 }
 
-export function useMultiplayerRoom(currentUser: { id?: string; name: string; avatar: string }) {
+export function useMultiplayerRoom(currentUser: { id?: string; name: string; avatar: string; audience?: 'kids' | 'adult' }) {
   const [room, setRoom] = useState<RoomStateClient | null>(null);
   const [roomCode, setRoomCode] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -541,7 +541,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     setError(null);
     let newRoom: RoomStateClient | null = null;
     try {
-      newRoom = await multiplayerApi.createRoom(playerInput);
+      newRoom = await multiplayerApi.createRoom(playerInput, currentUser.audience);
     } catch {
       // Resilient local fallback if network/serverless route is delayed or offline
       const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -771,7 +771,7 @@ export function useMultiplayerRoom(currentUser: { id?: string; name: string; ava
     // 1. Prepare synchronized questions
     let questions = storedQuestionsRef.current;
     if (!questions || questions.length < 8) {
-      questions = getEightRandomQuestions();
+      questions = getEightRandomQuestions([], currentUser.audience);
       storedQuestionsRef.current = questions;
     }
     try {

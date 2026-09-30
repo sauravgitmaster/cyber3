@@ -11,10 +11,19 @@ import {
   Sparkles,
   Sun,
   Moon,
+  Compass,
+  AlertCircle,
 } from 'lucide-react';
 import { ByteMascot } from '../components/common/ByteMascot';
 import { ThemeToggle } from '../components/common/ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
+import {
+  getAudienceType,
+  validateAge,
+  DEFAULT_AGE_BOUNDARY,
+  getAudienceLabel,
+  getAudienceDescription,
+} from '../utils/audienceConstants';
 
 interface SettingsPageProps {
   user: UserProfile;
@@ -33,7 +42,10 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
   const [institution, setInstitution] = useState(user.institution);
-  const [major, setMajor] = useState(user.major);
+  const [major, setMajor] = useState((user as any).major || '');
+
+  const [age, setAge] = useState<string>(user.age !== undefined && user.age !== null ? String(user.age) : '');
+  const [ageError, setAgeError] = useState<string | null>(null);
 
   const [mfaReminders, setMfaReminders] = useState(true);
   const [weeklyDigest, setWeeklyDigest] = useState(true);
@@ -43,13 +55,42 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
 
   const handleSave = (e: React.FormEvent) => {
     e.preventDefault();
+    setAgeError(null);
+
+    let userAge = user.age;
+    let userAudience = user.audienceType;
+
+    if (age.trim()) {
+      const check = validateAge(age);
+      if (!check.valid || check.age === undefined) {
+        setAgeError(check.error || 'Please enter a valid age.');
+        return;
+      }
+      userAge = check.age;
+      userAudience = getAudienceType(userAge, DEFAULT_AGE_BOUNDARY);
+    }
+
     setUser((prev) => ({
       ...prev,
       name,
       email,
       institution,
       major,
+      ...(userAge !== undefined ? { age: userAge } : {}),
+      ...(userAudience ? { audienceType: userAudience } : {}),
     }));
+
+    fetch('/api/auth/update', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        name,
+        age: userAge,
+        audienceType: userAudience,
+      }),
+    }).catch(() => {});
+
     setSavedSuccess(true);
     setTimeout(() => setSavedSuccess(false), 2500);
   };
@@ -172,6 +213,52 @@ export const SettingsPage: React.FC<SettingsPageProps> = ({
                 onChange={(e) => setMajor(e.target.value)}
                 className="w-full px-3.5 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-500 transition-colors"
               />
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-mono uppercase tracking-wider text-zinc-500 mb-1">
+                Learner Age
+              </label>
+              <div className="relative">
+                <input
+                  type="number"
+                  min="4"
+                  max="120"
+                  step="1"
+                  value={age}
+                  onChange={(e) => {
+                    setAge(e.target.value);
+                    if (ageError) setAgeError(null);
+                  }}
+                  placeholder="e.g. 12 or 24"
+                  className="w-full px-3.5 pr-20 py-2 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium focus:outline-none focus:border-zinc-400 dark:focus:border-zinc-500 transition-colors"
+                />
+                <span className="absolute right-3 top-2 text-[11px] font-mono text-zinc-400">
+                  years old
+                </span>
+              </div>
+              {ageError && (
+                <div className="mt-1 text-rose-500 text-[11px] flex items-center gap-1 font-medium">
+                  <AlertCircle className="w-3 h-3" />
+                  <span>{ageError}</span>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-[11px] font-mono uppercase tracking-wider text-zinc-500 mb-1">
+                Active Experience Mode
+              </label>
+              <div className="px-3.5 py-2 rounded-xl bg-zinc-100 dark:bg-zinc-850 border border-zinc-200 dark:border-zinc-750 text-xs font-mono flex items-center justify-between">
+                <span>
+                  {age && validateAge(age).valid
+                    ? getAudienceLabel(getAudienceType(Number(age), DEFAULT_AGE_BOUNDARY))
+                    : getAudienceLabel(user.audienceType || 'kids')}
+                </span>
+                <span className="text-[10px] text-zinc-400">
+                  {age && Number(age) >= DEFAULT_AGE_BOUNDARY ? 'Ages 13+' : 'Ages ≤12'}
+                </span>
+              </div>
             </div>
           </div>
         </div>

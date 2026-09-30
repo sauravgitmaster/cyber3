@@ -799,122 +799,303 @@ export const learningPathsData: LearningPath[] = [
   },
 ];
 
-export const initialSkillCheckQuestions: SkillCheckQuestion[] = [
+export const kidsSkillCheckQuestions: SkillCheckQuestion[] = [
   {
     id: 1,
-    title: 'Unexpected Login Alert',
-    category: 'Authentication',
+    title: 'Free Game Coins Message',
+    category: 'Scam & Phishing',
     scenario:
-      'You receive a push alert from your university SSO at 2:00 AM saying a login attempt occurred from an unrecognized browser in another state. You were asleep.',
+      'A chat message from an unknown user says: "Congratulations! You won 10,000 free Robux/V-Bucks! Click this link right now before the prize expires!"',
     options: [
       {
-        id: 'sc1-a',
-        text: 'Ignore it since it probably timed out already.',
-        trustScoreWeight: 20,
-        isRecommended: false,
-        feedbackTag: 'Passive Risk',
-      },
-      {
-        id: 'sc1-b',
-        text: 'Click "Deny", report unauthorized access, and change your password immediately from a known secure device.',
+        id: 'ksc1-a',
+        text: 'Delete and report the message. Real game companies never hand out free coins through random chat messages.',
         trustScoreWeight: 100,
         isRecommended: true,
-        feedbackTag: 'Proactive Defense',
+        feedbackTag: 'Safe Choice',
       },
       {
-        id: 'sc1-c',
-        text: 'Wait until the morning to check your inbox for confirmation emails.',
-        trustScoreWeight: 40,
+        id: 'ksc1-b',
+        text: 'Click the link fast so you don\'t miss out on free game coins.',
+        trustScoreWeight: 15,
         isRecommended: false,
-        feedbackTag: 'Delayed Response',
+        feedbackTag: 'Trap Click',
+      },
+      {
+        id: 'ksc1-c',
+        text: 'Forward the message to your school friends to see if it works for them.',
+        trustScoreWeight: 30,
+        isRecommended: false,
+        feedbackTag: 'Spreading Scam',
+      },
+      {
+        id: 'ksc1-d',
+        text: 'Reply to the sender asking if they are telling the truth.',
+        trustScoreWeight: 35,
+        isRecommended: false,
+        feedbackTag: 'Chatting with Scammer',
       },
     ],
   },
   {
     id: 2,
-    title: 'Public Sharing Boundaries',
-    category: 'Privacy',
+    title: 'Sharing Your Game Password',
+    category: 'Password Security',
     scenario:
-      'You just received an exciting scholarship letter with your student ID number, residential address, and department dean signature.',
+      'Your classmate at school says: "Give me your game password so I can log into your account and help you beat the difficult boss level!"',
     options: [
       {
-        id: 'sc2-a',
-        text: 'Post the full high-resolution photo on your public social media story to celebrate.',
+        id: 'ksc2-a',
+        text: 'Give it to them since you sit next to them in class every day.',
         trustScoreWeight: 10,
         isRecommended: false,
-        feedbackTag: 'PII Exposure',
+        feedbackTag: 'Password Sharing',
       },
       {
-        id: 'sc2-b',
-        text: 'Crop or digitally blur out your student ID, address, and barcodes before sharing an announcement.',
+        id: 'ksc2-b',
+        text: 'Change your password to "123456" so it is easy for them to remember.',
+        trustScoreWeight: 5,
+        isRecommended: false,
+        feedbackTag: 'Weak Password',
+      },
+      {
+        id: 'ksc2-c',
+        text: 'Politely say no. Passwords must stay private between you and your parents or trusted adult.',
         trustScoreWeight: 100,
         isRecommended: true,
-        feedbackTag: 'Data Minimization',
+        feedbackTag: 'Boundary Champion',
       },
       {
-        id: 'sc2-c',
-        text: 'Share it in a public university Discord channel with 5,000 members.',
-        trustScoreWeight: 35,
+        id: 'ksc2-d',
+        text: 'Write your password on a piece of paper and give it to them at recess.',
+        trustScoreWeight: 15,
         isRecommended: false,
-        feedbackTag: 'Over-sharing',
+        feedbackTag: 'Physical Leak',
       },
     ],
   },
   {
     id: 3,
-    title: 'Urgent Account Verification Email',
-    category: 'Phishing',
+    title: 'Sharing Photos Online',
+    category: 'Privacy',
     scenario:
-      'An email titled "Account Suspension in 2 Hours: Re-verify Now" contains a link to "univ-portal-verify.net". What is your immediate first step?',
+      'You took a fun selfie after school wearing your school uniform and badge that clearly shows your full name, school name, and house number.',
     options: [
       {
-        id: 'sc3-a',
-        text: 'Click the link quickly to ensure your upcoming midterm exam submissions remain accessible.',
+        id: 'ksc3-a',
+        text: 'Post it publicly so anyone on the internet can see how fun your day was.',
         trustScoreWeight: 15,
         isRecommended: false,
-        feedbackTag: 'Panic Trap',
+        feedbackTag: 'Oversharing',
       },
       {
-        id: 'sc3-b',
-        text: 'Check the domain name against the official university web address and log in directly through a saved bookmark.',
+        id: 'ksc3-b',
+        text: 'Cover or blur out your school badge and house number, or only share with family.',
         trustScoreWeight: 100,
         isRecommended: true,
-        feedbackTag: 'Verified Navigation',
+        feedbackTag: 'Privacy Guardian',
       },
       {
-        id: 'sc3-c',
-        text: 'Reply asking the sender if they can grant you an extension until tomorrow.',
-        trustScoreWeight: 30,
+        id: 'ksc3-c',
+        text: 'Add your home address in the caption so your classmates know where you live.',
+        trustScoreWeight: 5,
         isRecommended: false,
-        feedbackTag: 'Attacker Engagement',
+        feedbackTag: 'Location Risk',
       },
     ],
   },
   {
     id: 4,
-    title: 'Open Public Wi-Fi at a Coffee Shop',
+    title: 'Flashing Download Button on Game Mod Site',
     category: 'Safe Browsing',
     scenario:
-      'You need to submit an assignment and check bank balance while sitting in an airport cafe with open "Free_Airport_Wi-Fi_Guest" (no password).',
+      'While looking for a game skin, the webpage shows three huge flashing green buttons that say "DOWNLOAD NOW - 100% FREE".',
     options: [
       {
-        id: 'sc4-a',
-        text: 'Connect freely; if websites show the lock icon (HTTPS), any public network is 100% immune to rogue routing or DNS manipulation.',
-        trustScoreWeight: 45,
+        id: 'ksc4-a',
+        text: 'Click all three download buttons quickly to see which one works.',
+        trustScoreWeight: 10,
+        isRecommended: false,
+        feedbackTag: 'Malware Risk',
+      },
+      {
+        id: 'ksc4-b',
+        text: 'Turn off your antivirus so the download doesn\'t get blocked.',
+        trustScoreWeight: 5,
+        isRecommended: false,
+        feedbackTag: 'Dangerous Move',
+      },
+      {
+        id: 'ksc4-c',
+        text: 'Ask a friend in online chat to download it on their computer first.',
+        trustScoreWeight: 30,
+        isRecommended: false,
+        feedbackTag: 'Passing Risk',
+      },
+      {
+        id: 'ksc4-d',
+        text: 'Do not click the buttons. Fake download buttons often trick you into installing viruses. Ask a trusted adult for help.',
+        trustScoreWeight: 100,
+        isRecommended: true,
+        feedbackTag: 'Detective Clue',
+      },
+    ],
+  },
+  {
+    id: 5,
+    title: 'Friend Asking for 2FA SMS Code',
+    category: 'Social Engineering',
+    scenario:
+      'A chat contact who looks like your friend says: "Hey! I got locked out of my account. I had a 6-digit code sent to your phone number, can you text it to me right now?"',
+    options: [
+      {
+        id: 'ksc5-a',
+        text: 'Text the code right away since they say they need it urgently.',
+        trustScoreWeight: 10,
+        isRecommended: false,
+        feedbackTag: 'Account Takeover Trap',
+      },
+      {
+        id: 'ksc5-b',
+        text: 'Never share security codes with anyone! A friend\'s account could be hacked. Tell a trusted adult immediately.',
+        trustScoreWeight: 100,
+        isRecommended: true,
+        feedbackTag: 'Security Guardian',
+      },
+      {
+        id: 'ksc5-c',
+        text: 'Post the code in a group chat to ask your other friends if it belongs to them.',
+        trustScoreWeight: 15,
+        isRecommended: false,
+        feedbackTag: 'Public Exposure',
+      },
+    ],
+  },
+];
+
+export const adultSkillCheckQuestions: SkillCheckQuestion[] = [
+  {
+    id: 1,
+    title: 'Unexpected 2:00 AM SSO Push Alert',
+    category: 'Authentication',
+    scenario:
+      'You receive a push alert from your workplace or university SSO at 2:00 AM saying a login attempt occurred from an unrecognized browser in another region while you were asleep.',
+    options: [
+      {
+        id: 'asc1-a',
+        text: 'Ignore the notification assuming it was probably a background synchronization glitch.',
+        trustScoreWeight: 20,
+        isRecommended: false,
+        feedbackTag: 'Passive Risk',
+      },
+      {
+        id: 'asc1-b',
+        text: 'Wait until regular business hours before verifying your login history.',
+        trustScoreWeight: 35,
+        isRecommended: false,
+        feedbackTag: 'Delayed Response',
+      },
+      {
+        id: 'asc1-c',
+        text: 'Click "Deny", report unauthorized access to Security/IT, and change your password immediately from a known clean device.',
+        trustScoreWeight: 100,
+        isRecommended: true,
+        feedbackTag: 'Proactive Defense',
+      },
+    ],
+  },
+  {
+    id: 2,
+    title: 'Public Sharing of Credentials & Documents',
+    category: 'Privacy & Data Protection',
+    scenario:
+      'You receive an official award or employment offer letter containing your national identification/SSN, full residential address, and department supervisor signature.',
+    options: [
+      {
+        id: 'asc2-a',
+        text: 'Crop or digitally redact all government IDs, residential addresses, and barcodes before posting any celebratory notice.',
+        trustScoreWeight: 100,
+        isRecommended: true,
+        feedbackTag: 'Data Minimization',
+      },
+      {
+        id: 'asc2-b',
+        text: 'Post the full unedited document on LinkedIn to verify your new role with industry peers.',
+        trustScoreWeight: 10,
+        isRecommended: false,
+        feedbackTag: 'PII Exposure',
+      },
+      {
+        id: 'asc2-c',
+        text: 'Upload the PDF to a public file-sharing drive to share with colleagues.',
+        trustScoreWeight: 25,
+        isRecommended: false,
+        feedbackTag: 'Public Exposure',
+      },
+    ],
+  },
+  {
+    id: 3,
+    title: 'Urgent Wire / Payroll Verification Email',
+    category: 'Phishing Detection',
+    scenario:
+      'An email titled "URGENT: Immediate Payroll Account Audit Required within 2 Hours" claims your direct deposit will fail unless you re-enter banking details at "payroll-update-portal.net".',
+    options: [
+      {
+        id: 'asc3-a',
+        text: 'Click the link immediately to prevent your scheduled compensation from being withheld.',
+        trustScoreWeight: 15,
+        isRecommended: false,
+        feedbackTag: 'Panic Trap',
+      },
+      {
+        id: 'asc3-b',
+        text: 'Reply to the sender asking if they can postpone the audit until Friday.',
+        trustScoreWeight: 30,
+        isRecommended: false,
+        feedbackTag: 'Attacker Engagement',
+      },
+      {
+        id: 'asc3-c',
+        text: 'Forward the email to your personal Gmail account to view it on your phone.',
+        trustScoreWeight: 25,
+        isRecommended: false,
+        feedbackTag: 'Cross-Contamination',
+      },
+      {
+        id: 'asc3-d',
+        text: 'Navigate directly to your company\'s known HR portal via bookmark or verify out-of-band via phone with the finance team.',
+        trustScoreWeight: 100,
+        isRecommended: true,
+        feedbackTag: 'Verified Navigation',
+      },
+    ],
+  },
+  {
+    id: 4,
+    title: 'Open Public Wi-Fi at Airport / Transit Hub',
+    category: 'Safe Browsing',
+    scenario:
+      'While waiting in an airport terminal, you need to review confidential work documents and check bank balances on the unsecured network "Airport_Free_Guest_WiFi".',
+    options: [
+      {
+        id: 'asc4-a',
+        text: 'Connect normally; HTTPS lock icons guarantee the network is completely immune to DNS spoofing or rogue gateways.',
+        trustScoreWeight: 40,
         isRecommended: false,
         feedbackTag: 'Overconfident',
       },
       {
-        id: 'sc4-b',
-        text: 'Use mobile hotspot tethering or activate an encrypted VPN tunnel before logging into banking or campus credentials.',
+        id: 'asc4-b',
+        text: 'Activate an encrypted enterprise VPN tunnel or use cellular mobile hotspot tethering before transmitting sensitive data.',
         trustScoreWeight: 100,
         isRecommended: true,
         feedbackTag: 'Secure Channel',
       },
       {
-        id: 'sc4-c',
-        text: 'Connect to Wi-Fi but use Incognito mode so your credentials aren\'t stored locally.',
-        trustScoreWeight: 25,
+        id: 'asc4-c',
+        text: 'Browse using an Incognito/Private window so your network traffic cannot be intercepted by routers.',
+        trustScoreWeight: 20,
         isRecommended: false,
         feedbackTag: 'Incognito Misunderstanding',
       },
@@ -922,65 +1103,71 @@ export const initialSkillCheckQuestions: SkillCheckQuestion[] = [
   },
   {
     id: 5,
-    title: 'Unattended USB in Campus Library',
+    title: 'Unattended USB Drive in Corporate Lobby',
     category: 'Social Engineering',
     scenario:
-      'You find an unmarked 64GB USB stick on a study desk next to a note reading "Prof. Miller - Final Exam Master Answer Key".',
+      'You find an unmarked high-capacity USB drive in a corporate conference room labeled "Q4 Executive Compensation & Staffing Strategy".',
     options: [
       {
-        id: 'sc5-a',
-        text: 'Plug it in to inspect who it belongs to and confirm if it really has the exam.',
+        id: 'asc5-a',
+        text: 'Insert the drive into your company laptop to check the metadata and return it to the rightful executive.',
         trustScoreWeight: 10,
         isRecommended: false,
         feedbackTag: 'Baiting Victim',
       },
       {
-        id: 'sc5-b',
-        text: 'Deliver it untouched to the library front desk or campus IT security lost-and-found.',
+        id: 'asc5-b',
+        text: 'Take it home and plug it into your personal desktop to safely scan it with home antivirus.',
+        trustScoreWeight: 20,
+        isRecommended: false,
+        feedbackTag: 'Home Network Risk',
+      },
+      {
+        id: 'asc5-c',
+        text: 'Deliver the drive untouched to IT Security / Physical Security for safe hardware disposal and isolation.',
         trustScoreWeight: 100,
         isRecommended: true,
         feedbackTag: 'Hardware Isolation',
-      },
-      {
-        id: 'sc5-c',
-        text: 'Plug it into a university computer instead of your personal laptop.',
-        trustScoreWeight: 20,
-        isRecommended: false,
-        feedbackTag: 'Institutional Risk',
       },
     ],
   },
   {
     id: 6,
-    title: 'Social Media "Personality Test" Quiz',
-    category: 'Privacy',
+    title: 'Social Media "Personality Test" Security Questions',
+    category: 'Privacy & Identity Theft',
     scenario:
-      'An online quiz asks: "What was the street you grew up on, your first pet name, and your favorite high school teacher to reveal your guardian spirit animal!"',
+      'A viral social media challenge asks: "Find your secret superhero codename: The street you grew up on + your first car model + your mother\'s maiden name!"',
     options: [
       {
-        id: 'sc6-a',
-        text: 'Fill it out; it\'s just a harmless viral meme for entertainment.',
-        trustScoreWeight: 15,
-        isRecommended: false,
-        feedbackTag: 'Security Question Harvesting',
-      },
-      {
-        id: 'sc6-b',
-        text: 'Recognize that these are standard security recovery questions used to reset account passwords, and decline to answer.',
+        id: 'asc6-a',
+        text: 'Decline to participate; these prompts are social engineering queries harvest answers to standard password recovery security questions.',
         trustScoreWeight: 100,
         isRecommended: true,
         feedbackTag: 'OSINT Resistance',
       },
       {
-        id: 'sc6-c',
-        text: 'Fill it out using partial truth and partial fake answers.',
-        trustScoreWeight: 50,
+        id: 'asc6-b',
+        text: 'Participate freely since it is just an entertaining viral trend with millions of existing replies.',
+        trustScoreWeight: 15,
         isRecommended: false,
-        feedbackTag: 'Partial Risk',
+        feedbackTag: 'Harvesting Target',
+      },
+      {
+        id: 'asc6-c',
+        text: 'Post answers that are half-true to confuse potential attackers while still joining in.',
+        trustScoreWeight: 45,
+        isRecommended: false,
+        feedbackTag: 'Partial Disclosure',
       },
     ],
   },
 ];
+
+export const initialSkillCheckQuestions: SkillCheckQuestion[] = kidsSkillCheckQuestions;
+
+export function getSkillCheckQuestions(audienceType: 'kids' | 'adult' = 'kids'): SkillCheckQuestion[] {
+  return audienceType === 'adult' ? adultSkillCheckQuestions : kidsSkillCheckQuestions;
+}
 
 export const initialBadges: BadgeItem[] = [
   {

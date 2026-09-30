@@ -26,11 +26,11 @@ async function handleResponse<T>(res: Response, defaultErrorMessage: string): Pr
 }
 
 export const multiplayerApi = {
-  async createRoom(host: PlayerInput): Promise<RoomStateClient> {
+  async createRoom(host: PlayerInput, audienceType?: 'kids' | 'adult'): Promise<RoomStateClient> {
     const res = await fetch('/api/rooms/create', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ host }),
+      body: JSON.stringify({ host, audienceType }),
     });
     return handleResponse<RoomStateClient>(res, 'Failed to create room');
   },

@@ -1,8 +1,9 @@
-// AUTO-GENERATED 30-MISSION LIBRARY FOR CYBERMENTOR AI
+// 30-MISSION LIBRARY FOR CYBERMENTOR AI
 // Relatable school-age scenarios with scaffolded difficulty 1-5
-import { ScenarioItem } from '../types';
+import { ScenarioItem, AudienceType } from '../types';
+import { adultMissions } from './adultMissionsData';
 
-export const allMissions: ScenarioItem[] = [
+const rawKidsMissions: ScenarioItem[] = [
   // ==========================================
   // CATEGORY: Scam & Phishing (5 missions)
   // ==========================================
@@ -2827,5 +2828,54 @@ export const allMissions: ScenarioItem[] = [
       clue: "A token is the master digital badge your browser uses. Giving it away is just as dangerous as giving away your password.",
     },
   },
-
 ];
+
+const LABELS = ['A', 'B', 'C', 'D'];
+
+/**
+ * Distributes answer choices so the optimal answer is not always Option B,
+ * assigning clean display labels ('A', 'B', 'C', 'D') while preserving isOptimal,
+ * riskLevel, score impacts, and feedback.
+ */
+function distributeScenarioOptions(scenario: ScenarioItem, seedIndex: number): ScenarioItem {
+  const opts = [...scenario.options];
+  if (opts.length <= 1) return scenario;
+
+  // Determine target position for optimal option: cycles across 0 (A), 1 (B), 2 (C), etc.
+  const targetIndex = seedIndex % opts.length;
+  const currentOptimalIndex = opts.findIndex((o) => o.isOptimal);
+
+  if (currentOptimalIndex !== -1 && currentOptimalIndex !== targetIndex) {
+    const temp = opts[targetIndex];
+    opts[targetIndex] = opts[currentOptimalIndex];
+    opts[currentOptimalIndex] = temp;
+  }
+
+  const relabeled = opts.map((opt, idx) => ({
+    ...opt,
+    label: LABELS[idx] || String.fromCharCode(65 + idx),
+  }));
+
+  return {
+    ...scenario,
+    options: relabeled,
+  };
+}
+
+export const kidsMissions: ScenarioItem[] = rawKidsMissions.map((m, idx) => ({
+  ...distributeScenarioOptions(m, idx),
+  audience: (m.audience as AudienceType) || 'kids',
+}));
+
+export const allMissions: ScenarioItem[] = [
+  ...kidsMissions,
+  ...adultMissions.map((m, idx) => distributeScenarioOptions(m, idx + 1)),
+];
+
+export function getMissionsForAudience(audience: AudienceType = 'kids'): ScenarioItem[] {
+  if (audience === 'adult') {
+    return allMissions.filter((m) => m.audience === 'adult' || m.audience === 'both');
+  }
+  return allMissions.filter((m) => m.audience === 'kids' || m.audience === 'both' || !m.audience);
+}
+export { adultMissions } from './adultMissionsData';

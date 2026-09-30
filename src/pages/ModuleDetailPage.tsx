@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { ActivePage, LearningPath } from '../types';
+import { shuffleArray } from '../utils/quizUtils';
 import {
   ArrowLeft,
   ArrowRight,
@@ -181,7 +182,16 @@ export const ModuleDetailPage: React.FC<ModuleDetailPageProps> = ({
     };
   };
 
-  const currentQuiz = getModuleQuiz();
+  const currentQuiz = useMemo(() => {
+    const raw = getModuleQuiz();
+    const shuffled = shuffleArray(raw.options).map((opt, idx) => ({
+      ...opt,
+      label: ['A', 'B', 'C', 'D'][idx] || String.fromCharCode(65 + idx),
+    }));
+    return { ...raw, options: shuffled };
+  }, [selectedModuleId, currentModule?.id]);
+
+  const selectedQuizOption = quizAnswer !== null ? currentQuiz.options.find((o) => o.id === quizAnswer) : null;
 
   const handleSelectQuizOption = (optId: number) => {
     setQuizAnswer(optId);
@@ -694,17 +704,17 @@ DKIM-Signature: v=1; d=univ-sso-auth.org (spoofed domain)`}
                   </div>
 
                   {/* High Visibility Feedback Card */}
-                  {quizAnswer !== null && (
+                  {selectedQuizOption && (
                     <div
                       className={`p-4 sm:p-5 rounded-2xl border text-xs transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 ${
-                        currentQuiz.options[quizAnswer]?.correct
+                        selectedQuizOption.correct
                           ? 'bg-emerald-50/90 dark:bg-emerald-950/30 border-emerald-500/50 text-emerald-950 dark:text-emerald-100 shadow-sm'
                           : 'bg-rose-50/90 dark:bg-rose-950/30 border-rose-500/50 text-rose-950 dark:text-rose-100 shadow-sm'
                       }`}
                     >
                       <div className="flex items-start gap-3">
                         <div className="shrink-0">
-                          {currentQuiz.options[quizAnswer]?.correct ? (
+                          {selectedQuizOption.correct ? (
                             <ByteMascot mood="excited" size="xs" animate={false} />
                           ) : (
                             <ByteMascot mood="caution" size="xs" animate={false} />
@@ -714,24 +724,24 @@ DKIM-Signature: v=1; d=univ-sso-auth.org (spoofed domain)`}
                           <div className="flex items-center gap-2">
                             <span
                               className={`font-mono text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md ${
-                                currentQuiz.options[quizAnswer]?.correct
+                                selectedQuizOption.correct
                                   ? 'bg-emerald-500 text-white'
                                   : 'bg-rose-500 text-white'
                               }`}
                             >
-                              {currentQuiz.options[quizAnswer]?.correct ? 'Spot On!' : 'Watch Out!'}
+                              {selectedQuizOption.correct ? 'Spot On!' : 'Watch Out!'}
                             </span>
                             <span className="font-semibold text-xs sm:text-sm">
-                              {currentQuiz.options[quizAnswer]?.correct
+                              {selectedQuizOption.correct
                                 ? 'You nailed this cybersecurity rule!'
                                 : 'That choice carries real danger!'}
                             </span>
                           </div>
                           <p className="text-xs sm:text-sm leading-relaxed opacity-95">
-                            {currentQuiz.options[quizAnswer]?.explanation}
+                            {selectedQuizOption.explanation}
                           </p>
 
-                          {!currentQuiz.options[quizAnswer]?.correct && (
+                          {!selectedQuizOption.correct && (
                             <p className="text-[11px] font-mono font-medium text-rose-700 dark:text-rose-300 pt-1">
                               Tip: Try selecting another option above to learn the safest habit!
                             </p>
@@ -743,7 +753,7 @@ DKIM-Signature: v=1; d=univ-sso-auth.org (spoofed domain)`}
                 </div>
 
                 {/* Lesson Completed Celebration Callout (Gives instant Next Lesson button) */}
-                {quizAnswer !== null && currentQuiz.options[quizAnswer]?.correct && (
+                {selectedQuizOption && selectedQuizOption.correct && (
                   <div className="p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-indigo-500/10 to-transparent border border-emerald-500/40 dark:border-emerald-500/30 flex flex-col sm:flex-row items-center justify-between gap-4 animate-in fade-in">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-2xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-md">

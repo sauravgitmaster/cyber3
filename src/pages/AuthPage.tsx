@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ActivePage, UserProfile } from '../types';
-import { ArrowRight, LogIn, Sparkles, Mail, Lock, User as UserIcon, AlertCircle } from 'lucide-react';
+import { ActivePage, UserProfile, AudienceType } from '../types';
+import { validateAge, getAudienceType, DEFAULT_AGE_BOUNDARY } from '../utils/audienceConstants';
+import { ArrowRight, LogIn, Sparkles, Mail, Lock, User as UserIcon, AlertCircle, Calendar } from 'lucide-react';
 import { ByteMascot } from '../components/common/ByteMascot';
 import { AvatarUploader } from '../components/common/AvatarUploader';
 import { ThemeToggle } from '../components/common/ThemeToggle';
@@ -24,6 +25,7 @@ export const AuthPage: React.FC<AuthPageProps> = ({
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [avatar, setAvatar] = useState(user.avatar || '');
+  const [ageInput, setAgeInput] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -47,6 +49,20 @@ export const AuthPage: React.FC<AuthPageProps> = ({
       return;
     }
 
+    let userAge: number | undefined = undefined;
+    let userAudience: AudienceType | undefined = undefined;
+
+    if (isSignUp) {
+      const ageValidation = validateAge(ageInput);
+      if (!ageValidation.valid || ageValidation.age === undefined) {
+        setError(ageValidation.error || 'Please enter a valid age.');
+        setLoading(false);
+        return;
+      }
+      userAge = ageValidation.age;
+      userAudience = getAudienceType(userAge, DEFAULT_AGE_BOUNDARY);
+    }
+
     try {
       let resolvedUser: UserProfile | null = null;
 
@@ -64,6 +80,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             email: cleanEmail,
             password,
             avatar,
+            age: userAge,
+            audienceType: userAudience,
           }),
           signal: controller.signal,
         });
@@ -83,6 +101,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
               digitalTrustScore: data.user.digitalTrustScore || 70,
               currentXP: data.user.currentXP || 100,
               streakDays: data.user.streakDays || 1,
+              age: data.user.age !== undefined ? data.user.age : userAge,
+              audienceType: data.user.audienceType || userAudience,
             };
           } else if (!res.ok && data?.error && res.status !== 404 && res.status < 500) {
             // Legitimate business logic error from an active API server
@@ -125,6 +145,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({
             digitalTrustScore: 70,
             currentXP: 100,
             streakDays: 1,
+            age: userAge,
+            audienceType: userAudience,
           };
           accounts[cleanEmail] = {
             profile: resolvedUser,
@@ -249,22 +271,54 @@ export const AuthPage: React.FC<AuthPageProps> = ({
 
           <form onSubmit={handleSubmit} className="space-y-3.5">
             {isSignUp && (
-              <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
-                  Name or Nickname
-                </label>
-                <div className="relative">
-                  <UserIcon className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
-                  <input
-                    type="text"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    placeholder="e.g. Alex or DetectiveCyber"
-                    className="w-full pl-10 pr-4 py-2.5 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium placeholder:text-zinc-400 focus:outline-none focus:border-zinc-500 focus:bg-white dark:focus:bg-zinc-900 transition-colors"
-                  />
+              <>
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
+                    Name or Nickname
+                  </label>
+                  <div className="relative">
+                    <UserIcon className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
+                    <input
+                      type="text"
+                      required
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      placeholder="e.g. Alex or DetectiveCyber"
+                      className="w-full pl-10 pr-4 py-2.5 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium placeholder:text-zinc-400 focus:outline-none focus:border-zinc-500 focus:bg-white dark:focus:bg-zinc-900 transition-colors"
+                    />
+                  </div>
                 </div>
-              </div>
+
+                <div>
+                  <label className="block text-xs font-mono uppercase tracking-wider text-zinc-600 dark:text-zinc-400 mb-1">
+                    How old are you?
+                  </label>
+                  <div className="relative">
+                    <Calendar className="w-4 h-4 text-zinc-400 absolute left-3.5 top-3" />
+                    <input
+                      type="number"
+                      min="4"
+                      max="120"
+                      step="1"
+                      required
+                      value={ageInput}
+                      onChange={(e) => setAgeInput(e.target.value)}
+                      placeholder="e.g. 11 or 24"
+                      className="w-full pl-10 pr-20 py-2.5 text-xs bg-zinc-50 dark:bg-zinc-900 border border-zinc-250 dark:border-zinc-800 rounded-xl text-zinc-900 dark:text-zinc-100 font-medium placeholder:text-zinc-400 focus:outline-none focus:border-zinc-500 focus:bg-white dark:focus:bg-zinc-900 transition-colors"
+                    />
+                    <span className="absolute right-3.5 top-2.5 text-[11px] font-mono text-zinc-400">
+                      years old
+                    </span>
+                  </div>
+                  {ageInput && validateAge(ageInput).valid && (
+                    <p className="mt-1 text-[11px] font-mono text-zinc-500 dark:text-zinc-400">
+                      {Number(ageInput) < DEFAULT_AGE_BOUNDARY
+                        ? '🎒 Tailored: Kids Experience (Ages 12 & below)'
+                        : '🛡️ Tailored: Adult Experience (Ages 13 & above)'}
+                    </p>
+                  )}
+                </div>
+              </>
             )}
 
             <div>

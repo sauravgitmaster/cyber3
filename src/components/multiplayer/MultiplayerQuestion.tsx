@@ -132,34 +132,34 @@ export const MultiplayerQuestion: React.FC<MultiplayerQuestionProps> = ({
 
       {/* Round Lock / Result Announcement Banner */}
       {isLocked && result && (
-        <div className="p-5 rounded-3xl bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border-2 border-blue-200 text-center space-y-2.5 animate-in fade-in zoom-in-95 duration-200 shadow-sm">
+        <div className="p-5 rounded-3xl bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 dark:from-blue-950/40 dark:via-indigo-950/40 dark:to-purple-950/40 border-2 border-blue-200 dark:border-blue-900/60 text-center space-y-2.5 animate-in fade-in zoom-in-95 duration-200 shadow-sm text-zinc-900 dark:text-zinc-100">
           <div className="flex items-center justify-center gap-2">
             {isMyWin ? (
               <>
                 <Sparkles className="w-5 h-5 text-amber-500" />
-                <span className="text-sm sm:text-base font-black text-emerald-700">
+                <span className="text-sm sm:text-base font-black text-emerald-700 dark:text-emerald-400">
                   You picked correctly first! +100 pts
                 </span>
               </>
             ) : isFriendWin ? (
               <>
                 <Sparkles className="w-5 h-5 text-amber-500" />
-                <span className="text-sm sm:text-base font-black text-[#243047]">
+                <span className="text-sm sm:text-base font-black text-[#243047] dark:text-zinc-200">
                   {friendName} answered correctly first!
                 </span>
               </>
             ) : (
-              <span className="text-sm sm:text-base font-black text-slate-700">
+              <span className="text-sm sm:text-base font-black text-slate-700 dark:text-zinc-300">
                 Round complete!
               </span>
             )}
           </div>
 
-          <p className="text-xs sm:text-sm text-slate-700 font-medium max-w-md mx-auto leading-relaxed">
-            <strong className="text-[#243047]">Byte’s Trick Note:</strong> {result.whySafe}
+          <p className="text-xs sm:text-sm text-slate-700 dark:text-zinc-300 font-medium max-w-md mx-auto leading-relaxed">
+            <strong className="text-[#243047] dark:text-zinc-100">Byte’s Trick Note:</strong> {result.whySafe}
           </p>
 
-          <div className="pt-1 flex items-center justify-center gap-1 text-[11px] font-bold text-slate-400">
+          <div className="pt-1 flex items-center justify-center gap-1 text-[11px] font-bold text-slate-400 dark:text-zinc-500">
             <span>Next question coming up in a moment…</span>
           </div>
         </div>

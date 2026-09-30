@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ActivePage, LearningPath, CategoryGroup } from '../types';
 import {
   Map,
@@ -36,6 +36,12 @@ export const LearningPathsPage: React.FC<LearningPathsPageProps> = ({
   const [activePathId, setActivePathId] = useState<string>(
     selectedPathId || paths[0]?.id || 'cyber-safety-fundamentals'
   );
+
+  useEffect(() => {
+    if (selectedPathId) {
+      setActivePathId(selectedPathId);
+    }
+  }, [selectedPathId]);
 
   const currentPath = paths.find((p) => p.id === activePathId) || paths[0];
 

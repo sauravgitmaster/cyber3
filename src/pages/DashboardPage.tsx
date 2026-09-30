@@ -1,5 +1,6 @@
 import React from 'react';
 import { ActivePage, UserProfile, LearningPath, MentorInsight, ScenarioItem } from '../types';
+import { getMissionsForAudience } from '../data/missionsData';
 import { ByteMascot } from '../components/common/ByteMascot';
 import {
   ArrowRight,
@@ -35,19 +36,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({
   missionsCompletedCount,
 }) => {
   // Active mission fallback
-  const mission = currentMission || {
-    id: 'mission-free-robux',
-    title: 'The Free Robux Giveaway Link',
-    category: 'Scam & Phishing',
-    difficulty: 'Beginner' as const,
-    scaffoldLevel: 1 as const,
-    estimatedMinutes: 3,
-    context: 'A direct message arrives from GamerPrize99 claiming you won 10,000 free Robux.',
-    simulatedArtifact: { body: '' },
-    prompt: '',
-    options: [],
-    tags: [],
-  };
+  const fallbackMissions = getMissionsForAudience(user.audienceType || 'kids');
+  const mission = currentMission || fallbackMissions[0];
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto space-y-6 text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { ActivePage, ScenarioItem, ScenarioOption } from '../types';
+import { ActivePage, ScenarioItem, ScenarioOption, UserProfile } from '../types';
 import { allMissions } from '../data/missionsData';
+import { getAudienceType } from '../utils/audienceConstants';
 import {
   ArrowRight,
   Sparkles,
@@ -26,6 +27,7 @@ interface AiFeedbackPageProps {
   onNavigate: (page: ActivePage, params?: { scenarioId?: string }) => void;
   onRequestNextMission?: () => void;
   onOpenMentor: () => void;
+  user?: UserProfile;
 }
 
 export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
@@ -33,11 +35,14 @@ export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
   onNavigate,
   onRequestNextMission,
   onOpenMentor,
+  user,
 }) => {
   const scenario = decisionData?.scenario || allMissions[0];
   const option = decisionData?.option || scenario.options[1];
   const previousScore = decisionData?.previousScore ?? 74;
   const newScore = decisionData?.newScore ?? (option.isOptimal ? 82 : 74);
+
+  const audience = user?.audienceType || (user?.age ? getAudienceType(user.age) : (scenario.audience === 'adult' ? 'adult' : 'kids'));
 
   const { feedback, scoreImpacts } = option;
   const isOptimal = option.isOptimal;
@@ -56,7 +61,8 @@ export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
         missionTitle: scenario.title,
         userChoice: option.text,
         isOptimal,
-        scenarioContext: scenario.description,
+        scenarioContext: scenario.context,
+        audienceType: audience,
       }),
     })
       .then((res) => (res.ok ? res.json() : null))
@@ -71,7 +77,7 @@ export const AiFeedbackPage: React.FC<AiFeedbackPageProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [scenario.title, option.text, isOptimal, scenario.description]);
+  }, [scenario.title, option.text, isOptimal, scenario.context]);
 
   // Score reward text
   const scoreReward = isOptimal ? 8 : (isPartial ? 2 : 0);

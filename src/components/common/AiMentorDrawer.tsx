@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { MentorInsight, UserProfile, ActivePage } from '../../types';
-import { Send, X, Sparkles, ChevronDown, ChevronUp, Lightbulb, Compass, Search, ShieldAlert, Eye, Globe, HelpCircle } from 'lucide-react';
+import { Send, X, Sparkles, ChevronDown, ChevronUp, Lightbulb, Compass, Search, ShieldAlert, Eye, Globe, HelpCircle, KeyRound, AlertTriangle } from 'lucide-react';
 import { ByteMascot, ByteMood } from './ByteMascot';
+import { DEFAULT_AGE_BOUNDARY } from '../../utils/audienceConstants';
 
 interface AiMentorDrawerProps {
   isOpen: boolean;
@@ -23,12 +24,20 @@ interface ChatMessage {
   mood?: ByteMood;
 }
 
-const QUICK_PROMPTS = [
+const KIDS_QUICK_PROMPTS = [
   { text: 'Is this message safe?', icon: Search },
   { text: 'How do I spot a scam?', icon: ShieldAlert },
   { text: 'What should I never share online?', icon: Eye },
-  { text: 'Why is this website suspicious?', icon: Globe },
+  { text: 'Can I share my game password?', icon: KeyRound },
   { text: 'Give me a hint!', icon: HelpCircle },
+];
+
+const ADULT_QUICK_PROMPTS = [
+  { text: 'How to verify suspicious email headers?', icon: Search },
+  { text: 'How to spot executive BEC scams?', icon: ShieldAlert },
+  { text: 'Defending against MFA push bombing', icon: KeyRound },
+  { text: 'Preventing identity theft and OSINT', icon: Eye },
+  { text: 'Incident response protocol', icon: AlertTriangle },
 ];
 
 export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
@@ -43,14 +52,19 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
 }) => {
   const learnerName = user?.name || 'there';
   const smartScore = user?.digitalTrustScore ?? userTrustScore ?? 74;
+  const isAdult = user?.audienceType === 'adult' || (user?.age !== undefined && user.age !== null && user.age >= DEFAULT_AGE_BOUNDARY);
 
-  const [messages, setMessages] = useState<ChatMessage[]>([
+  const quickPrompts = isAdult ? ADULT_QUICK_PROMPTS : KIDS_QUICK_PROMPTS;
+
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [
     {
       id: 'welcome',
       sender: 'byte',
-      text: `Hey ${learnerName}! I'm Byte, your cyber safety buddy. Ask me anything about staying safe online, spotting tricky messages, or passwords!`,
+      text: isAdult
+        ? `Hello ${learnerName}. I'm Byte, your cybersecurity mentor. Ask me about phishing analysis, identity protection, credential hygiene, or incident response.`
+        : `Hey ${learnerName}! I'm Byte, your cyber safety buddy. Ask me anything about staying safe online, spotting tricky messages, or passwords! Remember: you can always ask a trusted adult if you're unsure!`,
       time: 'Just now',
-      mood: 'waving',
+      mood: isAdult ? 'detective' : 'waving',
     },
   ]);
   const [inputText, setInputText] = useState('');
@@ -76,9 +90,9 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
     try {
       let reply = '';
       let technical = '';
-      let replyMood: ByteMood = 'happy';
+      let replyMood: ByteMood = isAdult ? 'detective' : 'happy';
 
-      // 1. Call real backend API
+      // 1. Call real backend API with audienceType
       try {
         const res = await fetch('/api/mentor/chat', {
           method: 'POST',
@@ -89,6 +103,8 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
               name: learnerName,
               score: smartScore,
               page: activePage,
+              audienceType: isAdult ? 'adult' : 'kids',
+              age: user?.age,
             },
           }),
         });
@@ -99,7 +115,7 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
           if (data && data.reply) {
             reply = data.reply;
             technical = data.technical || '';
-            replyMood = (data.mood as ByteMood) || 'happy';
+            replyMood = (data.mood as ByteMood) || (isAdult ? 'detective' : 'happy');
           }
         }
       } catch (networkErr) {
@@ -109,48 +125,89 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
       // 2. Local fallback if API server was unreachable
       if (!reply) {
         const lower = question.toLowerCase();
-        if (lower.includes('safe') || lower.includes('message') || lower.includes('email') || lower.includes('phish')) {
-          reply =
-            'Whoa! When checking any unexpected message, ask yourself three simple questions:\n1. Did I actually ask for this?\n2. Are they trying to rush me with "ACT NOW"?\n3. Does the sender address look a little bit strange?\n\nIf anything feels off, don\'t click the link — go directly to the real app or website yourself!';
-          technical =
-            'Technical explanation: Phishers rely on lookalike domain names and mismatched SMTP headers. Hovering links reveals the real target destination URL before clicking.';
-          replyMood = 'detective';
-        } else if (lower.includes('spot a scam') || lower.includes('scam')) {
-          reply =
-            'Scammers love to pretend to be someone you trust (like school IT, a gaming friend, or a company). They almost always use urgency ("Your account will be deleted in 1 hour!") or promise free prizes/Robux/gift cards to make you rush. Take a breath — real services will never rush you into giving away your password.';
-          technical =
-            'Technical explanation: This tactic is known as Pretexting and Social Engineering. Attackers manufacture artificial crisis states to bypass cognitive skepticism.';
-          replyMood = 'caution';
-        } else if (lower.includes('share') || lower.includes('privacy') || lower.includes('personal')) {
-          reply =
-            'Smart rule: Keep your "secret treasure" safe! Never share your full birthdate, home address, school schedule, parent names, or passwords in public chats or quizzes. Even quizzes that ask "What was your first pet\'s name?" can be tricks to guess your password reset questions!';
-          technical =
-            'Technical explanation: Social media quizzes frequently act as crowdsourced Open Source Intelligence (OSINT) harvesters targeting common security recovery question databases.';
-          replyMood = 'thinking';
-        } else if (lower.includes('suspicious') || lower.includes('website') || lower.includes('link') || lower.includes('url')) {
-          reply =
-            'Take a close look at the address bar! Scammers often swap letters (like using "1" instead of "l", or adding extra words like "login-verify-account.com"). If it\'s not the exact official web address, it\'s not safe.';
-          technical =
-            'Technical explanation: Attackers use typo-squatting, homoglyph attacks, and multi-level subdomains. The true root domain sits directly before the first single forward slash.';
-          replyMood = 'detective';
-        } else if (lower.includes('hint')) {
-          reply =
-            'Here is Byte\'s golden rule: "When in doubt, check it out out-of-band!" That means instead of clicking any link inside a message, open a fresh browser tab and visit the official website directly from your bookmarks.';
-          technical =
-            'Technical explanation: Out-of-band verification completely neutralizes credential harvesting proxies and adversary-in-the-middle reverse-proxies.';
-          replyMood = 'excited';
-        } else if (lower.includes('password')) {
-          reply =
-            'Long beats complicated! A password made of 4 random words (like "purple-bicycle-forest-pancake") is way easier for you to remember and almost impossible for a computer to guess! And never use the same password on two different sites.';
-          technical =
-            'Technical explanation: Password entropy scales geometrically with length. A 16+ character multi-word passphrase resists brute-force GPU cluster cracking far better than an 8-character string with complex symbols.';
-          replyMood = 'proud';
+        if (isAdult) {
+          if (lower.includes('safe') || lower.includes('message') || lower.includes('email') || lower.includes('phish') || lower.includes('header')) {
+            reply =
+              'When analyzing unexpected messages, execute three primary checks:\n1. Inspect envelope sender addresses and SPF/DKIM/DMARC status rather than the display name.\n2. Look for synthetic urgency or artificial pressure designed to bypass verification.\n3. Navigate to services out-of-band via trusted bookmarks instead of clicking message links.';
+            technical =
+              'Technical explanation: Phishing infrastructure leverages lookalike domain syntax, open redirects, and adversary-in-the-middle reverse proxies to capture credentials and session tokens in transit.';
+            replyMood = 'detective';
+          } else if (lower.includes('spot a scam') || lower.includes('scam') || lower.includes('bec') || lower.includes('social')) {
+            reply =
+              'Attackers frequently utilize pretexting and executive impersonation (such as Business Email Compromise or fake IT helpdesk requests). Always mandate dual-control authorization and out-of-band phone verification for financial transfers or credential adjustments.';
+            technical =
+              'Technical explanation: Pretexting establishes an artificial context of authority to exploit compliance reflexes. Out-of-band verification via an independent communication channel neutralizes over 90% of impersonation attacks.';
+            replyMood = 'caution';
+          } else if (lower.includes('share') || lower.includes('privacy') || lower.includes('personal') || lower.includes('osint')) {
+            reply =
+              'Enforce strict data minimization. Never disclose government IDs, residential addresses, direct contact details, or answers corresponding to security recovery questions on public social media. Social surveys routinely harvest answers for OSINT profiling.';
+            technical =
+              'Technical explanation: Threat actors aggregate open-source intelligence fragments to defeat knowledge-based authentication and seed spear-phishing dossiers.';
+            replyMood = 'thinking';
+          } else if (lower.includes('mfa') || lower.includes('2fa') || lower.includes('push')) {
+            reply =
+              'Never approve unsolicited multi-factor authentication (MFA) push prompts. Receiving a push you did not initiate means your primary password has already been compromised. Deny the request, report fraud, and immediately rotate credentials.';
+            technical =
+              'Technical explanation: MFA push fatigue relies on repeated notification bombardment until user frustration leads to approval. FIDO2 / WebAuthn hardware keys prevent relay attacks through cryptographic domain-binding.';
+            replyMood = 'excited';
+          } else if (lower.includes('password')) {
+            reply =
+              'Passphrase length significantly outperforms arbitrary complexity. A 16+ character passphrase of 4 random words generated by a trusted password manager is computationally infeasible to brute force. Never reuse passwords across services.';
+            technical =
+              'Technical explanation: Entropy scales linearly with length. An uncompromised 20+ character multi-word passphrase resists offline hashcat GPU cluster attacks far better than an 8-character string with mixed symbols.';
+            replyMood = 'proud';
+          } else {
+            reply =
+              `A strong defense-in-depth posture combines technical safeguards with human vigilance, ${learnerName}. Use a password manager with high-entropy unique passphrases, mandate hardware-backed MFA, and verify unexpected urgent requests out-of-band.`;
+            technical =
+              'Technical principle: Zero-Trust architecture requires continuous verification of every entity, session, and data flow.';
+            replyMood = 'detective';
+          }
         } else {
-          reply =
-            `That is a great question, ${learnerName}! Every time you pause and think before clicking, you are leveling up your cyber superhero powers. Always protect your passwords and ask a trusted adult if something feels weird.`;
-          technical =
-            'Defensive principle: Zero-Trust framework dictates that all inbound digital requests must be verified, whether from internal or external sources.';
-          replyMood = 'happy';
+          // Kids fallback
+          if (lower.includes('safe') || lower.includes('message') || lower.includes('email') || lower.includes('phish')) {
+            reply =
+              'Whoa! When checking any unexpected message, ask yourself three simple questions:\n1. Did I actually ask for this?\n2. Are they trying to rush me with "ACT NOW"?\n3. Does the sender address look a little bit strange?\n\nIf anything feels off, don\'t click the link — go directly to the real app or website yourself! And remember: ask a trusted adult if you are ever unsure!';
+            technical =
+              'Technical explanation: Phishers rely on lookalike domain names and mismatched SMTP headers. Hovering links reveals the real target destination URL before clicking.';
+            replyMood = 'detective';
+          } else if (lower.includes('spot a scam') || lower.includes('scam')) {
+            reply =
+              'Scammers love to pretend to be someone you trust (like school IT, a gaming friend, or a company). They almost always use urgency ("Your account will be deleted in 1 hour!") or promise free prizes/Robux/gift cards to make you rush. Take a breath — real services will never rush you into giving away your password. Always talk to a parent or teacher if you feel rushed!';
+            technical =
+              'Technical explanation: This tactic is known as Pretexting and Social Engineering. Attackers manufacture artificial crisis states to bypass cognitive skepticism.';
+            replyMood = 'caution';
+          } else if (lower.includes('share') || lower.includes('privacy') || lower.includes('personal')) {
+            reply =
+              'Smart rule: Keep your "secret treasure" safe! Never share your full birthdate, home address, school schedule, parent names, or passwords in public chats or quizzes. Even quizzes that ask "What was your first pet\'s name?" can be tricks to guess your password reset questions! Ask a trusted adult before sharing anything online.';
+            technical =
+              'Technical explanation: Social media quizzes frequently act as crowdsourced Open Source Intelligence (OSINT) harvesters targeting common security recovery question databases.';
+            replyMood = 'thinking';
+          } else if (lower.includes('suspicious') || lower.includes('website') || lower.includes('link') || lower.includes('url')) {
+            reply =
+              'Take a close look at the address bar! Scammers often swap letters (like using "1" instead of "l", or adding extra words like "login-verify-account.com"). If it\'s not the exact official web address, it\'s not safe. Ask a parent or teacher to check it with you!';
+            technical =
+              'Technical explanation: Attackers use typo-squatting, homoglyph attacks, and multi-level subdomains. The true root domain sits directly before the first single forward slash.';
+            replyMood = 'detective';
+          } else if (lower.includes('hint')) {
+            reply =
+              'Here is Byte\'s golden rule: "When in doubt, check it out out-of-band!" That means instead of clicking any link inside a message, open a fresh browser tab and visit the official website directly, or ask a trusted adult!';
+            technical =
+              'Technical explanation: Out-of-band verification completely neutralizes credential harvesting proxies and adversary-in-the-middle reverse-proxies.';
+            replyMood = 'excited';
+          } else if (lower.includes('password')) {
+            reply =
+              'Long beats complicated! A password made of 4 random words (like "purple-bicycle-forest-pancake") is way easier for you to remember and almost impossible for a computer to guess! And never use the same password on two different sites.';
+            technical =
+              'Technical explanation: Password entropy scales geometrically with length. A 16+ character multi-word passphrase resists brute-force GPU cluster cracking far better than an 8-character string with complex symbols.';
+            replyMood = 'proud';
+          } else {
+            reply =
+              `That is a great question, ${learnerName}! Every time you pause and think before clicking, you are leveling up your cyber superhero powers. Always protect your passwords and ask a trusted adult if something feels weird.`;
+            technical =
+              'Defensive principle: Zero-Trust framework dictates that all inbound digital requests must be verified, whether from internal or external sources.';
+            replyMood = 'happy';
+          }
         }
       }
 
@@ -239,7 +296,7 @@ export const AiMentorDrawer: React.FC<AiMentorDrawerProps> = ({
             Quick Inquiries
           </span>
           <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
-            {QUICK_PROMPTS.map((prompt, i) => (
+            {quickPrompts.map((prompt, i) => (
               <button
                 key={i}
                 onClick={() => handleSend(prompt.text)}

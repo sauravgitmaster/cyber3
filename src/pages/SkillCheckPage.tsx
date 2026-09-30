@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
-import { ActivePage, SkillCheckResult } from '../types';
-import { initialSkillCheckQuestions } from '../data/mockData';
+import React, { useState, useMemo, useEffect } from 'react';
+import { ActivePage, SkillCheckResult, UserProfile } from '../types';
+import { getSkillCheckQuestions } from '../data/mockData';
+import { randomizeSkillCheckQuestion } from '../utils/quizUtils';
+import { getAudienceType } from '../utils/audienceConstants';
 import { getLearnerLevel } from '../utils/levelSystem';
 import {
   ArrowRight,
@@ -21,20 +23,39 @@ interface SkillCheckPageProps {
   onNavigate: (page: ActivePage, params?: { pathId?: string }) => void;
   onCompleteSkillCheck: (result: SkillCheckResult) => void;
   lastResult?: SkillCheckResult;
+  user?: UserProfile;
 }
 
 export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
   onNavigate,
   onCompleteSkillCheck,
   lastResult,
+  user,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, string>>({});
   const [isFinished, setIsFinished] = useState(Boolean(lastResult));
   const [result, setResult] = useState<SkillCheckResult | null>(lastResult || null);
 
-  const questions = initialSkillCheckQuestions;
-  const currentQ = questions[currentIndex];
+  const audience = user?.audienceType || (user?.age ? getAudienceType(user.age) : 'kids');
+  const isKids = audience === 'kids';
+
+  // Load questions tailored to audience, and randomize option order so correct answer is not always position B
+  const [questions, setQuestions] = useState(() => {
+    const raw = getSkillCheckQuestions(audience);
+    return raw.map(randomizeSkillCheckQuestion);
+  });
+
+  useEffect(() => {
+    if (!lastResult && !isFinished) {
+      const raw = getSkillCheckQuestions(audience);
+      setQuestions(raw.map(randomizeSkillCheckQuestion));
+      setCurrentIndex(0);
+      setSelectedAnswers({});
+    }
+  }, [audience, lastResult, isFinished]);
+
+  const currentQ = questions[currentIndex] || questions[0];
   const progressPercent = Math.round(((currentIndex + 1) / questions.length) * 100);
 
   const handleSelectOption = (optionId: string) => {
@@ -57,13 +78,20 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
 
       const calculatedScore = Math.round(totalWeight / questions.length);
 
+      const strengths = isKids
+        ? ['Password Safety', 'Privacy Habits']
+        : ['Authentication Hygiene', 'Data Minimization'];
+      const needsImprovement = isKids
+        ? ['Scam Spotting', 'Social Engineering']
+        : ['Phishing Header Verification', 'Incident Response'];
+
       const newResult: SkillCheckResult = {
         completedAt: 'Just now',
         digitalTrustScore: calculatedScore,
-        strengths: ['Password Safety', 'Privacy Habits'],
-        needsImprovement: ['Scam Spotting', 'Social Engineering'],
-        recommendedPathId: 'cyber-safety-fundamentals',
-        recommendedPathTitle: 'Cyber Safety Fundamentals',
+        strengths,
+        needsImprovement,
+        recommendedPathId: isKids ? 'cyber-safety-fundamentals' : 'threat-awareness',
+        recommendedPathTitle: isKids ? 'Cyber Safety Fundamentals' : 'Corporate & Personal Threat Awareness',
         categoryScores: {
           'Password Security': 86,
           'Privacy Awareness': 74,
@@ -86,6 +114,8 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
   };
 
   const handleRetake = () => {
+    const raw = getSkillCheckQuestions(audience);
+    setQuestions(raw.map(randomizeSkillCheckQuestion));
     setSelectedAnswers({});
     setCurrentIndex(0);
     setIsFinished(false);
@@ -98,7 +128,7 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
     <div className="p-4 sm:p-6 lg:p-8 flex flex-col justify-center items-center text-zinc-900 dark:text-zinc-100 font-sans transition-colors duration-200">
       <div className="w-full max-w-2xl space-y-6">
         {!isFinished ? (
-          /* Active 5-Challenge Flow */
+          /* Active Challenge Flow */
           <div className="space-y-6">
             {/* Header & Byte Mascot */}
             <div className="text-center space-y-2">
@@ -107,13 +137,15 @@ export const SkillCheckPage: React.FC<SkillCheckPageProps> = ({
               </div>
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 text-[10px] font-mono uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
                 <Zap className="w-3.5 h-3.5" />
-                <span>Quick Cyber Check</span>
+                <span>{isKids ? 'Quick Cyber Check' : 'Cyber Readiness Diagnostic'}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-semibold -tracking-[0.03em] text-zinc-900 dark:text-zinc-100">
-                Let's see what you already know
+                {isKids ? "Let's see what you already know" : 'Assess Your Digital Defense Posture'}
               </h2>
               <p className="text-xs sm:text-sm text-zinc-500 dark:text-zinc-400">
-                5 quick challenges so Byte can find the best missions for you.
+                {isKids
+                  ? '5 quick challenges so Byte can find the best missions for you. Remember: ask a trusted adult if unsure!'
+                  : 'Practical real-world challenges evaluating your authentication, phishing, and data protection instincts.'}
               </p>
             </div>
 

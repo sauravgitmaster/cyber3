@@ -2,6 +2,8 @@ export type CategoryGroup = 'FOUNDATIONS' | 'THREAT AWARENESS' | 'RESPONSIBLE CY
 
 export type DifficultyLevel = 'Beginner' | 'Intermediate' | 'Advanced';
 
+export type AudienceType = 'kids' | 'adult';
+
 export interface UserProfile {
   name: string;
   email: string;
@@ -18,6 +20,8 @@ export interface UserProfile {
   completedModulesCount: number;
   scenariosCompletedCount: number;
   joinedDate: string;
+  age?: number;
+  audienceType?: AudienceType;
 }
 
 export interface SkillCategoryScore {
@@ -97,6 +101,7 @@ export interface ScenarioItem {
   title: string;
   category: string;
   difficulty: DifficultyLevel;
+  audience?: AudienceType | 'both';
   scaffoldLevel?: 1 | 2 | 3 | 4 | 5;
   estimatedMinutes: number;
   context: string;
