@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { ActivePage, UserProfile, DeviceType } from '../types';
+import {
+  recordLocalSessionStart,
+  recordLocalPageView,
+  recordLocalHeartbeat,
+  recordLocalSessionEnd,
+} from '../utils/localAnalyticsStore';
 
 const VISITOR_ID_KEY = 'cybermentor_visitor_id';
 const SESSION_ID_KEY = 'cybermentor_active_session_id';
@@ -114,6 +120,18 @@ export function useVisitorAnalytics({ activePage, user }: UseVisitorAnalyticsOpt
       userEmail: isIdentified ? user.email : undefined,
     };
 
+    // Keep client-side mirror updated for static deployments (e.g. Vercel, Netlify)
+    recordLocalSessionStart({
+      sessionId,
+      visitorId,
+      deviceType,
+      page: activePage,
+      audienceType: audienceType as any,
+      referrer: typeof document !== 'undefined' ? document.referrer : '',
+      userId: isIdentified ? user.studentId || user.email : undefined,
+      userEmail: isIdentified ? user.email : undefined,
+    });
+
     fetch('/api/analytics/session/start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -132,6 +150,15 @@ export function useVisitorAnalytics({ activePage, user }: UseVisitorAnalyticsOpt
     const sessionId = sessionIdRef.current;
     const audienceType = user?.audienceType || 'unspecified';
     const isIdentified = !!(user && user.email && user.email.trim().length > 0);
+
+    recordLocalPageView({
+      sessionId,
+      visitorId,
+      page: activePage,
+      audienceType,
+      userId: isIdentified ? user?.studentId || user?.email : undefined,
+      userEmail: isIdentified ? user?.email : undefined,
+    });
 
     fetch('/api/analytics/pageview', {
       method: 'POST',
@@ -168,6 +195,15 @@ export function useVisitorAnalytics({ activePage, user }: UseVisitorAnalyticsOpt
       const audienceType = user?.audienceType || 'unspecified';
       const isIdentified = !!(user && user.email && user.email.trim().length > 0);
 
+      recordLocalHeartbeat({
+        sessionId,
+        visitorId,
+        currentPage: activePage,
+        audienceType,
+        userId: isIdentified ? user?.studentId || user?.email : undefined,
+        userEmail: isIdentified ? user?.email : undefined,
+      });
+
       fetch('/api/analytics/session/heartbeat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -191,6 +227,7 @@ export function useVisitorAnalytics({ activePage, user }: UseVisitorAnalyticsOpt
   useEffect(() => {
     const handleUnload = () => {
       const sessionId = sessionIdRef.current;
+      recordLocalSessionEnd(sessionId);
       const payload = JSON.stringify({ sessionId });
       if (navigator.sendBeacon) {
         navigator.sendBeacon('/api/analytics/session/end', new Blob([payload], { type: 'application/json' }));
