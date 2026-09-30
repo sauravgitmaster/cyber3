@@ -41,13 +41,15 @@ function detectDeviceType(): DeviceType {
   if (typeof window === 'undefined') return 'desktop';
   const width = window.innerWidth;
   const ua = navigator.userAgent.toLowerCase();
+  const isTabletUa =
+    /ipad|android(?!.*mobile)|tablet/.test(ua) ||
+    (navigator.maxTouchPoints > 1 && /macintosh/.test(ua));
   const isMobileUa = /mobile|iphone|ipod|android.*mobile|windows phone/.test(ua);
-  const isTabletUa = /ipad|android(?!.*mobile)|tablet/.test(ua);
 
-  if (isTabletUa || (width >= 640 && width <= 1024)) {
+  if (isTabletUa || (width >= 640 && width <= 1024 && navigator.maxTouchPoints > 0)) {
     return 'tablet';
   }
-  if (isMobileUa || width < 640) {
+  if (isMobileUa || width < 768) {
     return 'mobile';
   }
   return 'desktop';
@@ -168,6 +170,7 @@ export function useVisitorAnalytics({ activePage, user }: UseVisitorAnalyticsOpt
         visitorId,
         page: activePage,
         audienceType,
+        deviceType: deviceTypeRef.current,
         userId: isIdentified ? user?.studentId || user?.email : undefined,
         userEmail: isIdentified ? user?.email : undefined,
       }),
@@ -212,6 +215,7 @@ export function useVisitorAnalytics({ activePage, user }: UseVisitorAnalyticsOpt
           visitorId,
           currentPage: activePage,
           audienceType,
+          deviceType: deviceTypeRef.current,
           userId: isIdentified ? user?.studentId || user?.email : undefined,
           userEmail: isIdentified ? user?.email : undefined,
         }),

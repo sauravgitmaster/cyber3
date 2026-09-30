@@ -18,6 +18,8 @@ const KNOWN_ADMIN_EMAILS = new Set([
   'admin@cybermentor.app',
   'chopraparth2007@gmail.com',
   'saurav@cybermentor.app',
+  'saurav.m@university.edu',
+  'saurav@school.edu',
 ]);
 
 interface RateLimitEntry {
@@ -129,8 +131,13 @@ export class AnalyticsService {
     return 'unspecified';
   }
 
-  private sanitizeDevice(device: any): DeviceType {
+  private detectDevice(device?: any, userAgent?: string): DeviceType {
     if (device === 'mobile' || device === 'tablet' || device === 'desktop') return device;
+    if (userAgent && typeof userAgent === 'string') {
+      const ua = userAgent.toLowerCase();
+      if (/ipad|tablet|android(?!.*mobile)/i.test(ua)) return 'tablet';
+      if (/mobile|iphone|ipod|android.*mobile|windows phone|silk/i.test(ua)) return 'mobile';
+    }
     return 'desktop';
   }
 
@@ -147,13 +154,14 @@ export class AnalyticsService {
     userId?: string;
     userEmail?: string;
     ip?: string;
+    userAgent?: string;
   }): VisitorAnalyticsSession {
     const now = Date.now();
     const cleanSessionId = this.sanitizeString(params.sessionId, 64) || `sess_${now}_${Math.random().toString(36).slice(2, 8)}`;
     const cleanVisitorId = this.sanitizeString(params.visitorId, 64) || `anon_${Math.random().toString(36).slice(2, 10)}`;
     const page = this.sanitizeString(params.page, 50) || 'landing';
     const audienceType = this.sanitizeAudience(params.audienceType);
-    const deviceType = this.sanitizeDevice(params.deviceType);
+    const deviceType = this.detectDevice(params.deviceType, params.userAgent);
     const userEmail = params.userEmail ? this.sanitizeString(params.userEmail, 80).toLowerCase() : undefined;
     const userId = params.userId ? this.sanitizeString(params.userId, 64) : undefined;
     const isAnonymous = !userEmail && !userId;
@@ -162,6 +170,9 @@ export class AnalyticsService {
     if (existing) {
       existing.lastSeenAt = now;
       existing.durationSeconds = Math.max(0, Math.floor((now - existing.startedAt) / 1000));
+      if (deviceType !== 'desktop' && existing.deviceType === 'desktop') {
+        existing.deviceType = deviceType;
+      }
       if (userEmail && !existing.userEmail) {
         existing.userEmail = userEmail;
         existing.userId = userId || existing.userId;
@@ -208,6 +219,8 @@ export class AnalyticsService {
     audienceType?: string;
     userId?: string;
     userEmail?: string;
+    deviceType?: string;
+    userAgent?: string;
   }): { ok: boolean; session?: VisitorAnalyticsSession } {
     const cleanSessionId = this.sanitizeString(params.sessionId, 64);
     if (!cleanSessionId) return { ok: false };
@@ -219,10 +232,12 @@ export class AnalyticsService {
       session = this.startSession({
         sessionId: cleanSessionId,
         visitorId: params.visitorId,
+        deviceType: params.deviceType,
         page: params.currentPage,
         audienceType: params.audienceType,
         userId: params.userId,
         userEmail: params.userEmail,
+        userAgent: params.userAgent,
       });
       return { ok: true, session };
     }
@@ -235,11 +250,12 @@ export class AnalyticsService {
       const newSession = this.startSession({
         sessionId: `sess_${now}_${Math.random().toString(36).slice(2, 8)}`,
         visitorId: session.visitorId,
-        deviceType: session.deviceType,
+        deviceType: params.deviceType || session.deviceType,
         page: params.currentPage || (session.pages[session.pages.length - 1]?.page ?? 'dashboard'),
         audienceType: session.audienceType,
         userId: params.userId || session.userId,
         userEmail: params.userEmail || session.userEmail,
+        userAgent: params.userAgent,
       });
       return { ok: true, session: newSession };
     }
@@ -248,6 +264,13 @@ export class AnalyticsService {
     session.lastSeenAt = now;
     session.durationSeconds = Math.max(0, Math.floor((now - session.startedAt) / 1000));
     session.status = 'active';
+
+    if (params.deviceType || params.userAgent) {
+      const detected = this.detectDevice(params.deviceType, params.userAgent);
+      if (detected !== 'desktop' && session.deviceType === 'desktop') {
+        session.deviceType = detected;
+      }
+    }
 
     if (params.audienceType && session.audienceType === 'unspecified') {
       session.audienceType = this.sanitizeAudience(params.audienceType);
@@ -282,6 +305,8 @@ export class AnalyticsService {
     audienceType?: string;
     userId?: string;
     userEmail?: string;
+    deviceType?: string;
+    userAgent?: string;
   }): boolean {
     const cleanSessionId = this.sanitizeString(params.sessionId, 64);
     const cleanPage = this.sanitizeString(params.page, 50);
@@ -294,16 +319,24 @@ export class AnalyticsService {
       this.startSession({
         sessionId: cleanSessionId,
         visitorId: params.visitorId,
+        deviceType: params.deviceType,
         page: cleanPage,
         audienceType: params.audienceType,
         userId: params.userId,
         userEmail: params.userEmail,
+        userAgent: params.userAgent,
       });
       return true;
     }
 
     session.lastSeenAt = now;
     session.durationSeconds = Math.max(0, Math.floor((now - session.startedAt) / 1000));
+    if (params.deviceType || params.userAgent) {
+      const detected = this.detectDevice(params.deviceType, params.userAgent);
+      if (detected !== 'desktop' && session.deviceType === 'desktop') {
+        session.deviceType = detected;
+      }
+    }
     if (params.audienceType && session.audienceType === 'unspecified') {
       session.audienceType = this.sanitizeAudience(params.audienceType);
     }

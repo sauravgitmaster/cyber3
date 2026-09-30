@@ -14,7 +14,10 @@ export function createApp() {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header(
+      'Access-Control-Allow-Headers',
+      'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-admin-key, x-user-email, x-user-role, X-Admin-Key, X-User-Email, X-User-Role'
+    );
     if (req.method === 'OPTIONS') {
       return res.sendStatus(200);
     }
@@ -291,11 +294,12 @@ export function createApp() {
   // Multiplayer Room: Create (supports both /api/rooms/create and /api/room/create)
   app.post(['/api/rooms/create', '/api/room/create'], (req, res) => {
     try {
-      const { host, audienceType } = req.body;
+      const host = req.body.host || req.body.player;
+      const audienceType = req.body.audienceType || (host && host.audienceType);
       if (!host || !host.id) {
         return res.status(400).json({ error: 'Host player information required' });
       }
-      const room = roomService.createRoom(host, audienceType || host.audienceType);
+      const room = roomService.createRoom(host, audienceType);
       res.json(room);
     } catch (err: any) {
       res.status(400).json({ error: err.message });
@@ -422,6 +426,7 @@ export function createApp() {
     try {
       const { sessionId, visitorId, deviceType, page, audienceType, referrer, userId, userEmail } = req.body;
       const clientIp = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || undefined;
+      const userAgent = (req.headers['user-agent'] as string) || '';
 
       const session = analyticsService.startSession({
         sessionId,
@@ -433,6 +438,7 @@ export function createApp() {
         userId,
         userEmail,
         ip: clientIp,
+        userAgent,
       });
 
       res.json({ success: true, session });
@@ -444,7 +450,8 @@ export function createApp() {
   // Analytics: Heartbeat (every 30-60s)
   app.post('/api/analytics/session/heartbeat', analyticsRateLimiter, (req, res) => {
     try {
-      const { sessionId, visitorId, currentPage, audienceType, userId, userEmail } = req.body;
+      const { sessionId, visitorId, currentPage, audienceType, userId, userEmail, deviceType } = req.body;
+      const userAgent = (req.headers['user-agent'] as string) || '';
       if (!sessionId) {
         return res.status(400).json({ error: 'sessionId is required for heartbeat' });
       }
@@ -456,6 +463,8 @@ export function createApp() {
         audienceType,
         userId,
         userEmail,
+        deviceType,
+        userAgent,
       });
 
       res.json(result);
@@ -467,7 +476,8 @@ export function createApp() {
   // Analytics: Track Page View
   app.post('/api/analytics/pageview', analyticsRateLimiter, (req, res) => {
     try {
-      const { sessionId, visitorId, page, audienceType, userId, userEmail } = req.body;
+      const { sessionId, visitorId, page, audienceType, userId, userEmail, deviceType } = req.body;
+      const userAgent = (req.headers['user-agent'] as string) || '';
       if (!sessionId || !page) {
         return res.status(400).json({ error: 'sessionId and page are required' });
       }
@@ -479,6 +489,8 @@ export function createApp() {
         audienceType,
         userId,
         userEmail,
+        deviceType,
+        userAgent,
       });
 
       res.json({ success });

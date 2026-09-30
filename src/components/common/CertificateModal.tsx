@@ -23,6 +23,12 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
   };
 
   const handleCopy = () => {
+    try {
+      const shareUrl = `${window.location.origin}?cert=${encodeURIComponent(certificate.credentialId)}`;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl).catch(() => {});
+      }
+    } catch {}
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
   };
